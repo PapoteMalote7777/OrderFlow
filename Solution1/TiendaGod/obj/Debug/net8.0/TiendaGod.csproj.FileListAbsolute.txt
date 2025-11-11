@@ -128,3 +128,5 @@ C:\Users\Oceano\Documents\GitHub\OrderFlow\Solution1\TiendaGod\bin\Debug\net8.0\
 C:\Users\Oceano\Documents\GitHub\OrderFlow\Solution1\TiendaGod\bin\Debug\net8.0\Aspire.Hosting.PostgreSQL.dll
 C:\Users\Oceano\Documents\GitHub\OrderFlow\Solution1\TiendaGod\bin\Debug\net8.0\HealthChecks.NpgSql.dll
 C:\Users\Oceano\Documents\GitHub\OrderFlow\Solution1\TiendaGod\bin\Debug\net8.0\Npgsql.dll
+C:\Users\Oceano\Documents\GitHub\OrderFlow\Solution1\TiendaGod\bin\Debug\net8.0\Aspire.Hosting.NodeJs.dll
+C:\Users\Oceano\Documents\GitHub\OrderFlow\Solution1\TiendaGod\obj\Debug\net8.0\TiendaGod.sourcelink.json

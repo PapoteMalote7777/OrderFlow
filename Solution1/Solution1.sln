@@ -8,9 +8,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaGod.Identity", "TiendaGod.Identity\TiendaGod.Identity.csproj", "{A25C8F84-606E-7DC6-FC57-5E4078973420}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{D107F4C8-89CC-BEA8-D3D7-CA6B7733353D}"
-	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
-	EndProjectSection
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Tiendagod.Frontend", "TiendaGod.Frontend\Tiendagod.Frontend.esproj", "{624AD356-257C-5EBC-A9E5-A62E6305BEA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +25,12 @@ Global
 		{A25C8F84-606E-7DC6-FC57-5E4078973420}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A25C8F84-606E-7DC6-FC57-5E4078973420}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A25C8F84-606E-7DC6-FC57-5E4078973420}.Release|Any CPU.Build.0 = Release|Any CPU
+		{624AD356-257C-5EBC-A9E5-A62E6305BEA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{624AD356-257C-5EBC-A9E5-A62E6305BEA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{624AD356-257C-5EBC-A9E5-A62E6305BEA2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{624AD356-257C-5EBC-A9E5-A62E6305BEA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{624AD356-257C-5EBC-A9E5-A62E6305BEA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{624AD356-257C-5EBC-A9E5-A62E6305BEA2}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
