@@ -1,19 +1,12 @@
-﻿import React from "react";
-import { useNavigate } from "react-router-dom";
-
-export default function Home() {
-    const navigate = useNavigate();
-
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        navigate("/auth/login");
-    };
-
+﻿interface HomeProps {
+    onLogout: () => void;
+}
+export default function Home({ onLogout }: HomeProps) {
     return (
         <div className="form-card">
             <h1>Bienvenido a Home</h1>
             <p>Has iniciado sesión correctamente ✅</p>
-            <button onClick={handleLogout}>Cerrar sesión</button>
+            <button onClick={onLogout}>Cerrar sesión</button>
         </div>
     );
 }

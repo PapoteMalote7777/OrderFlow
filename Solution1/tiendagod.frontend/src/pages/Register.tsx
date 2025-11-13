@@ -4,9 +4,10 @@ import { register } from "../services/auth";
 
 interface RegisterProps {
     onSwitchToLogin?: () => void;
+    onRegisterSuccess?: () => void;
 }
 
-export default function Register({ onSwitchToLogin }: RegisterProps) {
+export default function Register({ onSwitchToLogin, onRegisterSuccess }: RegisterProps) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -36,6 +37,10 @@ export default function Register({ onSwitchToLogin }: RegisterProps) {
         try {
             const result = await register(name, email, password);
             setMessage(result);
+
+            // Redirigir automáticamente a login
+            if (onRegisterSuccess) onRegisterSuccess();
+
         } catch (error: any) {
             setMessage(error.message);
         }

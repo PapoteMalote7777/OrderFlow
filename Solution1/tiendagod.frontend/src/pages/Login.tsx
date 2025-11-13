@@ -4,9 +4,10 @@ import { login } from "../services/auth";
 
 interface LoginProps {
     onSwitchToRegister?: () => void;
+    onLoginSuccess?: () => void;
 }
 
-export default function Login({ onSwitchToRegister }: LoginProps) {
+export default function Login({ onSwitchToRegister, onLoginSuccess }: LoginProps) {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
@@ -23,6 +24,10 @@ export default function Login({ onSwitchToRegister }: LoginProps) {
             const token = await login(name, password);
             localStorage.setItem("token", token);
             setMessage("Inicio de sesión exitoso ✅");
+
+            // Redirigir a Home usando el callback
+            if (onLoginSuccess) onLoginSuccess();
+
         } catch (error: any) {
             setMessage(error.message);
         }

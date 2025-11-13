@@ -1,24 +1,44 @@
 ﻿import React, { useState } from "react";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Home from "./pages/Home";
 import "./App.css";
 
 const App: React.FC = () => {
-    const [showLogin, setShowLogin] = useState(true);
+    const [page, setPage] = useState<"login" | "register" | "home">("login");
+
+    // Verificar token en localStorage al iniciar
+    React.useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) setPage("home");
+    }, []);
+
+    const handleLoginSuccess = () => {
+        setPage("home");
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        setPage("login");
+    };
 
     return (
         <div className="app-container">
             <div className="form-card">
-                {showLogin ? (
+                {page === "login" && (
                     <Login
-                        // pasamos una función para cambiar a registro
-                        onSwitchToRegister={() => setShowLogin(false)}
+                        onSwitchToRegister={() => setPage("register")}
+                        onLoginSuccess={handleLoginSuccess}
                     />
-                ) : (
+                )}
+                {page === "register" && (
                     <Register
-                        // pasamos una función para volver a login
-                        onSwitchToLogin={() => setShowLogin(true)}
+                        onSwitchToLogin={() => setPage("login")}
+                        onRegisterSuccess={() => setPage("login")}
                     />
+                )}
+                {page === "home" && (
+                    <Home onLogout={handleLogout} />
                 )}
             </div>
         </div>

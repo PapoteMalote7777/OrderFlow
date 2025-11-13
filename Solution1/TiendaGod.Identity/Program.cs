@@ -8,8 +8,7 @@ using TiendaGod.Identity.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // CONEXION BASE DE DATOS
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.AddNpgsqlDbContext<ApplicationDbContext>("cositas");
 
 // IDENTITY
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
@@ -57,9 +56,20 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// MIDDLEWARES
+// AUTO MIGRACION DE BASE DE DATOS EN EL INICIO
 if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    try
+    {
+        await context.Database.MigrateAsync();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"⚠️ No se pudo aplicar migraciones: {ex.Message}");
+    }
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
