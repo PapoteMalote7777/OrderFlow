@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using TiendaGod.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddUserSecrets<Program>();
 
 // CONEXION BASE DE DATOS
 builder.AddNpgsqlDbContext<ApplicationDbContext>("cositas");

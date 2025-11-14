@@ -1,41 +1,25 @@
-/* src/App.css */
-
-/* Contenedor principal centrado */
-.app-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-    font-family: Arial, sans-serif;
+ï»¿/* ======================
+   RESET Y BASE
+====================== */
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    font-family: 'Arial', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #e3e6e6;
+    box-sizing: border-box;
 }
 
-/* Tarjeta de formulario */
-.form-card {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    min-width: 350px;
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
+*, *::before, *::after {
+    box-sizing: inherit;
 }
 
-/* Encabezados */
-h1, h2 {
-    color: #333;
-}
-
-/* Formularios */
-.login-form,
-.register-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
+/* ======================
+   BOTONES E INPUTS
+====================== */
 input {
     padding: 0.75rem;
     border-radius: 0.5rem;
@@ -43,7 +27,6 @@ input {
     font-size: 1rem;
 }
 
-/* Botones */
 button {
     padding: 0.75rem;
     border-radius: 0.5rem;
@@ -62,14 +45,21 @@ button {
             background-color: #4338ca;
         }
 
-/* Mensajes */
+/* ======================
+   MENSAJES Y ENLACES
+====================== */
 p {
     font-size: 0.9rem;
     color: #555;
     margin-top: 0.5rem;
 }
 
-/* Enlaces para cambiar entre login y registro */
+.message {
+    color: #333;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
 .switch-link {
     color: #4f46e5;
     cursor: pointer;
@@ -78,26 +68,261 @@ p {
 }
 
     .switch-link:hover {
-        color: #2563eb; /* cambia de color al pasar el ratón */
+        color: #2563eb;
         text-decoration: underline;
     }
 
-/* Ajustes de mensaje */
-.message {
-    color: #333;
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-}
-
-/* Ajustes de título */
 .text-xl {
     font-size: 1.5rem;
     font-weight: bold;
 }
 
-/* Para corregir acentos y caracteres especiales */
-body {
-    font-family: 'Arial', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+/* ======================
+   LOGIN & REGISTER CARD
+====================== */
+.app-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+}
+
+.form-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.login-form,
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* ======================
+   AMAZON HOME
+====================== */
+.amazon-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 100vw;
+    background: #e3e6e6;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* HEADER */
+.amazon-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #131921;
+    padding: 15px 25px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 200px;
+}
+
+.header-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-user {
+    color: white;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.logo {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.search-bar {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    min-width: 0;
+    margin-right: 10px;
+}
+
+.logout-btn {
+    background: #febd69;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* BODY LAYOUT */
+.amazon-body {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* SIDEBAR */
+.amazon-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.amazon-sidebar h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.sidebar-toggle {
+    background: #ffa41c;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    background: #ececec;
+    border-radius: 6px;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 10;
+    width: 180px;
+}
+
+.sidebar-menu li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.sidebar-menu li:hover {
+    background: #dcdcdc;
+    transition: background 0.2s;
+}
+
+/* MAIN CONTENT */
+.amazon-main {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+/* GRID DE PRODUCTOS */
+.amazon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    width: 100%; /* ocupa todo el ancho disponible */
+    box-sizing: border-box;
+}
+
+.product-card-amz {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card-amz img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.price {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 10px 0;
+}
+
+.buy-btn-amz {
+    background: #ffa41c;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: auto;
+}
+
+/* ======================
+   RESPONSIVE
+====================== */
+@media (max-width: 768px) {
+    .amazon-body {
+        flex-direction: column;
+    }
+
+    .amazon-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #dcdcdc;
+    }
+
+    .amazon-main {
+        width: 100%;
+    }
+
+    .amazon-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+
+    }
+
+    .amazon-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .search-bar, .logout-btn {
+        width: 100%;
+    }
 }

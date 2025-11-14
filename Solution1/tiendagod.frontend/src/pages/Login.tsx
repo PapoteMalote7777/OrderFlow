@@ -4,7 +4,7 @@ import { login } from "../services/auth";
 
 interface LoginProps {
     onSwitchToRegister?: () => void;
-    onLoginSuccess?: () => void;
+    onLoginSuccess?: (username: string) => void;
 }
 
 export default function Login({ onSwitchToRegister, onLoginSuccess }: LoginProps) {
@@ -26,7 +26,7 @@ export default function Login({ onSwitchToRegister, onLoginSuccess }: LoginProps
             setMessage("Inicio de sesión exitoso ✅");
 
             // Redirigir a Home usando el callback
-            if (onLoginSuccess) onLoginSuccess();
+            if (onLoginSuccess) onLoginSuccess(name);
 
         } catch (error: any) {
             setMessage(error.message);

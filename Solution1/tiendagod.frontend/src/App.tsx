@@ -5,42 +5,59 @@ import Home from "./pages/Home";
 import "./App.css";
 
 const App: React.FC = () => {
-    const [page, setPage] = useState<"login" | "register" | "home">("login");
+    const [page, setPage] = useState<"login" | "register" | "home">("home");
+    const [username, setUsername] = useState<string>("");
 
     // Verificar token en localStorage al iniciar
     React.useEffect(() => {
         const token = localStorage.getItem("token");
-        if (token) setPage("home");
+        const storedUsername = localStorage.getItem("username")
+        if (token && storedUsername) {
+            setUsername(storedUsername);
+            setPage("home");
+        }
     }, []);
 
-    const handleLoginSuccess = () => {
+    const handleLoginSuccess = (name: string) => {
+        setUsername(name);
+        localStorage.setItem("username", name);
         setPage("home");
     };
 
     const handleLogout = () => {
         localStorage.removeItem("token");
-        setPage("login");
+        localStorage.removeItem("username");
+        setUsername("");
     };
+
 
     return (
         <div className="app-container">
-            <div className="form-card">
-                {page === "login" && (
+            {page === "login" && (
+                <div className="form-card">
                     <Login
                         onSwitchToRegister={() => setPage("register")}
                         onLoginSuccess={handleLoginSuccess}
                     />
-                )}
-                {page === "register" && (
+                </div>
+            )}
+
+            {page === "register" && (
+                <div className="form-card">
                     <Register
                         onSwitchToLogin={() => setPage("login")}
                         onRegisterSuccess={() => setPage("login")}
                     />
-                )}
-                {page === "home" && (
-                    <Home onLogout={handleLogout} />
-                )}
-            </div>
+                </div>
+            )}
+
+            {page === "home" && (
+                <Home
+                    onLogout={handleLogout}
+                    username={username}
+                    goToLogin={() => setPage("login")} // nueva prop
+                />
+            )}
         </div>
     );
 };
