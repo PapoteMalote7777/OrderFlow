@@ -4,9 +4,10 @@ interface HomeProps {
     onLogout: () => void;
     username: string;
     goToLogin: () => void;
+    goToProfile: () => void;
 }
 
-export default function Home({ onLogout, username, goToLogin }: HomeProps) {
+export default function Home({ onLogout, username, goToLogin, goToProfile}: HomeProps) {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const handleLogout = () => {
@@ -47,7 +48,7 @@ export default function Home({ onLogout, username, goToLogin }: HomeProps) {
 
             {menuOpen && username && (
                 <ul className="sidebar-menu">
-                    <li>Mi cuenta</li>
+                    <li onClick={goToProfile}>Mi cuenta</li>
                     <li>Pedidos</li>
                     <li>Recomendados</li>
                     <li>Favoritos</li>

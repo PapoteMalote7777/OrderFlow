@@ -2,10 +2,11 @@
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 import "./App.css";
 
 const App: React.FC = () => {
-    const [page, setPage] = useState<"login" | "register" | "home">("home");
+    const [page, setPage] = useState<"login" | "register" | "home" | "profile">("home");
     const [username, setUsername] = useState<string>("");
 
     // Verificar token en localStorage al iniciar
@@ -28,8 +29,15 @@ const App: React.FC = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
         setUsername("");
+        setPage("home");
     };
 
+    const handleDeleteAccount = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        setUsername("");
+        setPage("home");
+    };
 
     return (
         <div className="app-container">
@@ -55,7 +63,17 @@ const App: React.FC = () => {
                 <Home
                     onLogout={handleLogout}
                     username={username}
-                    goToLogin={() => setPage("login")} // nueva prop
+                    goToLogin={() => setPage("login")}
+                    goToProfile={() => setPage("profile")}
+                />
+            )}
+
+            {page === "profile" && (
+                <Profile
+                    username={username}
+                    setUsername={setUsername}
+                    onCancel={() => setPage("home")}
+                    onDeleteAccount={handleDeleteAccount}
                 />
             )}
         </div>
