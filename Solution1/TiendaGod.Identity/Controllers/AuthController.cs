@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace TiendaGod.Identity.Controllers
 {
@@ -31,6 +33,10 @@ namespace TiendaGod.Identity.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            // Validaciones adicionales
+            if (!ValidatePassword(model.Password))
+                return BadRequest("La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número");
 
             // Verificar si el nombre de usuario ya existe
             var userExistsByName = await _userManager.FindByNameAsync(model.Name);
@@ -60,6 +66,9 @@ namespace TiendaGod.Identity.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.Name) || string.IsNullOrWhiteSpace(model.Password))
+                return BadRequest("Todos los campos son obligatorios");
+
             var user = await _userManager.FindByNameAsync(model.Name); // buscamos por nombre
 
             if (user == null)
@@ -72,6 +81,45 @@ namespace TiendaGod.Identity.Controllers
 
             var token = GenerateJwtToken(user);
             return Ok(new { token });
+        }
+
+        // 🔹 PROFILE - Cambiar nombre
+        [Authorize]
+        [HttpPut("update-username")]
+        public async Task<IActionResult> UpdateUsername([FromBody] UpdateUsernameModel model)
+        {
+            if (string.IsNullOrWhiteSpace(model.NewName))
+                return BadRequest(new { message = "El nombre no puede estar vacío" });
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound(new { message = "Usuario no encontrado" });
+
+            // Verificar si el nuevo nombre ya existe
+            var exists = await _userManager.FindByNameAsync(model.NewName);
+            if (exists != null) return BadRequest(new { message = "El nombre ya está en uso" });
+
+            user.UserName = model.NewName;
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded) return StatusCode(500, new { message = "Error al actualizar el usuario" });
+
+            return Ok(new { message = "Nombre de usuario actualizado con éxito ✅" });
+        }
+
+        // 🔹 PROFILE - Eliminar cuenta
+        [Authorize]
+        [HttpDelete("delete-account")]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound(new { message = "Usuario no encontrado" });
+
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded) return StatusCode(500, new { message = "Error al eliminar la cuenta" });
+
+            return Ok(new { message = "Cuenta eliminada con éxito ✅" });
         }
 
         // 🔹 Generador de token JWT
@@ -100,8 +148,16 @@ namespace TiendaGod.Identity.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        // 🔹 Validación de contraseña
+        private bool ValidatePassword(string password)
+        {
+            var regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$");
+            return regex.IsMatch(password);
+        }
     }
 
     public record RegisterModel(string Name, string Email, string Password);
     public record LoginModel(string Name, string Password);
+    public record UpdateUsernameModel(string NewName);
 }

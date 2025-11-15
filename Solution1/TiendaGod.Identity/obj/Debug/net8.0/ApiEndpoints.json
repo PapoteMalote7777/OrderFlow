@@ -1,6 +1,16 @@
 [
   {
     "ContainingType": "TiendaGod.Identity.Controllers.AuthController",
+    "Method": "DeleteAccount",
+    "RelativePath": "api/Auth/delete-account",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TiendaGod.Identity.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -26,6 +36,22 @@
       {
         "Name": "model",
         "Type": "TiendaGod.Identity.Controllers.RegisterModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TiendaGod.Identity.Controllers.AuthController",
+    "Method": "UpdateUsername",
+    "RelativePath": "api/Auth/update-username",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "TiendaGod.Identity.Controllers.UpdateUsernameModel",
         "IsRequired": true
       }
     ],

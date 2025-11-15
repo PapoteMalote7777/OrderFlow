@@ -17,5 +17,5 @@ public class TiendaGod
     /// <summary>
     /// The path to the Aspire Host project.
     /// </summary>
-    public static string ProjectPath => """C:\Users\Oceano\Documents\GitHub\OrderFlow\Solution1\TiendaGod""";
+    public static string ProjectPath => """C:\Users\Pedro\Documents\GitHub\OrderFlow\Solution1\TiendaGod""";
 }
