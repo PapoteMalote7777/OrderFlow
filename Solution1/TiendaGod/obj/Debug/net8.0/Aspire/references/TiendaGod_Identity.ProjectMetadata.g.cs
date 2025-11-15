@@ -15,5 +15,5 @@ public class TiendaGod_Identity : global::Aspire.Hosting.IProjectMetadata
     /// <summary>
     /// The path to the TiendaGod_Identity project.
     /// </summary>
-    public string ProjectPath => """C:\Users\Pedro\source\repos\Solution1\TiendaGod.Identity\TiendaGod.Identity.csproj""";
+    public string ProjectPath => """C:\Users\Oceano\Documents\GitHub\OrderFlow\Solution1\TiendaGod.Identity\TiendaGod.Identity.csproj""";
 }

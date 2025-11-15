@@ -1,10 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Pedro\\source\\repos\\Solution1\\",
+  "WorkspaceRootPath": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{624AD356-257C-5EBC-A9E5-A62E6305BEA2}|TiendaGod.Frontend\\Tiendagod.Frontend.esproj|c:\\users\\pedro\\source\\repos\\solution1\\tiendagod.frontend\\src\\pages\\profile.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "AbsoluteMoniker": "D:0:0:{624AD356-257C-5EBC-A9E5-A62E6305BEA2}|TiendaGod.Frontend\\Tiendagod.Frontend.esproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod.frontend\\src\\pages\\home.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{624AD356-257C-5EBC-A9E5-A62E6305BEA2}|TiendaGod.Frontend\\Tiendagod.Frontend.esproj|solutionrelative:tiendagod.frontend\\src\\pages\\home.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{624AD356-257C-5EBC-A9E5-A62E6305BEA2}|TiendaGod.Frontend\\Tiendagod.Frontend.esproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod.frontend\\src\\app.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{624AD356-257C-5EBC-A9E5-A62E6305BEA2}|TiendaGod.Frontend\\Tiendagod.Frontend.esproj|solutionrelative:tiendagod.frontend\\src\\app.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{624AD356-257C-5EBC-A9E5-A62E6305BEA2}|TiendaGod.Frontend\\Tiendagod.Frontend.esproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod.frontend\\src\\pages\\profile.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
       "RelativeMoniker": "D:0:0:{624AD356-257C-5EBC-A9E5-A62E6305BEA2}|TiendaGod.Frontend\\Tiendagod.Frontend.esproj|solutionrelative:tiendagod.frontend\\src\\pages\\profile.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{624AD356-257C-5EBC-A9E5-A62E6305BEA2}|TiendaGod.Frontend\\Tiendagod.Frontend.esproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod.frontend\\src\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{624AD356-257C-5EBC-A9E5-A62E6305BEA2}|TiendaGod.Frontend\\Tiendagod.Frontend.esproj|solutionrelative:tiendagod.frontend\\src\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +26,57 @@
       "DocumentGroups": [
         {
           "DockedWidth": 204,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Profile.tsx",
-              "DocumentMoniker": "C:\\Users\\Pedro\\source\\repos\\Solution1\\tiendagod.frontend\\src\\pages\\Profile.tsx",
+              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\tiendagod.frontend\\src\\pages\\Profile.tsx",
               "RelativeDocumentMoniker": "tiendagod.frontend\\src\\pages\\Profile.tsx",
-              "ToolTip": "C:\\Users\\Pedro\\source\\repos\\Solution1\\tiendagod.frontend\\src\\pages\\Profile.tsx",
+              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\tiendagod.frontend\\src\\pages\\Profile.tsx",
               "RelativeToolTip": "tiendagod.frontend\\src\\pages\\Profile.tsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
               "WhenOpened": "2025-11-14T17:37:37.375Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "App.css",
+              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\tiendagod.frontend\\src\\App.css",
+              "RelativeDocumentMoniker": "tiendagod.frontend\\src\\App.css",
+              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\tiendagod.frontend\\src\\App.css",
+              "RelativeToolTip": "tiendagod.frontend\\src\\App.css",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAowJEAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-11-14T14:43:10.464Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Home.tsx",
+              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\tiendagod.frontend\\src\\pages\\Home.tsx",
+              "RelativeDocumentMoniker": "tiendagod.frontend\\src\\pages\\Home.tsx",
+              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\tiendagod.frontend\\src\\pages\\Home.tsx",
+              "RelativeToolTip": "tiendagod.frontend\\src\\pages\\Home.tsx",
+              "ViewState": "AgIAACwAAAAAAAAAAAAkwDoAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-12T18:34:42.32Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "App.tsx",
+              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\tiendagod.frontend\\src\\App.tsx",
+              "RelativeDocumentMoniker": "tiendagod.frontend\\src\\App.tsx",
+              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\tiendagod.frontend\\src\\App.tsx",
+              "RelativeToolTip": "tiendagod.frontend\\src\\App.tsx",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAEQAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-11-12T16:38:28.713Z",
               "EditorCaption": ""
             }
           ]
