@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "TiendaGod.Identity",
-    "version": "1.0"
+    "version": "v1"
   },
   "paths": {
     "/api/Auth/register": {
@@ -67,10 +67,10 @@
         }
       }
     },
-    "/api/Auth/update-username": {
+    "/api/User/update": {
       "put": {
         "tags": [
-          "Auth"
+          "User"
         ],
         "requestBody": {
           "content": {
@@ -98,10 +98,10 @@
         }
       }
     },
-    "/api/Auth/delete-account": {
+    "/api/User/delete": {
       "delete": {
         "tags": [
-          "Auth"
+          "User"
         ],
         "responses": {
           "200": {
@@ -155,6 +155,19 @@
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT Authorization header usando el esquema Bearer. Ejemplo: \"Authorization: Bearer {token}\"",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

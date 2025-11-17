@@ -12,21 +12,21 @@ using System;
 using System.Reflection;
 
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("6477771b-002b-4aa3-b3e3-87777c87a2f6")]
-[assembly: System.Reflection.AssemblyMetadata("dcpclipath", "C:\\Users\\Pedro\\.nuget\\packages\\aspire.hosting.orchestration.win-x64\\9.5.0\\tools\\d" +
-    "cp.exe")]
-[assembly: System.Reflection.AssemblyMetadata("dcpextensionpaths", "C:\\Users\\Pedro\\.nuget\\packages\\aspire.hosting.orchestration.win-x64\\9.5.0\\tools\\e" +
-    "xt\\")]
-[assembly: System.Reflection.AssemblyMetadata("dcpbinpath", "C:\\Users\\Pedro\\.nuget\\packages\\aspire.hosting.orchestration.win-x64\\9.5.0\\tools\\e" +
-    "xt\\bin\\")]
-[assembly: System.Reflection.AssemblyMetadata("apphostprojectpath", "C:\\Users\\Pedro\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod")]
+[assembly: System.Reflection.AssemblyMetadata("dcpclipath", "C:\\Users\\Oceano\\.nuget\\packages\\aspire.hosting.orchestration.win-x64\\9.5.0\\tools\\" +
+    "dcp.exe")]
+[assembly: System.Reflection.AssemblyMetadata("dcpextensionpaths", "C:\\Users\\Oceano\\.nuget\\packages\\aspire.hosting.orchestration.win-x64\\9.5.0\\tools\\" +
+    "ext\\")]
+[assembly: System.Reflection.AssemblyMetadata("dcpbinpath", "C:\\Users\\Oceano\\.nuget\\packages\\aspire.hosting.orchestration.win-x64\\9.5.0\\tools\\" +
+    "ext\\bin\\")]
+[assembly: System.Reflection.AssemblyMetadata("apphostprojectpath", "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod")]
 [assembly: System.Reflection.AssemblyMetadata("apphostprojectname", "TiendaGod.csproj")]
-[assembly: System.Reflection.AssemblyMetadata("aspiredashboardpath", "C:\\Users\\Pedro\\.nuget\\packages\\aspire.dashboard.sdk.win-x64\\9.5.0\\tools\\Aspire.Da" +
-    "shboard.exe")]
-[assembly: System.Reflection.AssemblyMetadataAttribute("apphostprojectbaseintermediateoutputpath", "C:\\Users\\Pedro\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod\\obj\\")]
+[assembly: System.Reflection.AssemblyMetadata("aspiredashboardpath", "C:\\Users\\Oceano\\.nuget\\packages\\aspire.dashboard.sdk.win-x64\\9.5.0\\tools\\Aspire.D" +
+    "ashboard.exe")]
+[assembly: System.Reflection.AssemblyMetadataAttribute("apphostprojectbaseintermediateoutputpath", "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod\\obj\\")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("TiendaGod")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+da322c88c1cedd5b7d332c327ea7fec16fe088dc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1fff914cc2d2d5aecc2eb0c4b16ecc4d0d9dd010")]
 [assembly: System.Reflection.AssemblyProductAttribute("TiendaGod")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TiendaGod")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

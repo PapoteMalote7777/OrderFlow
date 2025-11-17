@@ -1,4 +1,6 @@
-﻿import React, { useState, useEffect } from "react";
+﻿/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState, useEffect } from "react";
+import { updateUsername, deleteAccount, getToken } from "../services/auth";
 
 interface ProfileProps {
     username: string;
@@ -13,7 +15,7 @@ export default function Profile({ username, setUsername, onCancel, onDeleteAccou
     const [isError, setIsError] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (!token) console.error("Token no encontrado");
 
     useEffect(() => {
@@ -36,23 +38,12 @@ export default function Profile({ username, setUsername, onCancel, onDeleteAccou
 
         setLoading(true);
         try {
-            const res = await fetch("/api/auth/update-username", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify({ NewName: newName })
-            });
-            const data = await res.json();
-            if (!res.ok) showMessage(data.message || "Error al actualizar", true);
-            else {
-                setUsername(newName);
-                localStorage.setItem("username", newName);
-                showMessage(data.message);
-            }
-        } catch (err) {
-            showMessage("No se pudo conectar con el servidor", true);
+            const data = await updateUsername(newName);
+            setUsername(newName);
+            localStorage.setItem("username", newName);
+            showMessage(data?.message || "Nombre actualizado");
+        } catch (err: any) {
+            showMessage(err.message || "Error al actualizar", true);
         } finally {
             setLoading(false);
         }
@@ -63,20 +54,13 @@ export default function Profile({ username, setUsername, onCancel, onDeleteAccou
 
         setLoading(true);
         try {
-            const res = await fetch("/api/auth/delete-account", {
-                method: "DELETE",
-                headers: { "Authorization": `Bearer ${token}` }
-            });
-            const data = await res.json();
-            if (!res.ok) showMessage(data.message || "Error al eliminar", true);
-            else {
-                localStorage.removeItem("token");
-                localStorage.removeItem("username");
-                showMessage(data.message);
-                setTimeout(() => onDeleteAccount(), 1000);
-            }
-        } catch {
-            showMessage("No se pudo conectar con el servidor", true);
+            const data = await deleteAccount();
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            showMessage(data?.message || "Cuenta eliminada");
+            setTimeout(() => onDeleteAccount(), 1000);
+        } catch (err: any) {
+            showMessage(err.message || "Error al eliminar", true);
         } finally {
             setLoading(false);
         }

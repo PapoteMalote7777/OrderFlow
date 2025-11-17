@@ -83,45 +83,6 @@ namespace TiendaGod.Identity.Controllers
             return Ok(new { token });
         }
 
-        // 🔹 PROFILE - Cambiar nombre
-        [Authorize]
-        [HttpPut("update-username")]
-        public async Task<IActionResult> UpdateUsername([FromBody] UpdateUsernameModel model)
-        {
-            if (string.IsNullOrWhiteSpace(model.NewName))
-                return BadRequest(new { message = "El nombre no puede estar vacío" });
-
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return NotFound(new { message = "Usuario no encontrado" });
-
-            // Verificar si el nuevo nombre ya existe
-            var exists = await _userManager.FindByNameAsync(model.NewName);
-            if (exists != null) return BadRequest(new { message = "El nombre ya está en uso" });
-
-            user.UserName = model.NewName;
-            var result = await _userManager.UpdateAsync(user);
-
-            if (!result.Succeeded) return StatusCode(500, new { message = "Error al actualizar el usuario" });
-
-            return Ok(new { message = "Nombre de usuario actualizado con éxito ✅" });
-        }
-
-        // 🔹 PROFILE - Eliminar cuenta
-        [Authorize]
-        [HttpDelete("delete-account")]
-        public async Task<IActionResult> DeleteAccount()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return NotFound(new { message = "Usuario no encontrado" });
-
-            var result = await _userManager.DeleteAsync(user);
-            if (!result.Succeeded) return StatusCode(500, new { message = "Error al eliminar la cuenta" });
-
-            return Ok(new { message = "Cuenta eliminada con éxito ✅" });
-        }
-
         // 🔹 Generador de token JWT
         private string GenerateJwtToken(IdentityUser user)
         {
@@ -159,5 +120,4 @@ namespace TiendaGod.Identity.Controllers
 
     public record RegisterModel(string Name, string Email, string Password);
     public record LoginModel(string Name, string Password);
-    public record UpdateUsernameModel(string NewName);
 }
