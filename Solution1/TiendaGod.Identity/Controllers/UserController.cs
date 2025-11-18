@@ -62,10 +62,10 @@ namespace TiendaGod.Identity.Controllers
 
         private async Task<IdentityUser?> GetUserFromClaims()
         {
-            var userEmail = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (!string.IsNullOrEmpty(userEmail))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!string.IsNullOrEmpty(userId))
             {
-                var user = await _userManager.FindByEmailAsync(userEmail);
+                var user = await _userManager.FindByIdAsync(userId);
                 if (user != null) return user;
             }
 

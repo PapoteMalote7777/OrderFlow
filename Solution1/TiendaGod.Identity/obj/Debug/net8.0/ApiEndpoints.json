@@ -32,6 +32,48 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "TiendaGod.Identity.Controllers.RolesController",
+    "Method": "AssignRole",
+    "RelativePath": "api/Roles/assign",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "TiendaGod.Identity.Controllers.AssignRoleModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TiendaGod.Identity.Controllers.RolesController",
+    "Method": "ListUsers",
+    "RelativePath": "api/Roles/list",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TiendaGod.Identity.Controllers.RolesController",
+    "Method": "RemoveRole",
+    "RelativePath": "api/Roles/remove",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "TiendaGod.Identity.Controllers.AssignRoleModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "TiendaGod.Identity.Controllers.UserController",
     "Method": "DeleteAccount",
     "RelativePath": "api/User/delete",

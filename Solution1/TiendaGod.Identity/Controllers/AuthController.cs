@@ -59,6 +59,9 @@ namespace TiendaGod.Identity.Controllers
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
+            // Asignar rol por defecto
+            await _userManager.AddToRoleAsync(user, "User");
+
             return Ok("Usuario registrado correctamente ✅");
         }
 
@@ -79,22 +82,31 @@ namespace TiendaGod.Identity.Controllers
             if (!result.Succeeded)
                 return Unauthorized("Usuario o contraseña incorrectos");
 
-            var token = GenerateJwtToken(user);
+            var token = await GenerateJwtToken(user);
             return Ok(new { token });
         }
 
         // 🔹 Generador de token JWT
-        private string GenerateJwtToken(IdentityUser user)
+        private async Task<string> GenerateJwtToken(IdentityUser user)
         {
             var jwtKey = _configuration["Jwt:Key"];
             var jwtIssuer = _configuration["Jwt:Issuer"];
 
-            var claims = new[]
+            // Claims base
+            var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id ?? string.Empty), // ahora sub = user.Id
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName ?? string.Empty)
             };
+
+            // Añadir roles como claims
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

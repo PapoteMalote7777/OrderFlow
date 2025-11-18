@@ -115,6 +115,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Seed roles y admin al iniciar (usa scope)
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var config = services.GetRequiredService<IConfiguration>();
+
+    await RoleSeeder.SeedRolesAndAdminAsync(roleManager, userManager, config);
+}
+
 app.UseHttpsRedirection();
 
 // CORS ANTES DE AUTHENTICATION/AUTHORIZATION

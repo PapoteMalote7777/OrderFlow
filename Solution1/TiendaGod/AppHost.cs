@@ -6,12 +6,13 @@ var builder = DistributedApplication.CreateBuilder(args);
 //SERVIDOR DE POSTGRES
 //registra un servidor de postgres
 var postgres = builder.AddPostgres("postgres")
+    .WithDataVolume(isReadOnly: false)
     .WithLifetime(ContainerLifetime.Persistent);
 //se añade una base de datos especifica
 var cositasdb = postgres.AddDatabase("cositas");
 
-//API (BACKEND)
-//añadir la base de datos al proyecto
+//MICROSERVICIOS
+//API IDENTITY(BACKEND)
 var identityApi = builder.AddProject<Projects.TiendaGod_Identity>("tiendagod-identity")
     .WaitFor(postgres)
     .WithReference(cositasdb);
