@@ -3,32 +3,23 @@
   "WorkspaceRootPath": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A25C8F84-606E-7DC6-FC57-5E4078973420}|TiendaGod.Identity\\TiendaGod.Identity.csproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod.identity\\features\\auth\\registeruser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A25C8F84-606E-7DC6-FC57-5E4078973420}|TiendaGod.Identity\\TiendaGod.Identity.csproj|solutionrelative:tiendagod.identity\\features\\auth\\registeruser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|NewFolder1{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\Directory.Packages.props||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|NewFolder1{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|solutionrelative:Directory.Packages.props||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A25C8F84-606E-7DC6-FC57-5E4078973420}|TiendaGod.Identity\\TiendaGod.Identity.csproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod.identity\\features\\auth\\authgroup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A25C8F84-606E-7DC6-FC57-5E4078973420}|TiendaGod.Identity\\TiendaGod.Identity.csproj|solutionrelative:tiendagod.identity\\features\\auth\\authgroup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Oceano\\.nuget\\packages\\aspire.apphost.sdk\\9.5.0\\Sdk\\Sdk.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{624AD356-257C-5EBC-A9E5-A62E6305BEA2}|TiendaGod.Frontend\\Tiendagod.Frontend.esproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod.frontend\\src\\services\\auth.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{624AD356-257C-5EBC-A9E5-A62E6305BEA2}|TiendaGod.Frontend\\Tiendagod.Frontend.esproj|solutionrelative:tiendagod.frontend\\src\\services\\auth.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+      "AbsoluteMoniker": "D:0:0:{BF37AF08-2C1F-419C-A6CC-1AD5C1CCE01C}|TiendaGod.ServiceDefault\\TiendaGod.ServiceDefault.csproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod.servicedefault\\tiendagod.servicedefault.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{BF37AF08-2C1F-419C-A6CC-1AD5C1CCE01C}|TiendaGod.ServiceDefault\\TiendaGod.ServiceDefault.csproj|solutionrelative:tiendagod.servicedefault\\tiendagod.servicedefault.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A25C8F84-606E-7DC6-FC57-5E4078973420}|TiendaGod.Identity\\TiendaGod.Identity.csproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod.identity\\data\\roleseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A25C8F84-606E-7DC6-FC57-5E4078973420}|TiendaGod.Identity\\TiendaGod.Identity.csproj|solutionrelative:tiendagod.identity\\data\\roleseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A25C8F84-606E-7DC6-FC57-5E4078973420}|TiendaGod.Identity\\TiendaGod.Identity.csproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod.identity\\tiendagod.identity.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A25C8F84-606E-7DC6-FC57-5E4078973420}|TiendaGod.Identity\\TiendaGod.Identity.csproj|solutionrelative:tiendagod.identity\\tiendagod.identity.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A25C8F84-606E-7DC6-FC57-5E4078973420}|TiendaGod.Identity\\TiendaGod.Identity.csproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod.identity\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A25C8F84-606E-7DC6-FC57-5E4078973420}|TiendaGod.Identity\\TiendaGod.Identity.csproj|solutionrelative:tiendagod.identity\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A25C8F84-606E-7DC6-FC57-5E4078973420}|TiendaGod.Identity\\TiendaGod.Identity.csproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod.identity\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A25C8F84-606E-7DC6-FC57-5E4078973420}|TiendaGod.Identity\\TiendaGod.Identity.csproj|solutionrelative:tiendagod.identity\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{624AD356-257C-5EBC-A9E5-A62E6305BEA2}|TiendaGod.Frontend\\Tiendagod.Frontend.esproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod.frontend\\src\\pages\\adminusers.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{624AD356-257C-5EBC-A9E5-A62E6305BEA2}|TiendaGod.Frontend\\Tiendagod.Frontend.esproj|solutionrelative:tiendagod.frontend\\src\\pages\\adminusers.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+      "AbsoluteMoniker": "D:0:0:{C63251D4-1A08-4DE8-ACE6-1412554F5473}|TiendaGod\\TiendaGod.csproj|c:\\users\\oceano\\documents\\github\\orderflow\\solution1\\tiendagod\\tiendagod.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{C63251D4-1A08-4DE8-ACE6-1412554F5473}|TiendaGod\\TiendaGod.csproj|solutionrelative:tiendagod\\tiendagod.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,98 +29,76 @@
       "DocumentGroups": [
         {
           "DockedWidth": 204,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RegisterUser.cs",
-              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.Identity\\Features\\Auth\\RegisterUser.cs",
-              "RelativeDocumentMoniker": "TiendaGod.Identity\\Features\\Auth\\RegisterUser.cs",
-              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.Identity\\Features\\Auth\\RegisterUser.cs",
-              "RelativeToolTip": "TiendaGod.Identity\\Features\\Auth\\RegisterUser.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAcwAsAAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T18:53:42.477Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AuthGroup.cs",
-              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.Identity\\Features\\Auth\\AuthGroup.cs",
-              "RelativeDocumentMoniker": "TiendaGod.Identity\\Features\\Auth\\AuthGroup.cs",
-              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.Identity\\Features\\Auth\\AuthGroup.cs",
-              "RelativeToolTip": "TiendaGod.Identity\\Features\\Auth\\AuthGroup.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T18:43:37.652Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "RoleSeeder.cs",
-              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.Identity\\Data\\RoleSeeder.cs",
-              "RelativeDocumentMoniker": "TiendaGod.Identity\\Data\\RoleSeeder.cs",
-              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.Identity\\Data\\RoleSeeder.cs",
-              "RelativeToolTip": "TiendaGod.Identity\\Data\\RoleSeeder.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAAA1AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T17:33:06.165Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.Identity\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "TiendaGod.Identity\\Controllers\\AuthController.cs",
-              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.Identity\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "TiendaGod.Identity\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAgwGQAAABJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T17:04:22.424Z",
+              "Title": "Sdk.targets",
+              "DocumentMoniker": "C:\\Users\\Oceano\\.nuget\\packages\\aspire.apphost.sdk\\9.5.0\\Sdk\\Sdk.targets",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\.nuget\\packages\\aspire.apphost.sdk\\9.5.0\\Sdk\\Sdk.targets",
+              "ToolTip": "C:\\Users\\Oceano\\.nuget\\packages\\aspire.apphost.sdk\\9.5.0\\Sdk\\Sdk.targets",
+              "RelativeToolTip": "..\\..\\..\\..\\.nuget\\packages\\aspire.apphost.sdk\\9.5.0\\Sdk\\Sdk.targets",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAawHwAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2025-11-19T15:55:43.313Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "auth.ts",
-              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\tiendagod.frontend\\src\\services\\auth.ts",
-              "RelativeDocumentMoniker": "tiendagod.frontend\\src\\services\\auth.ts",
-              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\tiendagod.frontend\\src\\services\\auth.ts",
-              "RelativeToolTip": "tiendagod.frontend\\src\\services\\auth.ts",
-              "ViewState": "AgIAAF8AAAAAAAAAAAAiwIYAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-11-18T15:45:34.108Z",
+              "Title": "TiendaGod.ServiceDefault",
+              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.ServiceDefault\\TiendaGod.ServiceDefault.csproj",
+              "RelativeDocumentMoniker": "TiendaGod.ServiceDefault\\TiendaGod.ServiceDefault.csproj",
+              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.ServiceDefault\\TiendaGod.ServiceDefault.csproj",
+              "RelativeToolTip": "TiendaGod.ServiceDefault\\TiendaGod.ServiceDefault.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-19T15:53:59.722Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "AdminUsers.tsx",
-              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\tiendagod.frontend\\src\\pages\\AdminUsers.tsx",
-              "RelativeDocumentMoniker": "tiendagod.frontend\\src\\pages\\AdminUsers.tsx",
-              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\tiendagod.frontend\\src\\pages\\AdminUsers.tsx",
-              "RelativeToolTip": "tiendagod.frontend\\src\\pages\\AdminUsers.tsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-11-18T15:42:32.723Z",
+              "DocumentIndex": 3,
+              "Title": "TiendaGod.Identity",
+              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.Identity\\TiendaGod.Identity.csproj",
+              "RelativeDocumentMoniker": "TiendaGod.Identity\\TiendaGod.Identity.csproj",
+              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.Identity\\TiendaGod.Identity.csproj",
+              "RelativeToolTip": "TiendaGod.Identity\\TiendaGod.Identity.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-19T15:50:32.738Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "RoleController.cs",
-              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.Identity\\Controllers\\RoleController.cs",
-              "RelativeDocumentMoniker": "TiendaGod.Identity\\Controllers\\RoleController.cs",
-              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod.Identity\\Controllers\\RoleController.cs",
-              "RelativeToolTip": "TiendaGod.Identity\\Controllers\\RoleController.cs",
-              "ViewState": "AgIAADsAAAAAAAAAAAAgwFsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T15:24:10.789Z",
+              "DocumentIndex": 4,
+              "Title": "TiendaGod",
+              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod\\TiendaGod.csproj",
+              "RelativeDocumentMoniker": "TiendaGod\\TiendaGod.csproj",
+              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\TiendaGod\\TiendaGod.csproj",
+              "RelativeToolTip": "TiendaGod\\TiendaGod.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-19T15:46:13.492Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Directory.Packages.props",
+              "DocumentMoniker": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\Directory.Packages.props",
+              "RelativeDocumentMoniker": "Directory.Packages.props",
+              "ToolTip": "C:\\Users\\Oceano\\Documents\\GitHub\\OrderFlow\\Solution1\\Directory.Packages.props",
+              "RelativeToolTip": "Directory.Packages.props",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2025-11-19T15:28:21.816Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             }
           ]
         }
