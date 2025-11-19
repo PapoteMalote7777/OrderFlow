@@ -7,12 +7,5 @@ export default defineConfig({
         port: parseInt(process.env.PORT || "59210"),
         strictPort: true,
         host: true,
-        /*proxy: {
-            "/api": {
-                target: "http://localhost:5248",  // ⭐ BACKEND REAL
-                changeOrigin: true,
-                secure: false,
-            }
-        }*/
     }
 });

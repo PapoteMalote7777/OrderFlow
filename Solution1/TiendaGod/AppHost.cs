@@ -1,5 +1,6 @@
-using Aspire.Hosting;
+﻿using Aspire.Hosting;
 using Projects;
+using StackExchange.Redis;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -22,16 +23,23 @@ var identityApi = builder.AddProject<Projects.TiendaGod_Identity>("tiendagod-ide
     .WithReference(cositasdb);
 
 // ============================================
+// API GATEWAY
+// ============================================
+// API Gateway acts as the single entry point for all client requests
+// It handles authentication, authorization, rate limiting, and routes to microservices
+var apiGateway = builder.AddProject<Projects.TiendaGod_Gateway>("tiendagod-gateway")
+    //.WithReference(redis)
+    .WithReference(identityApi)
+    .WaitFor(identityApi);
+
+// ============================================
 // REACT - FRONTEND
 // ============================================
 var webApp = builder.AddNpmApp("TiendaGodFrontend", "../TiendaGod.Frontend", "dev") // nombre y ruta de tu app React
-                    .WithReference(identityApi) // el frontend "conoce" la API
+                    .WithReference(apiGateway)
+                    .WithEnvironment("VITE_API_GATEWAY_URL", apiGateway.GetEndpoint("https"))
                     .WithHttpEndpoint(port: 59210, env: "PORT")
                     .WithExternalHttpEndpoints()
-                    .PublishAsDockerFile()
-                    //.WithEnvironment("VITE_API_URL", identityApi.GetEndpoint("http")) // pasa la URL del backend a React
-                    .WaitFor(identityApi); // espera a que la API esté lista antes de arrancar el frontend
-
-builder.AddProject<Projects.TiendaGod_Gateway>("tiendagod-gateway");
+                    .PublishAsDockerFile();
 
 builder.Build().Run();
