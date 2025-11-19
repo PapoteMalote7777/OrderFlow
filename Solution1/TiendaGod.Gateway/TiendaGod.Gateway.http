@@ -1,0 +1,6 @@
+@TiendaGod.Gateway_HostAddress = http://localhost:5194
+
+GET {{TiendaGod.Gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

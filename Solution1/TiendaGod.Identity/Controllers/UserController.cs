@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace TiendaGod.Identity.Controllers
 {
@@ -19,7 +20,7 @@ namespace TiendaGod.Identity.Controllers
             _userManager = userManager;
         }
 
-        // 🔹 ACTUALIZAR NOMBRE
+        // 🔹 ACTUALIZAR NOMBRE (usuario autenticado)
         [Authorize]
         [HttpPut("update")]
         public async Task<IActionResult> UpdateUsername([FromBody] UpdateUsernameModel model)
@@ -40,12 +41,12 @@ namespace TiendaGod.Identity.Controllers
             user.UserName = model.NewName;
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
-                return BadRequest(new { message = "No se pudo actualizar el nombre" });
+                return BadRequest(new { message = "No se pudo actualizar el nombre", errors = result.Errors.Select(e => e.Description) });
 
             return Ok(new { message = "Nombre actualizado con éxito ✅" });
         }
 
-        // 🔹 ELIMINAR CUENTA
+        // 🔹 ELIMINAR CUENTA (usuario autenticado)
         [Authorize]
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteAccount()
@@ -55,7 +56,7 @@ namespace TiendaGod.Identity.Controllers
 
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
-                return BadRequest(new { message = "Error al eliminar la cuenta" });
+                return BadRequest(new { message = "Error al eliminar la cuenta", errors = result.Errors.Select(e => e.Description) });
 
             return Ok(new { message = "Cuenta eliminada correctamente ✅" });
         }
@@ -71,7 +72,51 @@ namespace TiendaGod.Identity.Controllers
 
             return null;
         }
+
+        // =========================
+        // Operaciones administrativas (moved from RolesController)
+        // =========================
+
+        // Editar username de cualquier usuario (solo Admin)
+        [Authorize(Roles = "Admin")]
+        [HttpPut("update-user/{userName}")]
+        public async Task<IActionResult> UpdateUserNameByAdmin(string userName, [FromBody] AdminUpdateUsernameModel model)
+        {
+            if (string.IsNullOrWhiteSpace(model.NewName))
+                return BadRequest(new { message = "El nombre no puede estar vacío" });
+
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null) return NotFound(new { message = "Usuario no encontrado" });
+
+            var existing = await _userManager.FindByNameAsync(model.NewName);
+            if (existing != null && existing.Id != user.Id)
+                return BadRequest(new { message = "El nombre ya está en uso" });
+
+            user.UserName = model.NewName;
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+                return BadRequest(new { message = "No se pudo actualizar el nombre", errors = result.Errors.Select(e => e.Description) });
+
+            return Ok(new { message = "Nombre actualizado con éxito ✅" });
+        }
+
+        // Borrar usuario por username (solo Admin)
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("delete-user/{userName}")]
+        public async Task<IActionResult> DeleteUserByAdmin(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null) return NotFound(new { message = "Usuario no encontrado" });
+
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+                return BadRequest(new { message = "Error al eliminar la cuenta", errors = result.Errors.Select(e => e.Description) });
+
+            return Ok(new { message = "Cuenta eliminada correctamente ✅" });
+        }
     }
 
+    // Modelos localizados al controlador
     public record UpdateUsernameModel(string NewName);
+    public record AdminUpdateUsernameModel(string NewName);
 }

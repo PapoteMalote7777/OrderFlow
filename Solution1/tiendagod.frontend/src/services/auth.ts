@@ -188,3 +188,47 @@ export async function removeRole(userName: string, role: string) {
 
     return res.json();
 }
+
+// EDITAR usuario como Admin (nuevo)
+export async function adminUpdateUsername(userName: string, newName: string) {
+    const token = getToken();
+    const res = await fetch(`${API_URL}/api/user/update-user/${encodeURIComponent(userName)}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({ NewName: newName })
+    });
+
+    const text = await res.text();
+    try {
+        const body = JSON.parse(text);
+        if (!res.ok) throw new Error(body?.message || body || res.statusText);
+        return body;
+    } catch {
+        if (!res.ok) throw new Error(text || res.statusText);
+        return text;
+    }
+}
+
+// BORRAR usuario como Admin (nuevo)
+export async function adminDeleteUser(userName: string) {
+    const token = getToken();
+    const res = await fetch(`${API_URL}/api/user/delete-user/${encodeURIComponent(userName)}`, {
+        method: "DELETE",
+        headers: {
+            ...(token ? { Authorization: `Bearer ${token}` } : {})
+        }
+    });
+
+    const text = await res.text();
+    try {
+        const body = JSON.parse(text);
+        if (!res.ok) throw new Error(body?.message || body || res.statusText);
+        return body;
+    } catch {
+        if (!res.ok) throw new Error(text || res.statusText);
+        return text;
+    }
+}

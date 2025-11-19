@@ -3,10 +3,11 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import AdminUsers from "./pages/AdminUsers";
 import "./App.css";
 
 const App: React.FC = () => {
-    const [page, setPage] = useState<"login" | "register" | "home" | "profile">("home");
+    const [page, setPage] = useState<"login" | "register" | "home" | "profile" | "admin">("home");
     const [username, setUsername] = useState<string>("");
 
     // Verificar token en localStorage al iniciar
@@ -65,6 +66,7 @@ const App: React.FC = () => {
                     username={username}
                     goToLogin={() => setPage("login")}
                     goToProfile={() => setPage("profile")}
+                    goToAdmin={() => setPage("admin")}
                 />
             )}
 
@@ -75,6 +77,10 @@ const App: React.FC = () => {
                     onCancel={() => setPage("home")}
                     onDeleteAccount={handleDeleteAccount}
                 />
+            )}
+
+            {page === "admin" && (
+                <AdminUsers onCancel={() => setPage("home")} />
             )}
         </div>
     );

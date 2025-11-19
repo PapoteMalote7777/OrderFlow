@@ -326,3 +326,53 @@ p {
         width: 100%;
     }
 }
+
+/* añadidos para AdminUsers */
+.admin-panel {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    margin: 20px;
+}
+
+.admin-panel table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.admin-panel th, .admin-panel td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.admin-panel input[type="text"], .admin-panel input[type="search"], .admin-panel input {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.admin-panel button {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: none;
+    background: #4f46e5;
+    color: white;
+    cursor: pointer;
+}
+
+.admin-panel button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.error {
+    color: #b91c1c;
+    background: #fee2e2;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin: 10px 0;
+}

@@ -1,13 +1,15 @@
 ﻿import { useState } from "react";
+import { isAdmin } from "../services/auth";
 
 interface HomeProps {
     onLogout: () => void;
     username: string;
     goToLogin: () => void;
     goToProfile: () => void;
+    goToAdmin: () => void;
 }
 
-export default function Home({ onLogout, username, goToLogin, goToProfile}: HomeProps) {
+export default function Home({ onLogout, username, goToLogin, goToProfile, goToAdmin}: HomeProps) {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const handleLogout = () => {
@@ -48,8 +50,9 @@ export default function Home({ onLogout, username, goToLogin, goToProfile}: Home
 
             {menuOpen && username && (
                 <ul className="sidebar-menu">
-                    <li onClick={goToProfile}>Mi cuenta</li>
+                    <li onClick={() => { setMenuOpen(false); goToProfile(); }}>Mi cuenta</li>
                     <li>Pedidos</li>
+                    {isAdmin() && <li onClick={() => { setMenuOpen(false); goToAdmin(); }}>Administrador</li>}
                     <li>Recomendados</li>
                     <li>Favoritos</li>
                     <li onClick={handleLogout}>Cerrar sesión</li>

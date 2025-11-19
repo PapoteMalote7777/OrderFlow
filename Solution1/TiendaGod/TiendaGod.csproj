@@ -11,13 +11,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost"/>
-    <PackageReference Include="Aspire.Hosting.NodeJs"/>
-    <PackageReference Include="Aspire.Hosting.PostgreSQL"/>
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis"/>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.NodeJs" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TiendaGod.Gateway\TiendaGod.Gateway.csproj" />
     <ProjectReference Include="..\TiendaGod.Identity\TiendaGod.Identity.csproj" />
   </ItemGroup>
 

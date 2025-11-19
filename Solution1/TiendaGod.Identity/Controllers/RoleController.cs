@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace TiendaGod.Identity.Controllers
 {
@@ -88,5 +89,4 @@ namespace TiendaGod.Identity.Controllers
         public string Email { get; set; } = string.Empty;
         public List<string> Roles { get; set; } = new List<string>();
     }
-
 }
