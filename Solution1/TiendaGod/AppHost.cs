@@ -22,7 +22,7 @@ var redis = builder.AddRedis("cache")
 
 // ============================================
 // MICROSERVICIOS
-// API IDENTITY(BACKEND)s
+// API IDENTITY(BACKEND)
 // ============================================
 var identityApi = builder.AddProject<Projects.TiendaGod_Identity>("tiendagod-identity")
     .WaitFor(postgres)
