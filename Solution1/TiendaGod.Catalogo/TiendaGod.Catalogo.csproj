@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>0e89e480-495c-49c7-bf15-396d6d8def1a</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets"/>
+    <PackageReference Include="Swashbuckle.AspNetCore"/>
+  </ItemGroup>
+
+</Project>

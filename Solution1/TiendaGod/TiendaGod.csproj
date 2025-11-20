@@ -14,10 +14,12 @@
     <PackageReference Include="Aspire.Hosting.AppHost" />
     <PackageReference Include="Aspire.Hosting.NodeJs" />
     <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+    <PackageReference Include="Aspire.Hosting.Redis" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TiendaGod.Catalogo\TiendaGod.Catalogo.csproj" />
     <ProjectReference Include="..\TiendaGod.Gateway\TiendaGod.Gateway.csproj" />
     <ProjectReference Include="..\TiendaGod.Identity\TiendaGod.Identity.csproj" />
   </ItemGroup>

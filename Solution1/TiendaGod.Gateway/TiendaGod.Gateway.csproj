@@ -9,14 +9,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.Redis" />
+    <PackageReference Include="Aspire.StackExchange.Redis" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+    <PackageReference Include="RedisRateLimiting" />
+    <PackageReference Include="RedisRateLimiting.AspNetCore" />
+    <PackageReference Include="StackExchange.Redis" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Yarp.ReverseProxy" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\TiendaGod.ServiceDefault\TiendaGod.ServiceDefault.csproj" />
   </ItemGroup>
 
 </Project>

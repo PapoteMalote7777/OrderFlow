@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solucion", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaGod.Gateway", "TiendaGod.Gateway\TiendaGod.Gateway.csproj", "{ACDD0AAA-BFC0-71C8-D949-6C6027C0A8BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaGod.Catalogo", "TiendaGod.Catalogo\TiendaGod.Catalogo.csproj", "{D8EB0594-BF50-490E-D4EC-94DE6E45C7F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{ACDD0AAA-BFC0-71C8-D949-6C6027C0A8BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACDD0AAA-BFC0-71C8-D949-6C6027C0A8BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACDD0AAA-BFC0-71C8-D949-6C6027C0A8BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8EB0594-BF50-490E-D4EC-94DE6E45C7F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8EB0594-BF50-490E-D4EC-94DE6E45C7F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8EB0594-BF50-490E-D4EC-94DE6E45C7F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8EB0594-BF50-490E-D4EC-94DE6E45C7F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

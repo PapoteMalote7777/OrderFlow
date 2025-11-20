@@ -1,16 +1,32 @@
-﻿using Microsoft.AspNetCore.RateLimiting;
+﻿using TiendaGod.Gateway.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddReverseProxy()
-    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
-// Add services to the container.
+// Aspire service defaults (telemetry, health checks, service discovery)
+builder.AddServiceDefaults();
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Redis for distributed rate limiting
+builder.AddRedisClient("cache");
+
+// CORS for frontend communication
+builder.Services.AddGatewayCors();
+
+// JWT authentication (validates tokens from Identity service)
+builder.Services.AddJwtAuthentication(builder.Configuration);
+
+// Authorization policies (authenticated, admin, customer)
+builder.Services.AddGatewayAuthorizationPolicies();
+
+// Rate limiting with Redis (configured in appsettings.json)
+builder.Services.AddRedisRateLimiting(builder.Configuration);
+
+// YARP reverse proxy (routes to microservices)
+builder.Services.AddYarpReverseProxy(builder.Configuration);
 
 var app = builder.Build();
+
+// Health check endpoints
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -18,21 +34,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("authenticated", policy =>
-        policy.RequireAuthenticatedUser());
-});
-
-builder.Services.AddRateLimiter(rateLimiterOptions =>
-{
-    rateLimiterOptions.AddFixedWindowLimiter("fixed", options =>
-    {
-        options.Window = TimeSpan.FromSeconds(10);
-        options.PermitLimit = 5;
-    });
-});
 
 app.UseHttpsRedirection();
 app.UseCors();

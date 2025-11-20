@@ -1,0 +1,6 @@
+@TiendaGod.Catalogo_HostAddress = http://localhost:5286
+
+GET {{TiendaGod.Catalogo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
