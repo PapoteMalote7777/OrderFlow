@@ -11,8 +11,13 @@ var postgres = builder.AddPostgres("postgres")
     .WithDataVolume(isReadOnly: false)
     .WithLifetime(ContainerLifetime.Persistent);
 
-//se añade una base de datos especifica
 var cositasdb = postgres.AddDatabase("cositas");
+
+var postgres2 = builder.AddPostgres("postgres2")
+    .WithDataVolume(isReadOnly: false)
+    .WithLifetime(ContainerLifetime.Persistent);
+
+var productosdb = postgres2.AddDatabase("productos");
 
 //redis - Distributed cache for rate limiting, sessions, and caching 
 var redis = builder.AddRedis("cache")
@@ -28,6 +33,10 @@ var identityApi = builder.AddProject<Projects.TiendaGod_Identity>("tiendagod-ide
     .WaitFor(postgres)
     .WithReference(cositasdb);
 
+var productApi = builder.AddProject<Projects.TiendaGod_Productos>("tiendagod-productos")
+    .WaitFor(postgres2)
+    .WithReference(productosdb);
+
 // ============================================
 // API GATEWAY
 // ============================================
@@ -36,7 +45,9 @@ var identityApi = builder.AddProject<Projects.TiendaGod_Identity>("tiendagod-ide
 var apiGateway = builder.AddProject<Projects.TiendaGod_Gateway>("tiendagod-gateway")
     .WithReference(redis)
     .WithReference(identityApi)
-    .WaitFor(identityApi);
+    .WithReference(productApi)
+    .WaitFor(identityApi)
+    .WaitFor(productApi);
 
 // ============================================
 // REACT - FRONTEND
@@ -47,7 +58,5 @@ var webApp = builder.AddNpmApp("TiendaGodFrontend", "../TiendaGod.Frontend", "de
                     .WithHttpEndpoint(port: 59210, env: "PORT")
                     .WithExternalHttpEndpoints()
                     .PublishAsDockerFile();
-
-builder.AddProject<Projects.TiendaGod_Catalogo>("tiendagod-catalogo");
 
 builder.Build().Run();
