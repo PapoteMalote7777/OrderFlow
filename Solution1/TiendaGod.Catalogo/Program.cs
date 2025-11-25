@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using TiendaGod.Productos.Data;
 using TiendaGod.Productos.Features.V1;
+using TiendaGod.Productos.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +36,9 @@ builder.Services.AddSwaggerGen();
 
 // Necesario para versioned swagger
 builder.Services.ConfigureOptions<SwaggerOptionsConfig>();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<ProductCreateValidator>();
 
 var app = builder.Build();
 
