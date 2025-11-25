@@ -1,6 +1,6 @@
-﻿namespace TiendaGod.Productos.Models.DTO
+﻿namespace TiendaGod.Productos.DTO
 {
-    public class ProductUpdateDto
+    public class ProductCreateDto
     {
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;

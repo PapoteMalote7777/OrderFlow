@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using TiendaGod.Productos.Models.DTO;
+using TiendaGod.Productos.DTO;
 
 namespace TiendaGod.Productos.Validators
 {

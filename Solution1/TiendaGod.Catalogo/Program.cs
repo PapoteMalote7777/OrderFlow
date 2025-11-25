@@ -16,6 +16,7 @@ builder.AddServiceDefaults();
 builder.AddNpgsqlDbContext<ProductDbContext>("productos");
 
 // API VERSIONING
+builder.Services.AddControllers();
 builder.Services.AddApiVersioning(options =>
 {
     options.DefaultApiVersion = new ApiVersion(1, 0);
@@ -29,6 +30,7 @@ builder.Services.AddVersionedApiExplorer(options =>
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
 });
+
 
 
 builder.Services.AddEndpointsApiExplorer();
@@ -66,5 +68,7 @@ app.UseHttpsRedirection();
 
 // REGISTRAR ENDPOINTS MINIMAL API
 app.MapProductEndpointsV1();
+
+app.MapControllers();
 
 app.Run();

@@ -12,7 +12,8 @@ namespace TiendaGod.Productos.Features.V1
                 return product is null ? Results.NotFound() : Results.Ok(product);
             })
             .WithName("GetProductById")
-            .WithSummary("Obtiene un producto por ID");
+            .WithSummary("Obtiene un producto por ID")
+            .WithOpenApi();
         }
     }
 }

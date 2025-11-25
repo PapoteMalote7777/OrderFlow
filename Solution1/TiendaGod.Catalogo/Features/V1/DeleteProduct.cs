@@ -16,7 +16,8 @@ namespace TiendaGod.Productos.Features.V1
                 return Results.NoContent();
             })
             .WithName("DeleteProduct")
-            .WithSummary("Elimina un producto");
+            .WithSummary("Elimina un producto")
+            .WithOpenApi();
         }
     }
 }

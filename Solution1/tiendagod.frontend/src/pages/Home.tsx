@@ -1,5 +1,6 @@
 ﻿import { useState } from "react";
 import { isAdmin } from "../services/auth";
+import ProductsList from "../pages/ProductsList";
 
 interface HomeProps {
     onLogout: () => void;
@@ -62,20 +63,8 @@ export default function Home({ onLogout, username, goToLogin, goToProfile, goToA
             <div className="amazon-body">
                 {/* CONTENIDO PRINCIPAL */}
                 <main className="amazon-main">
-                    <h1 className="title">Ofertas destacadas</h1>
-                    <div className="amazon-grid">
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                            <div key={i} className="product-card-amz">
-                                <img
-                                    src={`https://picsum.photos/300?random=${i}`}
-                                    alt="Producto"
-                                />
-                                <h4>Producto {i}</h4>
-                                <p className="price">29,99 €</p>
-                                <button className="buy-btn-amz">Comprar</button>
-                            </div>
-                        ))}
-                    </div>
+                    <h1 className="title">Productos disponibles</h1>
+                    <ProductsList />
                 </main>
             </div>
         </div>

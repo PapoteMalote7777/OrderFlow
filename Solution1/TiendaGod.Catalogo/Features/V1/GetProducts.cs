@@ -13,7 +13,8 @@ namespace TiendaGod.Productos.Features.V1
                 return Results.Ok(products);
             })
             .WithName("GetProducts")
-            .WithSummary("Lista todos los productos");
+            .WithSummary("Lista todos los productos")
+            .WithOpenApi();
         }
     }
 }
