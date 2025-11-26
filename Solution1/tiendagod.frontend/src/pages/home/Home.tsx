@@ -1,8 +1,8 @@
 ﻿import { useState } from "react";
-import { isAdmin } from "../services/auth";
-import ProductsList from "../pages/ProductsList";
-import AdminUsers from "./AdminUsers";
-import AdminProducts from "./AdminProducts";
+import { isAdmin } from "../../services/auth";
+import ProductsList from "../products/ProductsList";
+import AdminUsers from "../admin/AdminUsers";
+import AdminProducts from "../admin/AdminProducts";
 
 interface HomeProps {
     onLogout: () => void;

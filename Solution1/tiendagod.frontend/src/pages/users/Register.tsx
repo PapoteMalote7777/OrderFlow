@@ -1,6 +1,6 @@
 ﻿/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { register } from "../services/auth";
+import { register } from "../../services/auth";
 
 interface RegisterProps {
     onSwitchToLogin?: () => void;

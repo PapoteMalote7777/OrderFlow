@@ -1,16 +1,15 @@
 ﻿import React, { useState } from "react";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Home from "./pages/Home";
-import Profile from "./pages/Profile";
-import AdminUsers from "./pages/AdminUsers";
+import Login from "./pages/users/Login";
+import Register from "./pages/users/Register";
+import Home from "./pages/home/Home";
+import Profile from "./pages/users/Profile";
+import AdminUsers from "./pages/admin/AdminUsers";
 import "./App.css";
 
 const App: React.FC = () => {
     const [page, setPage] = useState<"login" | "register" | "home" | "profile" | "admin">("home");
     const [username, setUsername] = useState<string>("");
 
-    // Verificar token en localStorage al iniciar
     React.useEffect(() => {
         const token = localStorage.getItem("token");
         const storedUsername = localStorage.getItem("username")

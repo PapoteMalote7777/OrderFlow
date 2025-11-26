@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import { useProducts } from "../hooks/useProducts";
+import { useProducts } from "../../hooks/useProducts";
 
 export default function ProductsList() {
     const { products, isLoading, error } = useProducts();

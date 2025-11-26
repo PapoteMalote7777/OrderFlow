@@ -1,6 +1,6 @@
 ﻿/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { updateUsername, deleteAccount, getToken } from "../services/auth";
+import { updateUsername, deleteAccount, getToken } from "../../services/auth";
 
 interface ProfileProps {
     username: string;

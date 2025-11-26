@@ -1,8 +1,8 @@
 ﻿/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-require-imports */
 import React, { useEffect, useState } from "react";
-import { getAllUsers, assignRole, removeRole, isAdmin, adminUpdateUsername, adminDeleteUser } from "../services/auth";
-import "../App.css";
+import { getAllUsers, assignRole, removeRole, isAdmin, adminUpdateUsername, adminDeleteUser } from "../../services/auth";
+import "../../App.css";
 
 interface UserWithRoles {
     userName: string;
