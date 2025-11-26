@@ -10,12 +10,10 @@ using TiendaGod.Productos.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// SERVICIOS POR DEFECTO
 builder.AddServiceDefaults();
 
 builder.AddNpgsqlDbContext<ProductDbContext>("productos");
 
-// API VERSIONING
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(options =>
 {
@@ -24,7 +22,6 @@ builder.Services.AddApiVersioning(options =>
     options.ReportApiVersions = true;
 });
 
-// Para swagger por versión
 builder.Services.AddVersionedApiExplorer(options =>
 {
     options.GroupNameFormat = "'v'VVV";
@@ -35,10 +32,7 @@ builder.Services.AddVersionedApiExplorer(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// Necesario para versioned swagger
 builder.Services.ConfigureOptions<SwaggerOptionsConfig>();
-
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<ProductCreateValidator>();
 
@@ -49,10 +43,7 @@ if (app.Environment.IsDevelopment())
     using var scope = app.Services.CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<ProductDbContext>();
     await context.Database.MigrateAsync();
-
-    // swagger con versiones
     var apiVersionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
@@ -65,10 +56,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-// REGISTRAR ENDPOINTS MINIMAL API
 app.MapProductEndpointsV1();
-
 app.MapControllers();
-
 app.Run();

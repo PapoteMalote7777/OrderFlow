@@ -56,7 +56,6 @@ export default function AdminUsers({ onCancel }: AdminUsersProps) {
 
     const toggleAdmin = async (user: UserWithRoles, checked: boolean) => {
         try {
-            // impedir quitar rol Admin a uno mismo
             if (user.userName === currentUsername && !checked) {
                 setError("No puedes quitarte el rol Admin a ti mismo.");
                 return;
@@ -126,7 +125,6 @@ export default function AdminUsers({ onCancel }: AdminUsersProps) {
                     </button>
                 )}
             </div>
-
             <table>
                 <thead>
                     <tr>
@@ -154,7 +152,6 @@ export default function AdminUsers({ onCancel }: AdminUsersProps) {
                                 <input
                                     type="checkbox"
                                     checked={u.roles.includes("Admin")}
-                                    // deshabilitar quitar admin a uno mismo
                                     disabled={u.userName === currentUsername}
                                     onChange={(e) => toggleAdmin(u, e.target.checked)}
                                 />

@@ -1,12 +1,8 @@
-﻿import React, { useEffect } from "react";
+﻿import React from "react";
 import { useProducts } from "../hooks/useProducts";
 
 export default function ProductsList() {
-    const { products, isLoading, error, loadProducts } = useProducts();
-
-    useEffect(() => {
-        loadProducts();
-    }, []);
+    const { products, isLoading, error } = useProducts();
 
     if (isLoading) return <p>Cargando productos...</p>;
     if (error) return <p className="error">{error}</p>;

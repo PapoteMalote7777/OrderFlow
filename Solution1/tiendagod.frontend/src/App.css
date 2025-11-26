@@ -1,6 +1,4 @@
-﻿/* ======================
-   RESET Y BASE
-====================== */
+﻿/* RESET Y BASE */
 html, body, #root {
     margin: 0;
     padding: 0;
@@ -17,9 +15,7 @@ html, body, #root {
     box-sizing: inherit;
 }
 
-/* ======================
-   BOTONES E INPUTS
-====================== */
+/* BOTONES E INPUTS */
 input {
     padding: 0.75rem;
     border-radius: 0.5rem;
@@ -45,9 +41,7 @@ button {
             background-color: #4338ca;
         }
 
-/* ======================
-   MENSAJES Y ENLACES
-====================== */
+/* MENSAJES Y ENLACES */
 p {
     font-size: 0.9rem;
     color: #555;
@@ -77,9 +71,7 @@ p {
     font-weight: bold;
 }
 
-/* ======================
-   LOGIN & REGISTER CARD
-====================== */
+/* LOGIN & REGISTER CARD */
 .app-container {
     display: flex;
     justify-content: center;
@@ -108,9 +100,7 @@ p {
     margin-top: 1rem;
 }
 
-/* ======================
-   AMAZON HOME
-====================== */
+/* AMAZON HOME */
 .amazon-container {
     display: flex;
     flex-direction: column;
@@ -255,7 +245,8 @@ p {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
-    width: 100%; /* ocupa todo el ancho disponible */
+    width: 100%;
+    padding: 0 20px;
     box-sizing: border-box;
 }
 
@@ -267,11 +258,13 @@ p {
     text-align: center;
     display: flex;
     flex-direction: column;
+    min-width: 220px;
 }
 
 .product-card-amz img {
     width: 100%;
     max-width: 100%;
+    max-height: 200px;
     height: auto;
     border-radius: 10px;
     object-fit: cover;
@@ -293,9 +286,7 @@ p {
     margin-top: auto;
 }
 
-/* ======================
-   RESPONSIVE
-====================== */
+/* RESPONSIVE */
 @media (max-width: 768px) {
     .amazon-body {
         flex-direction: column;
@@ -312,8 +303,9 @@ p {
     }
 
     .amazon-grid {
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0 5px;
     }
 
     .amazon-header {
@@ -326,20 +318,49 @@ p {
         width: 100%;
     }
 }
+@media (min-width: 601px) {
+    .amazon-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 0 10px;
+    }
+}
 
-/* añadidos para AdminUsers */
+@media (min-width: 901px) {
+    .amazon-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        padding: 0 15px;
+    }
+}
+
+@media (min-width: 1201px) {
+    .amazon-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 20px;
+        padding: 0 20px;
+    }
+}
+
+/* AdminUsers */
 .admin-panel {
     background: white;
     padding: 1.25rem;
     border-radius: 8px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
     margin: 20px;
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh
 }
 
 .admin-panel table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    display: block;
+    max-height: 60vh;
+    overflow-y: auto;
 }
 
 .admin-panel th, .admin-panel td {
@@ -347,12 +368,21 @@ p {
     border-bottom: 1px solid #eee;
     text-align: left;
     vertical-align: middle;
+    display: table-cell;
+}
+
+.admin-panel thead, .admin-panel tbody {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
 }
 
 .admin-panel input[type="text"], .admin-panel input[type="search"], .admin-panel input {
     padding: 6px 8px;
     border-radius: 6px;
     border: 1px solid #ccc;
+    margin-right: 8px;
+    margin-bottom: 8px;
 }
 
 .admin-panel button {
@@ -362,6 +392,8 @@ p {
     background: #4f46e5;
     color: white;
     cursor: pointer;
+    margin-right: 8px;
+    margin-bottom: 8px;
 }
 
 .admin-panel button[disabled] {
