@@ -12,30 +12,32 @@ var postgres = builder.AddPostgres("postgres")
     .WithLifetime(ContainerLifetime.Persistent);
 
 var cositasdb = postgres.AddDatabase("cositas");
-
-var postgres2 = builder.AddPostgres("postgres2")
-    .WithDataVolume(isReadOnly: false)
-    .WithLifetime(ContainerLifetime.Persistent);
-
-var productosdb = postgres2.AddDatabase("productos");
-
-//redis - Distributed cache for rate limiting, sessions, and caching 
+var productosdb = postgres.AddDatabase("productos");
+ 
 var redis = builder.AddRedis("cache")
     .WithDataVolume("tiendagod-redis-data")
     .WithHostPort(6379)
     .WithLifetime(ContainerLifetime.Persistent);
 
+var rabbitmq = builder.AddRabbitMQ("messaging")
+    .WithDataVolume("orderflow-rabbitmq-data")
+    .WithManagementPlugin()
+    .WithLifetime(ContainerLifetime.Persistent);
+
 // ============================================
 // MICROSERVICIOS
-// API IDENTITY(BACKEND)
 // ============================================
 var identityApi = builder.AddProject<Projects.TiendaGod_Identity>("tiendagod-identity")
     .WaitFor(postgres)
-    .WithReference(cositasdb);
+    .WithReference(rabbitmq)
+    .WithReference(cositasdb)
+    .WaitFor(rabbitmq);
 
 var productApi = builder.AddProject<Projects.TiendaGod_Productos>("tiendagod-productos")
-    .WaitFor(postgres2)
-    .WithReference(productosdb);
+    .WaitFor(postgres)
+    .WithReference(rabbitmq)
+    .WithReference(productosdb)
+    .WaitFor(rabbitmq);
 
 // ============================================
 // API GATEWAY

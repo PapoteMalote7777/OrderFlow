@@ -24,11 +24,12 @@ namespace TiendaGod.Identity.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> UpdateUsername([FromBody] UpdateUsernameModel model)
         {
-            if (string.IsNullOrWhiteSpace(model.NewName))
-                return BadRequest(new { message = "El nombre no puede estar vacío" });
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             var user = await GetUserFromClaims();
-            if (user == null) return NotFound(new { message = "Usuario no encontrado" });
+            if (user == null)
+                return NotFound(new { message = "Usuario no encontrado" });
 
             if (user.UserName == model.NewName)
                 return Ok(new { message = "El nombre ya es el mismo" });
@@ -39,8 +40,9 @@ namespace TiendaGod.Identity.Controllers
 
             user.UserName = model.NewName;
             var result = await _userManager.UpdateAsync(user);
+
             if (!result.Succeeded)
-                return BadRequest(new { message = "No se pudo actualizar el nombre", errors = result.Errors.Select(e => e.Description) });
+                return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
 
             return Ok(new { message = "Nombre actualizado con éxito ✅" });
         }
@@ -50,11 +52,12 @@ namespace TiendaGod.Identity.Controllers
         public async Task<IActionResult> DeleteAccount()
         {
             var user = await GetUserFromClaims();
-            if (user == null) return NotFound(new { message = "Usuario no encontrado" });
+            if (user == null)
+                return NotFound(new { message = "Usuario no encontrado" });
 
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
-                return BadRequest(new { message = "Error al eliminar la cuenta", errors = result.Errors.Select(e => e.Description) });
+                return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
 
             return Ok(new { message = "Cuenta eliminada correctamente ✅" });
         }
@@ -75,20 +78,22 @@ namespace TiendaGod.Identity.Controllers
         [HttpPut("update-user/{userName}")]
         public async Task<IActionResult> UpdateUserNameByAdmin(string userName, [FromBody] AdminUpdateUsernameModel model)
         {
-            if (string.IsNullOrWhiteSpace(model.NewName))
-                return BadRequest(new { message = "El nombre no puede estar vacío" });
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             var user = await _userManager.FindByNameAsync(userName);
-            if (user == null) return NotFound(new { message = "Usuario no encontrado" });
+            if (user == null)
+                return NotFound(new { message = "Usuario no encontrado" });
 
             var existing = await _userManager.FindByNameAsync(model.NewName);
             if (existing != null && existing.Id != user.Id)
                 return BadRequest(new { message = "El nombre ya está en uso" });
 
             user.UserName = model.NewName;
+
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
-                return BadRequest(new { message = "No se pudo actualizar el nombre", errors = result.Errors.Select(e => e.Description) });
+                return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
 
             return Ok(new { message = "Nombre actualizado con éxito ✅" });
         }
@@ -98,11 +103,12 @@ namespace TiendaGod.Identity.Controllers
         public async Task<IActionResult> DeleteUserByAdmin(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
-            if (user == null) return NotFound(new { message = "Usuario no encontrado" });
+            if (user == null)
+                return NotFound(new { message = "Usuario no encontrado" });
 
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
-                return BadRequest(new { message = "Error al eliminar la cuenta", errors = result.Errors.Select(e => e.Description) });
+                return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
 
             return Ok(new { message = "Cuenta eliminada correctamente ✅" });
         }

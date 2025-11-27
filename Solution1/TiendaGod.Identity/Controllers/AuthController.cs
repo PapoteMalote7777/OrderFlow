@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -6,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
+using TiendaGod.Shared.Events;
 
 namespace TiendaGod.Identity.Controllers
 {
@@ -16,24 +18,24 @@ namespace TiendaGod.Identity.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _configuration;
+        private readonly IPublishEndpoint _publishEndpoint;
 
         public AuthController(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IPublishEndpoint publishEndpoint)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _publishEndpoint = publishEndpoint;
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            if (!ValidatePassword(model.Password))
-                return BadRequest("La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número");
 
             var userExistsByName = await _userManager.FindByNameAsync(model.Name);
             if (userExistsByName != null)
@@ -54,18 +56,27 @@ namespace TiendaGod.Identity.Controllers
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
+            await _publishEndpoint.Publish(new UserRegisteredEvent(
+                UserId: user.Id, 
+                UserName: user.UserName, 
+                Email: user.Email
+                ));
+
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
             await _userManager.AddToRoleAsync(user, "User");
 
             return Ok("Usuario registrado correctamente ✅");
         }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            if (string.IsNullOrWhiteSpace(model.Name) || string.IsNullOrWhiteSpace(model.Password))
-                return BadRequest("Todos los campos son obligatorios");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             var user = await _userManager.FindByNameAsync(model.Name);
-
             if (user == null)
                 return Unauthorized("Usuario o contraseña incorrectos");
 
@@ -75,6 +86,7 @@ namespace TiendaGod.Identity.Controllers
                 return Unauthorized("Usuario o contraseña incorrectos");
 
             var token = await GenerateJwtToken(user);
+
             return Ok(new { token });
         }
         private async Task<string> GenerateJwtToken(IdentityUser user)
@@ -106,11 +118,6 @@ namespace TiendaGod.Identity.Controllers
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-        private bool ValidatePassword(string password)
-        {
-            var regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$");
-            return regex.IsMatch(password);
         }
     }
 

@@ -13,6 +13,8 @@
     <PackageReference Include="Asp.Versioning.Mvc" />
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.AspNetCore" />
+    <PackageReference Include="MassTransit.RabbitMQ" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
@@ -34,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TiendaGod.ServiceDefault\TiendaGod.ServiceDefault.csproj" />
+    <ProjectReference Include="..\TiendaGod.Shared\TiendaGod.Shared.csproj" />
   </ItemGroup>
 
 </Project>

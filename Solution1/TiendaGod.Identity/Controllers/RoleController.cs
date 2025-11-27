@@ -22,8 +22,12 @@ namespace TiendaGod.Identity.Controllers
         [HttpPost("assign")]
         public async Task<IActionResult> AssignRole([FromBody] AssignRoleModel model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var user = await _userManager.FindByNameAsync(model.UserName);
-            if (user == null) return NotFound(new { message = "Usuario no encontrado" });
+            if (user == null)
+                return NotFound(new { message = "Usuario no encontrado" });
 
             if (!await _roleManager.RoleExistsAsync(model.Role))
                 return BadRequest(new { message = "Rol inválido" });
@@ -31,7 +35,8 @@ namespace TiendaGod.Identity.Controllers
             if (!await _userManager.IsInRoleAsync(user, model.Role))
             {
                 var res = await _userManager.AddToRoleAsync(user, model.Role);
-                if (!res.Succeeded) return BadRequest(res.Errors);
+                if (!res.Succeeded)
+                    return BadRequest(res.Errors);
             }
 
             return Ok(new { message = "Rol asignado" });
@@ -41,8 +46,12 @@ namespace TiendaGod.Identity.Controllers
         [HttpPost("remove")]
         public async Task<IActionResult> RemoveRole([FromBody] AssignRoleModel model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var user = await _userManager.FindByNameAsync(model.UserName);
-            if (user == null) return NotFound(new { message = "Usuario no encontrado" });
+            if (user == null)
+                return NotFound(new { message = "Usuario no encontrado" });
 
             if (!await _roleManager.RoleExistsAsync(model.Role))
                 return BadRequest(new { message = "Rol inválido" });
@@ -50,7 +59,8 @@ namespace TiendaGod.Identity.Controllers
             if (await _userManager.IsInRoleAsync(user, model.Role))
             {
                 var res = await _userManager.RemoveFromRoleAsync(user, model.Role);
-                if (!res.Succeeded) return BadRequest(res.Errors);
+                if (!res.Succeeded)
+                    return BadRequest(res.Errors);
             }
 
             return Ok(new { message = "Rol removido" });
@@ -68,8 +78,8 @@ namespace TiendaGod.Identity.Controllers
                 var roles = await _userManager.GetRolesAsync(u);
                 result.Add(new UserWithRolesDto
                 {
-                    UserName = u.UserName ?? string.Empty,
-                    Email = u.Email ?? string.Empty,
+                    UserName = u.UserName ?? "",
+                    Email = u.Email ?? "",
                     Roles = roles.ToList()
                 });
             }
