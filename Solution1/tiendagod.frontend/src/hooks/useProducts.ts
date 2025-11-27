@@ -29,8 +29,6 @@ export function useProducts() {
             setIsLoading(false);
         }
     };
-
-    // Cargar productos automáticamente al montar
     useEffect(() => {
         loadProducts();
     }, []);

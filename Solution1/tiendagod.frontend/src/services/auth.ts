@@ -77,9 +77,7 @@ export async function deleteAccount() {
 }
 
 function base64UrlDecode(input: string): string {
-    // atob espera base64 normal; JWT usa base64url
     input = input.replace(/-/g, "+").replace(/_/g, "/");
-    // padding
     const pad = input.length % 4;
     if (pad === 2) input += "==";
     else if (pad === 3) input += "=";
@@ -110,30 +108,24 @@ export function getRolesFromToken(): string[] {
     if (!payload) return [];
 
     const roles: string[] = [];
-
-    // Claims comunes donde pueden venir los roles
     const roleKeys = [
         "role",
         "roles",
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-        "roles" // por si acaso
+        "roles"
     ];
-
     for (const key of roleKeys) {
         const v = payload[key];
         if (!v) continue;
         if (Array.isArray(v)) roles.push(...v.map(String));
         else roles.push(String(v));
     }
-
-    // Normalizar, eliminar duplicados y espacios
     return Array.from(new Set(roles.map(r => r.trim()).filter(Boolean)));
 }
 
 export function isAdmin(): boolean {
     return getRolesFromToken().some(r => r.toLowerCase() === "admin");
 }
-
 export async function getAllUsers() {
     const token = getToken();
     const res = await fetch(`${API_URL}/api/roles/list`, {
@@ -189,7 +181,6 @@ export async function removeRole(userName: string, role: string) {
     return res.json();
 }
 
-// EDITAR usuario como Admin (nuevo)
 export async function adminUpdateUsername(userName: string, newName: string) {
     const token = getToken();
     const res = await fetch(`${API_URL}/api/user/update-user/${encodeURIComponent(userName)}`, {
@@ -212,7 +203,6 @@ export async function adminUpdateUsername(userName: string, newName: string) {
     }
 }
 
-// BORRAR usuario como Admin (nuevo)
 export async function adminDeleteUser(userName: string) {
     const token = getToken();
     const res = await fetch(`${API_URL}/api/user/delete-user/${encodeURIComponent(userName)}`, {

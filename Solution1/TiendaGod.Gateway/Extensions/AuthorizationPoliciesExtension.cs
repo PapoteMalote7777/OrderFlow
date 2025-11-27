@@ -7,27 +7,21 @@
         {
             services.AddAuthorization(options =>
             {
-                // Requires valid JWT token
                 options.AddPolicy("authenticated", policy =>
                     policy.RequireAuthenticatedUser());
 
-                // NOTE: "anonymous" is YARP built-in - don't define it here
-
-                // Admin role required
                 options.AddPolicy("admin", policy =>
                 {
                     policy.RequireAuthenticatedUser();
                     policy.RequireRole("Admin");
                 });
 
-                // User role required
                 options.AddPolicy("user", policy =>
                 {
                     policy.RequireAuthenticatedUser();
                     policy.RequireRole("User");
                 });
 
-                // Let YARP handle route-level authorization
                 options.FallbackPolicy = null;
             });
 

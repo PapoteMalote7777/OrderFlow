@@ -20,7 +20,6 @@ namespace TiendaGod.Identity.Controllers
             _userManager = userManager;
         }
 
-        // 🔹 ACTUALIZAR NOMBRE (usuario autenticado)
         [Authorize]
         [HttpPut("update")]
         public async Task<IActionResult> UpdateUsername([FromBody] UpdateUsernameModel model)
@@ -46,7 +45,6 @@ namespace TiendaGod.Identity.Controllers
             return Ok(new { message = "Nombre actualizado con éxito ✅" });
         }
 
-        // 🔹 ELIMINAR CUENTA (usuario autenticado)
         [Authorize]
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteAccount()
@@ -73,11 +71,6 @@ namespace TiendaGod.Identity.Controllers
             return null;
         }
 
-        // =========================
-        // Operaciones administrativas (moved from RolesController)
-        // =========================
-
-        // Editar username de cualquier usuario (solo Admin)
         [Authorize(Roles = "Admin")]
         [HttpPut("update-user/{userName}")]
         public async Task<IActionResult> UpdateUserNameByAdmin(string userName, [FromBody] AdminUpdateUsernameModel model)
@@ -100,7 +93,6 @@ namespace TiendaGod.Identity.Controllers
             return Ok(new { message = "Nombre actualizado con éxito ✅" });
         }
 
-        // Borrar usuario por username (solo Admin)
         [Authorize(Roles = "Admin")]
         [HttpDelete("delete-user/{userName}")]
         public async Task<IActionResult> DeleteUserByAdmin(string userName)
@@ -116,7 +108,6 @@ namespace TiendaGod.Identity.Controllers
         }
     }
 
-    // Modelos localizados al controlador
     public record UpdateUsernameModel(string NewName);
     public record AdminUpdateUsernameModel(string NewName);
 }

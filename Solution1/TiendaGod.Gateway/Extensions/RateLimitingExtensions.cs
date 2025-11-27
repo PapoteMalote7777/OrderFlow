@@ -45,7 +45,6 @@ namespace TiendaGod.Gateway.Extensions
                     }, cancellationToken);
                 };
 
-                // Strict policy for auth endpoints (5 req/min)
                 options.AddPolicy("auth-strict", context =>
                 {
                     var ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
@@ -61,7 +60,6 @@ namespace TiendaGod.Gateway.Extensions
                         });
                 });
 
-                // Authenticated users (100 req/min)
                 options.AddPolicy("authenticated", context =>
                 {
                     var userId = context.User.Identity?.Name ?? "unknown";
@@ -77,7 +75,6 @@ namespace TiendaGod.Gateway.Extensions
                         });
                 });
 
-                // Public endpoints (30 req/min)
                 options.AddPolicy("public", context =>
                 {
                     var ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";

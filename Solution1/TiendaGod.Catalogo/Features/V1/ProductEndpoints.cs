@@ -13,7 +13,6 @@ namespace TiendaGod.Productos.Features.V1
                            .WithTags("Products v1")
                            .WithOpenApi();
 
-            // Registrar endpoints
             group.MapGetProducts();
             group.MapGetProductById();
             group.MapCreateProduct();

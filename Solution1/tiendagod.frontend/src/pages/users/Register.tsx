@@ -6,7 +6,6 @@ interface RegisterProps {
     onSwitchToLogin?: () => void;
     onRegisterSuccess?: () => void;
 }
-
 export default function Register({ onSwitchToLogin, onRegisterSuccess }: RegisterProps) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -37,8 +36,6 @@ export default function Register({ onSwitchToLogin, onRegisterSuccess }: Registe
         try {
             const result = await register(name, email, password);
             setMessage(result);
-
-            // Redirigir automáticamente a login
             if (onRegisterSuccess) onRegisterSuccess();
 
         } catch (error: any) {

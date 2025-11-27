@@ -19,20 +19,16 @@ export default function Login({ onSwitchToRegister, onLoginSuccess }: LoginProps
             setMessage("Por favor completa todos los campos");
             return;
         }
-
         try {
             const token = await login(name, password);
             localStorage.setItem("token", token);
             setMessage("Inicio de sesión exitoso ✅");
-
-            // Redirigir a Home usando el callback
             if (onLoginSuccess) onLoginSuccess(name);
 
         } catch (error: any) {
             setMessage(error.message);
         }
     };
-
     return (
         <>
             <h1>Iniciar sesión</h1>

@@ -11,9 +11,7 @@ using TiendaGod.Productos.Validators;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
-
 builder.AddNpgsqlDbContext<ProductDbContext>("productos");
-
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(options =>
 {
@@ -21,23 +19,17 @@ builder.Services.AddApiVersioning(options =>
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.ReportApiVersions = true;
 });
-
 builder.Services.AddVersionedApiExplorer(options =>
 {
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
 });
-
-
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureOptions<SwaggerOptionsConfig>();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<ProductCreateValidator>();
-
 var app = builder.Build();
-
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
@@ -54,7 +46,6 @@ if (app.Environment.IsDevelopment())
             );
     });
 }
-
 app.UseHttpsRedirection();
 app.MapProductEndpointsV1();
 app.MapControllers();

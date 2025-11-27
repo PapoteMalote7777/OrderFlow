@@ -18,7 +18,6 @@ namespace TiendaGod.Identity.Controllers
             _roleManager = roleManager;
         }
 
-        // Solo Admin puede asignar roles
         [Authorize(Roles = "Admin")]
         [HttpPost("assign")]
         public async Task<IActionResult> AssignRole([FromBody] AssignRoleModel model)
@@ -38,7 +37,6 @@ namespace TiendaGod.Identity.Controllers
             return Ok(new { message = "Rol asignado" });
         }
 
-        // Solo Admin puede quitar roles
         [Authorize(Roles = "Admin")]
         [HttpPost("remove")]
         public async Task<IActionResult> RemoveRole([FromBody] AssignRoleModel model)
@@ -58,7 +56,6 @@ namespace TiendaGod.Identity.Controllers
             return Ok(new { message = "Rol removido" });
         }
 
-        // Solo Admin puede listar usuarios con sus roles
         [Authorize(Roles = "Admin")]
         [HttpGet("list")]
         public async Task<IActionResult> ListUsers()

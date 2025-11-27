@@ -11,21 +11,16 @@ using TiendaGod.Identity.Data;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddUserSecrets<Program>();
 
-// SERVICIOS POR DEFECTO
 builder.AddServiceDefaults();
 
-// CONEXION BASE DE DATOS
 builder.AddNpgsqlDbContext<ApplicationDbContext>("cositas");
 
-// IDENTITY
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-// AUTHZ (añadir explícitamente)
 builder.Services.AddAuthorization();
 
-// JWT
 var jwtKey = builder.Configuration["Jwt:Key"];
 var jwtIssuer = builder.Configuration["Jwt:Issuer"];
 
@@ -36,7 +31,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.SaveToken = true; // útil para depuración
+    options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -46,12 +41,11 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = jwtIssuer,
         ValidAudience = jwtIssuer,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
-        NameClaimType = ClaimTypes.NameIdentifier, // clave: mapear el claim de id
+        NameClaimType = ClaimTypes.NameIdentifier,
         RoleClaimType = ClaimTypes.Role
     };
 });
 
-// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -62,11 +56,10 @@ builder.Services.AddCors(options =>
     });
 });
 
-// CONTROLLERS Y SWAGGER
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 
-// Configurar Swagger para JWT y para que muestre el candado en endpoints con [Authorize]
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "TiendaGod.Identity", Version = "v1" });
@@ -81,7 +74,6 @@ builder.Services.AddSwaggerGen(c =>
         BearerFormat = "JWT"
     });
 
-    // Agrega el requisito de seguridad (para que aparezca el botón Authorize en Swagger UI)
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -97,7 +89,6 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// AUTO MIGRACION DE BASE DE DATOS EN EL INICIO
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
@@ -115,7 +106,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Seed roles y admin al iniciar (usa scope)
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -128,13 +118,11 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 
-// CORS ANTES DE AUTHENTICATION/AUTHORIZATION
 app.UseCors("AllowFrontend");
 
-// AUTHENTICATION Y AUTHORIZATION
 app.UseAuthentication();
+
 app.UseAuthorization();
 
-// MAPEAR CONTROLADORES
 app.MapControllers();
 app.Run();

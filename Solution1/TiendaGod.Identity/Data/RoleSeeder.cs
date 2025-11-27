@@ -8,7 +8,6 @@ namespace TiendaGod.Identity.Data
 {
     public static class RoleSeeder
     {
-        // Valores por defecto solicitados
         private const string DefaultAdminUserName = "Admin";
         private const string DefaultAdminEmail = "admin@gmail.com";
         private const string DefaultAdminPassword = "Adm1n!strad0rFach3r0";
@@ -29,12 +28,9 @@ namespace TiendaGod.Identity.Data
                 }
             }
 
-            // Leer de configuración (user secrets / appsettings)
             var adminUserName = config["Seed:AdminUserName"]?.Trim();
             var adminEmail = config["Seed:AdminEmail"]?.Trim();
             var adminPassword = config["Seed:AdminPassword"];
-
-            // Si faltan en la configuración, usar los valores por defecto solicitados
             var useDefaults = string.IsNullOrWhiteSpace(adminUserName) || string.IsNullOrWhiteSpace(adminPassword);
             if (useDefaults)
             {
@@ -44,7 +40,6 @@ namespace TiendaGod.Identity.Data
                 adminPassword ??= DefaultAdminPassword;
             }
 
-            // Buscar por username primero, luego por email
             IdentityUser admin = await userManager.FindByNameAsync(adminUserName);
             if (admin == null && !string.IsNullOrEmpty(adminEmail))
             {
@@ -71,7 +66,6 @@ namespace TiendaGod.Identity.Data
             }
             else
             {
-                // Actualizar username/email si difieren
                 var needUpdate = false;
                 if (admin.UserName != adminUserName)
                 {
@@ -105,7 +99,6 @@ namespace TiendaGod.Identity.Data
                     }
                 }
 
-                // Asegurar contraseña: si no tiene, añadir; si falla, intentar reset
                 var hasPassword = await userManager.HasPasswordAsync(admin);
                 if (!hasPassword)
                 {
@@ -130,7 +123,6 @@ namespace TiendaGod.Identity.Data
                 }
             }
 
-            // Asegurar rol Admin
             if (!await userManager.IsInRoleAsync(admin, "Admin"))
             {
                 var addRoleResult = await userManager.AddToRoleAsync(admin, "Admin");
@@ -144,7 +136,6 @@ namespace TiendaGod.Identity.Data
                 }
             }
 
-            // Informar al final qué credenciales se usaron (NO imprimir contraseña en entornos reales; aquí sólo para desarrollo local)
             Console.WriteLine($"RoleSeeder: Admin final -> UserName='{admin.UserName}', Email='{admin.Email}'");
         }
     }

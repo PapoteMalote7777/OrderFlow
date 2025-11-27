@@ -40,8 +40,6 @@ var productApi = builder.AddProject<Projects.TiendaGod_Productos>("tiendagod-pro
 // ============================================
 // API GATEWAY
 // ============================================
-// API Gateway acts as the single entry point for all client requests
-// It handles authentication, authorization, rate limiting, and routes to microservices
 var apiGateway = builder.AddProject<Projects.TiendaGod_Gateway>("tiendagod-gateway")
     .WithReference(redis)
     .WithReference(identityApi)
@@ -52,7 +50,7 @@ var apiGateway = builder.AddProject<Projects.TiendaGod_Gateway>("tiendagod-gatew
 // ============================================
 // REACT - FRONTEND
 // ============================================
-var webApp = builder.AddNpmApp("TiendaGodFrontend", "../TiendaGod.Frontend", "dev") // nombre y ruta de tu app React
+var webApp = builder.AddNpmApp("TiendaGodFrontend", "../TiendaGod.Frontend", "dev")
                     .WithReference(apiGateway)
                     .WithEnvironment("VITE_API_GATEWAY_URL", apiGateway.GetEndpoint("https"))
                     .WithHttpEndpoint(port: 59210, env: "PORT")

@@ -6,10 +6,7 @@
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            // Add service discovery for resolving service names
             services.AddServiceDiscovery();
-
-            // Configure YARP with service discovery
             services.AddReverseProxy()
                 .LoadFromConfig(configuration.GetSection("ReverseProxy"))
                 .AddServiceDiscoveryDestinationResolver();
