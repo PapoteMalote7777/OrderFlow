@@ -15,7 +15,7 @@ namespace TiendaGod.Productos.Features.V1
 
             group.MapGetProducts();
             group.MapGetProductById();
-            group.MapCreateProduct();
+            group.MapCreateProduct().RequireAuthorization();
             group.MapUpdateProduct();
             group.MapDeleteProduct();
 

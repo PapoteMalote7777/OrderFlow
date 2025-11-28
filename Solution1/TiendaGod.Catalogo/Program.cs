@@ -7,12 +7,45 @@ using Microsoft.EntityFrameworkCore;
 using TiendaGod.Productos.Data;
 using TiendaGod.Productos.Features.V1;
 using TiendaGod.Productos.Validators;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
 builder.AddNpgsqlDbContext<ProductDbContext>("productos");
+
+builder.Services.AddAuthorization();
+
+var jwtKey = builder.Configuration["Jwt:Key"];
+var jwtIssuer = builder.Configuration["Jwt:Issuer"];
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtIssuer,
+        ValidAudience = jwtIssuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+        NameClaimType = ClaimTypes.NameIdentifier,
+        RoleClaimType = ClaimTypes.Role
+    };
+});
+
 builder.Services.AddControllers();
+
 builder.Services.AddApiVersioning(options =>
 {
     options.DefaultApiVersion = new ApiVersion(1, 0);
@@ -29,7 +62,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureOptions<SwaggerOptionsConfig>();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<ProductCreateValidator>();
+
 var app = builder.Build();
+
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();

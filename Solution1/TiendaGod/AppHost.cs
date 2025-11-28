@@ -19,7 +19,7 @@ var redis = builder.AddRedis("cache")
     .WithHostPort(6379)
     .WithLifetime(ContainerLifetime.Persistent);
 
-var rabbitmq = builder.AddRabbitMQ("messaging")
+var rabbitmq = builder.AddRabbitMQ("rabbitmq")
     .WithDataVolume("orderflow-rabbitmq-data")
     .WithManagementPlugin()
     .WithLifetime(ContainerLifetime.Persistent);
