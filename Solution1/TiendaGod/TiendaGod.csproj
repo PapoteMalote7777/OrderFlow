@@ -32,6 +32,7 @@
     <ProjectReference Include="..\TiendaGod.Catalogo\TiendaGod.Productos.csproj" />
     <ProjectReference Include="..\TiendaGod.Gateway\TiendaGod.Gateway.csproj" />
     <ProjectReference Include="..\TiendaGod.Identity\TiendaGod.Identity.csproj" />
+    <ProjectReference Include="..\TiendaGod.Notifications\TiendaGod.Notifications.csproj" />
   </ItemGroup>
 
 </Project>

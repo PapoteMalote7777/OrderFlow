@@ -11,7 +11,7 @@ export function setToken(token: string | null) {
 }
 
 export async function register(name: string, email: string, password: string) {
-    const res = await fetch(`${API_URL}/auth/register`, {
+    const res = await fetch(`/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password })
@@ -26,7 +26,7 @@ export async function register(name: string, email: string, password: string) {
 }
 
 export async function login(name: string, password: string) {
-    const res = await fetch(`${API_URL}/auth/login`, {
+    const res = await fetch(`/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, password })
@@ -48,7 +48,7 @@ async function parseJsonSafe(res: Response) {
 
 export async function updateUsername(newName: string) {
     const token = getToken();
-    const res = await fetch(`${API_URL}/user/update`, {
+    const res = await fetch(`/api/user/update`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export async function updateUsername(newName: string) {
 
 export async function deleteAccount() {
     const token = getToken();
-    const res = await fetch(`${API_URL}/user/delete`, {
+    const res = await fetch(`/api/user/delete`, {
         method: "DELETE",
         headers: {
             ...(token ? { Authorization: `Bearer ${token}` } : {})
@@ -128,7 +128,7 @@ export function isAdmin(): boolean {
 }
 export async function getAllUsers() {
     const token = getToken();
-    const res = await fetch(`${API_URL}/roles/list`, {
+    const res = await fetch(`/api/roles/list`, {
         headers: {
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
             "Content-Type": "application/json"
@@ -145,7 +145,7 @@ export async function getAllUsers() {
 
 export async function assignRole(userName: string, role: string) {
     const token = getToken();
-    const res = await fetch(`${API_URL}/roles/assign`, {
+    const res = await fetch(`/api/roles/assign`, {
         method: "POST",
         headers: {
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -164,7 +164,7 @@ export async function assignRole(userName: string, role: string) {
 
 export async function removeRole(userName: string, role: string) {
     const token = getToken();
-    const res = await fetch(`${API_URL}/roles/remove`, {
+    const res = await fetch(`/api/roles/remove`, {
         method: "POST",
         headers: {
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -183,7 +183,7 @@ export async function removeRole(userName: string, role: string) {
 
 export async function adminUpdateUsername(userName: string, newName: string) {
     const token = getToken();
-    const res = await fetch(`${API_URL}/user/update-user/${encodeURIComponent(userName)}`, {
+    const res = await fetch(`/api/userAdmin/update-user/${encodeURIComponent(userName)}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -205,7 +205,7 @@ export async function adminUpdateUsername(userName: string, newName: string) {
 
 export async function adminDeleteUser(userName: string) {
     const token = getToken();
-    const res = await fetch(`${API_URL}/user/delete-user/${encodeURIComponent(userName)}`, {
+    const res = await fetch(`/api/userAdmin/delete-user/${encodeURIComponent(userName)}`, {
         method: "DELETE",
         headers: {
             ...(token ? { Authorization: `Bearer ${token}` } : {})

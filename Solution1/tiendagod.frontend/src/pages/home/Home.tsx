@@ -13,9 +13,10 @@ interface HomeProps {
     goToAdminProducts: () => void;
 }
 
-export default function Home({ onLogout, username, goToLogin, goToProfile, goToAdmin}: HomeProps) {
+export default function Home({ onLogout, username, goToLogin, goToProfile}: HomeProps) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [currentView, setCurrentView] = useState<"products" | "adminUsers" | "adminProducts">("products");
+    const goToAdminUsers = () => setCurrentView("adminUsers");
     const goToAdminProducts = () => setCurrentView("adminProducts");
     const handleLogout = () => {
         setMenuOpen(false);
@@ -59,7 +60,7 @@ export default function Home({ onLogout, username, goToLogin, goToProfile, goToA
                     <li>Pedidos</li>
                     {isAdmin() && (
                         <>
-                            <li onClick={() => { setMenuOpen(false); goToAdmin(); }}>Administrar usuarios</li>
+                            <li onClick={() => { setMenuOpen(false); goToAdminUsers(); }}>Administrar usuarios</li>
                             <li onClick={() => { setMenuOpen(false); goToAdminProducts(); }}>Administrar productos</li>
                         </>
                     )}

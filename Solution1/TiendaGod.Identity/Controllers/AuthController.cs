@@ -56,6 +56,7 @@ namespace TiendaGod.Identity.Controllers
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
+            //await _publishEndpoint.Publish(new UserCreatedEvent(user.Id, user.Email!));
             await _publishEndpoint.Publish(new UserRegisteredEvent(
                 UserId: user.Id, 
                 UserName: user.UserName, 

@@ -4,9 +4,9 @@ namespace TiendaGod.Productos.Features.V1
 {
     public static class DeleteProduct
     {
-        public static void MapDeleteProduct(this RouteGroupBuilder group)
+        public static RouteHandlerBuilder MapDeleteProduct(this RouteGroupBuilder group)
         {
-            group.MapDelete("/{id:int}", async (int id, ProductDbContext db) =>
+            return group.MapDelete("/{id:int}", async (int id, ProductDbContext db) =>
             {
                 var product = await db.Products.FindAsync(id);
                 if (product is null) return Results.NotFound();

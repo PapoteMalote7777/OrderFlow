@@ -14,6 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solucion", "Elementos de la solucion", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Packages.props = Directory.Packages.props
+		k6-load-test.js = k6-load-test.js
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaGod.Gateway", "TiendaGod.Gateway\TiendaGod.Gateway.csproj", "{ACDD0AAA-BFC0-71C8-D949-6C6027C0A8BA}"
@@ -21,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaGod.Productos", "TiendaGod.Catalogo\TiendaGod.Productos.csproj", "{D8EB0594-BF50-490E-D4EC-94DE6E45C7F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaGod.Shared", "TiendaGod.Shared\TiendaGod.Shared.csproj", "{E64EC403-28FF-4F11-AA33-BACB1871D66A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaGod.Notifications", "TiendaGod.Notifications\TiendaGod.Notifications.csproj", "{139F2F10-ACA8-DB7A-05BD-5B683E9C5E05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +61,10 @@ Global
 		{E64EC403-28FF-4F11-AA33-BACB1871D66A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E64EC403-28FF-4F11-AA33-BACB1871D66A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E64EC403-28FF-4F11-AA33-BACB1871D66A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{139F2F10-ACA8-DB7A-05BD-5B683E9C5E05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{139F2F10-ACA8-DB7A-05BD-5B683E9C5E05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{139F2F10-ACA8-DB7A-05BD-5B683E9C5E05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{139F2F10-ACA8-DB7A-05BD-5B683E9C5E05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

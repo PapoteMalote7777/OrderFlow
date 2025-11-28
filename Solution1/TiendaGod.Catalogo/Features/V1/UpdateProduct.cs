@@ -6,9 +6,9 @@ namespace TiendaGod.Productos.Features.V1
 {
     public static class UpdateProduct
     {
-        public static void MapUpdateProduct(this RouteGroupBuilder group)
+        public static RouteHandlerBuilder MapUpdateProduct(this RouteGroupBuilder group)
         {
-            group.MapPut("/{id:int}", async (int id, ProductUpdateDto dto, ProductDbContext db) =>
+            return group.MapPut("/{id:int}", async (int id, ProductUpdateDto dto, ProductDbContext db) =>
             {
                 var existing = await db.Products.FindAsync(id);
                 if (existing is null) return Results.NotFound();
@@ -24,7 +24,6 @@ namespace TiendaGod.Productos.Features.V1
             .WithName("UpdateProduct")
             .WithSummary("Actualiza un producto existente")
             .WithOpenApi();
-
         }
     }
 }
