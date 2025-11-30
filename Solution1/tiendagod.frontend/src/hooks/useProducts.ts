@@ -7,6 +7,7 @@ export interface Product {
     description?: string;
     brand?: string;
     imageUrl?: string;
+    categoryName?: string;
 }
 
 export function useProducts() {

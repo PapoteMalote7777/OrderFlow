@@ -1,16 +1,9 @@
 ﻿/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
-import { getAllProducts, createProduct, updateProduct, deleteProduct } from "../products/Products";
+import { getAllProducts, createProduct, updateProduct, deleteProduct } from "../../services/Products";
+import { getAllCategories } from "../../services/Category";
+import type { Category, Product } from "../../services/Types";
 import "../../App.css";
-
-export interface Product {
-    id: number;
-    name: string;
-    price: number;
-    description?: string;
-    brand?: string;
-    imageUrl?: string;
-}
 
 interface AdminProductsProps {
     onCancel?: () => void;
@@ -18,6 +11,7 @@ interface AdminProductsProps {
 
 export default function AdminProducts({ onCancel }: AdminProductsProps) {
     const [products, setProducts] = useState<Product[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -27,8 +21,10 @@ export default function AdminProducts({ onCancel }: AdminProductsProps) {
         setLoading(true);
         setError(null);
         try {
-            const data = await getAllProducts();
-            setProducts(data);
+            const productsData = await getAllProducts();
+            const categoriesData = await getAllCategories();
+            setProducts(productsData);
+            setCategories(categoriesData);
         } catch (e: any) {
             setError(e?.message || "Error al cargar productos");
         } finally {
@@ -113,6 +109,22 @@ export default function AdminProducts({ onCancel }: AdminProductsProps) {
                     value={newProduct.brand || ""}
                     onChange={(e) => setNewProduct({ ...newProduct, brand: e.target.value })}
                 />
+                <select
+                    value={newProduct.categoryId || ""}
+                    onChange={(e) =>
+                        setNewProduct({
+                            ...newProduct,
+                            categoryId: parseInt(e.target.value),
+                        })
+                    }
+                >
+                    <option value="">-- Selecciona categoría --</option>
+                    {categories.map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                            {cat.name}
+                        </option>
+                    ))}
+                </select>
                 <button onClick={handleCreate}>Crear</button>
             </div>
             <table>
@@ -123,6 +135,7 @@ export default function AdminProducts({ onCancel }: AdminProductsProps) {
                         <th>Descripción</th>
                         <th>Marca</th>
                         <th>Acciones</th>
+                        <th>Categoría</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -173,6 +186,28 @@ export default function AdminProducts({ onCancel }: AdminProductsProps) {
                                     />
                                 ) : (
                                     p.brand
+                                )}
+                            </td>
+                            <td>
+                                {editingProduct?.id === p.id ? (
+                                    <select
+                                        value={editingProduct.categoryId || ""}
+                                        onChange={(e) =>
+                                            setEditingProduct({
+                                                ...editingProduct!,
+                                                categoryId: parseInt(e.target.value),
+                                            })
+                                        }
+                                    >
+                                        <option value="">-- Selecciona categoría --</option>
+                                        {categories.map((cat) => (
+                                            <option key={cat.id} value={cat.id}>
+                                                {cat.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                ) : (
+                                    categories.find(c => c.id === p.categoryId)?.name || ""
                                 )}
                             </td>
                             <td>

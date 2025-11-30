@@ -20,6 +20,10 @@ namespace TiendaGod.Productos.Validators
 
             RuleFor(x => x.Brand)
                 .NotEmpty();
+
+            RuleFor(x => x.CategoryId)
+                .GreaterThan(0);
+
         }
     }
 }

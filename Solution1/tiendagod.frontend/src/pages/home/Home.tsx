@@ -3,6 +3,7 @@ import { isAdmin } from "../../services/auth";
 import ProductsList from "../products/ProductsList";
 import AdminUsers from "../admin/AdminUsers";
 import AdminProducts from "../admin/AdminProducts";
+import AdminCategories from "../admin/AdminCategories";
 
 interface HomeProps {
     onLogout: () => void;
@@ -11,13 +12,15 @@ interface HomeProps {
     goToProfile: () => void;
     goToAdmin: () => void;
     goToAdminProducts: () => void;
+    goToAdminCategories: () => void;
 }
 
 export default function Home({ onLogout, username, goToLogin, goToProfile}: HomeProps) {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [currentView, setCurrentView] = useState<"products" | "adminUsers" | "adminProducts">("products");
+    const [currentView, setCurrentView] = useState<"products" | "adminUsers" | "adminProducts" | "adminCategories">("products");
     const goToAdminUsers = () => setCurrentView("adminUsers");
     const goToAdminProducts = () => setCurrentView("adminProducts");
+    const goToAdminCategories = () => setCurrentView("adminCategories");
     const handleLogout = () => {
         setMenuOpen(false);
         onLogout();
@@ -62,6 +65,7 @@ export default function Home({ onLogout, username, goToLogin, goToProfile}: Home
                         <>
                             <li onClick={() => { setMenuOpen(false); goToAdminUsers(); }}>Administrar usuarios</li>
                             <li onClick={() => { setMenuOpen(false); goToAdminProducts(); }}>Administrar productos</li>
+                            <li onClick={() => { setMenuOpen(false); goToAdminCategories(); }}>Administrar categorías</li>
                         </>
                     )}
                     <li>Recomendados</li>
@@ -74,6 +78,7 @@ export default function Home({ onLogout, username, goToLogin, goToProfile}: Home
                     {currentView === "products" && <ProductsList />}
                     {currentView === "adminUsers" && <AdminUsers onCancel={() => setCurrentView("products")} />}
                     {currentView === "adminProducts" && <AdminProducts onCancel={() => setCurrentView("products")} />}
+                    {currentView === "adminCategories" && <AdminCategories onCancel={() => setCurrentView("products")} />}
                 </main>
             </div>
         </div>

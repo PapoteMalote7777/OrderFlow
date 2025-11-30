@@ -18,24 +18,21 @@ namespace TiendaGod.Productos.Controller
             _db = db;
         }
 
-        // GET /api/v1/products
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
-            var products = await _db.Products.ToListAsync();
+            var products = await _db.Products.Include(p => p.Category).ToListAsync();
             return Ok(products);
         }
 
-        // GET /api/v1/products/{id}
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetProductById(int id)
         {
-            var product = await _db.Products.FindAsync(id);
+            var product = await _db.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
             if (product == null) return NotFound();
             return Ok(product);
         }
 
-        // POST /api/v1/products
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] Product product)
         {
@@ -44,7 +41,6 @@ namespace TiendaGod.Productos.Controller
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id, version = "1.0" }, product);
         }
 
-        // PUT /api/v1/products/{id}
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] Product updated)
         {

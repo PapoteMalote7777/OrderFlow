@@ -10,8 +10,8 @@ namespace TiendaGod.Gateway.Extensions
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            var jwtSecret = configuration["Jwt:Secret"]
-                ?? throw new InvalidOperationException("Jwt:Secret not configured");
+            var jwtSecret = configuration["Jwt:Key"]
+                ?? throw new InvalidOperationException("Jwt:Key not configured");
 
             var jwtIssuer = configuration["Jwt:Issuer"]
                 ?? throw new InvalidOperationException("Jwt:Issuer not configured");

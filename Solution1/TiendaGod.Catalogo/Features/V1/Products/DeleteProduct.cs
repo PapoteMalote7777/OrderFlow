@@ -1,6 +1,6 @@
 ﻿using TiendaGod.Productos.Data;
 
-namespace TiendaGod.Productos.Features.V1
+namespace TiendaGod.Productos.Features.V1.Products
 {
     public static class DeleteProduct
     {

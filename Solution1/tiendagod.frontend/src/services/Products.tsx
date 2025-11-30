@@ -1,5 +1,6 @@
 ﻿/* eslint-disable @typescript-eslint/no-explicit-any */
-import { getToken } from "../../services/auth";
+import { getToken } from "./auth";
+
 export const getAllProducts = async () => {
     const res = await fetch("/api/v1/products");
     if (!res.ok) throw new Error("Error al cargar productos");

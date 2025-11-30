@@ -2,7 +2,7 @@
 using TiendaGod.Productos.DTO;
 using TiendaGod.Productos.Models;
 
-namespace TiendaGod.Productos.Features.V1
+namespace TiendaGod.Productos.Features.V1.Products
 {
     public static class UpdateProduct
     {
@@ -17,6 +17,7 @@ namespace TiendaGod.Productos.Features.V1
                 existing.Description = dto.Description;
                 existing.Price = dto.Price;
                 existing.Brand = dto.Brand;
+                existing.CategoryId = dto.CategoryId;
 
                 await db.SaveChangesAsync();
                 return Results.NoContent();

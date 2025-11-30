@@ -3,7 +3,7 @@ using TiendaGod.Productos.Data;
 using TiendaGod.Productos.DTO;
 using TiendaGod.Productos.Models;
 
-namespace TiendaGod.Productos.Features.V1
+namespace TiendaGod.Productos.Features.V1.Products
 {
     public static class CreateProduct
     {
@@ -16,7 +16,8 @@ namespace TiendaGod.Productos.Features.V1
                     Name = dto.Name,
                     Description = dto.Description,
                     Price = dto.Price,
-                    Brand = dto.Brand
+                    Brand = dto.Brand,
+                    CategoryId = dto.CategoryId
                 };
 
                 db.Products.Add(product);

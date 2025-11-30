@@ -1,16 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using TiendaGod.Productos.Data;
-using TiendaGod.Productos.Features.V1;
-using TiendaGod.Productos.Validators;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using System.Security.Claims;
+using System.Text;
+using TiendaGod.Productos.Data;
+using TiendaGod.Productos.DTO;
+using TiendaGod.Productos.Features.V1.Categories;
+using TiendaGod.Productos.Features.V1.Products;
+using TiendaGod.Productos.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +64,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureOptions<SwaggerOptionsConfig>();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<ProductCreateValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CategoryValidator>();
 
 var app = builder.Build();
 
@@ -81,7 +84,15 @@ if (app.Environment.IsDevelopment())
             );
     });
 }
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ProductDbContext>();
+    CategorySeeder.Seed(db);
+}
+
 app.UseHttpsRedirection();
 app.MapProductEndpointsV1();
+app.MapCategoryEndpointsV1();
 app.MapControllers();
 app.Run();

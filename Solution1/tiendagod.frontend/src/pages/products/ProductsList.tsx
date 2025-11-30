@@ -16,6 +16,7 @@ export default function ProductsList() {
                         alt={p.name}
                     />
                     <h4>{p.name}</h4>
+                    {p.categoryName && <p className="category">{p.categoryName}</p>}
                     <p className="price">{p.price.toFixed(2)} €</p>
                     <button className="buy-btn-amz">Comprar</button>
                 </div>

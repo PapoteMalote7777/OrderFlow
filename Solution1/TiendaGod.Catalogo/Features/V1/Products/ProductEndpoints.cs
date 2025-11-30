@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TiendaGod.Productos.Data;
 using TiendaGod.Productos.Models;
 
-namespace TiendaGod.Productos.Features.V1
+namespace TiendaGod.Productos.Features.V1.Products
 {
     public static class ProductEndpointsV1
     {
