@@ -13,7 +13,8 @@ var postgres = builder.AddPostgres("postgres")
 
 var cositasdb = postgres.AddDatabase("cositas");
 var productosdb = postgres.AddDatabase("productos");
- 
+var pedidosdb = postgres.AddDatabase("pedidos");
+
 var redis = builder.AddRedis("cache")
     .WithDataVolume("tiendagod-redis-data")
     .WithHostPort(6379)
@@ -39,6 +40,12 @@ var productApi = builder.AddProject<Projects.TiendaGod_Productos>("tiendagod-pro
     .WithReference(productosdb)
     .WaitFor(rabbitmq);
 
+var pedidoApi = builder.AddProject<Projects.TiendaGod_Pedidos>("tiendagod-pedidos")
+    .WaitFor(postgres)
+    .WithReference(rabbitmq)
+    .WithReference(pedidosdb)
+    .WaitFor(rabbitmq);
+
 // ============================================
 // API GATEWAY
 // ============================================
@@ -46,8 +53,10 @@ var apiGateway = builder.AddProject<Projects.TiendaGod_Gateway>("tiendagod-gatew
     .WithReference(redis)
     .WithReference(identityApi)
     .WithReference(productApi)
+    .WithReference(pedidoApi)
     .WaitFor(identityApi)
-    .WaitFor(productApi);
+    .WaitFor(productApi)
+    .WaitFor(pedidoApi);
 
 // ============================================
 // REACT - FRONTEND

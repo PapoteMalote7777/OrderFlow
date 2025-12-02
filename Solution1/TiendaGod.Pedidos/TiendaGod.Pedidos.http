@@ -1,0 +1,6 @@
+@TiendaGod.Pedidos_HostAddress = http://localhost:5185
+
+GET {{TiendaGod.Pedidos_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

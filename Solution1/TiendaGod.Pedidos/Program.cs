@@ -1,27 +1,16 @@
 ﻿using System.Security.Claims;
 using System.Text;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using TiendaGod.Identity.Data;
-using TiendaGod.Identity.Validators;
+using TiendaGod.Pedidos.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddUserSecrets<Program>();
 
 builder.AddServiceDefaults();
 
-builder.AddNpgsqlDbContext<ApplicationDbContext>("cositas");
-
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+builder.AddNpgsqlDbContext<PedidoDbContext>("pedidos");
 
 builder.Services.AddAuthorization();
 
@@ -35,7 +24,6 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -50,36 +38,8 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
-
 builder.Services.AddControllers();
-
-builder.Services.AddValidatorsFromAssemblyContaining<RegisterModelValidator>();
-builder.Services.AddFluentValidationAutoValidation();
-
 builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddMassTransit(config =>
-{
-    config.UsingRabbitMq((context, cfg) =>
-    {
-        var configuration = context.GetRequiredService<IConfiguration>();
-        var connectionString = configuration.GetConnectionString("rabbitmq");
-        if (!string.IsNullOrEmpty(connectionString))
-        {
-            cfg.Host(new Uri(connectionString));
-        }
-        cfg.ConfigureEndpoints(context);
-    });
-});
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -113,7 +73,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var context = scope.ServiceProvider.GetRequiredService<PedidoDbContext>();
     try
     {
         await context.Database.MigrateAsync();
@@ -127,18 +87,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-    var config = services.GetRequiredService<IConfiguration>();
-
-    await RoleSeeder.SeedRolesAndAdminAsync(roleManager, userManager, config);
-}
-
 app.UseHttpsRedirection();
-app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
