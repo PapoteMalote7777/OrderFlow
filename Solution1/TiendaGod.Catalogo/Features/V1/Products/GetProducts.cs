@@ -17,6 +17,8 @@ namespace TiendaGod.Productos.Features.V1.Products
                         Id = p.Id,
                         Name = p.Name,
                         Price = p.Price,
+                        Description = p.Description,
+                        Brand = p.Brand,
                         CategoryId = p.CategoryId,
                         CategoryName = p.Category.Name
                     })

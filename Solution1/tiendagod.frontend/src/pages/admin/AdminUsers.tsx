@@ -18,6 +18,7 @@ export default function AdminUsers({ onCancel }: AdminUsersProps) {
     const [users, setUsers] = useState<UserWithRoles[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
     const [isAdminState, setIsAdminState] = useState<boolean | null>(null);
     const [editingUser, setEditingUser] = useState<string | null>(null);
     const [editingName, setEditingName] = useState<string>("");
@@ -54,6 +55,11 @@ export default function AdminUsers({ onCancel }: AdminUsersProps) {
         })();
     }, []);
 
+    const showTemporaryMessage = (setMessage: React.Dispatch<React.SetStateAction<string | null>>, msg: string) => {
+        setMessage(msg);
+        setTimeout(() => setMessage(null), 10000);
+    };
+
     const toggleAdmin = async (user: UserWithRoles, checked: boolean) => {
         try {
             if (user.userName === currentUsername && !checked) {
@@ -64,6 +70,7 @@ export default function AdminUsers({ onCancel }: AdminUsersProps) {
             if (checked) await assignRole(user.userName, "Admin");
             else await removeRole(user.userName, "Admin");
             await load();
+            showTemporaryMessage(setSuccess, `Rol ${checked ? "asignado" : "removido"} correctamente a ${user.userName}`);
         } catch (e: any) {
             setError(e?.message || "Error al cambiar rol");
         }
@@ -73,6 +80,7 @@ export default function AdminUsers({ onCancel }: AdminUsersProps) {
         setEditingUser(u.userName);
         setEditingName(u.userName);
         setError(null);
+        setSuccess(null);
     };
 
     const cancelEdit = () => {
@@ -90,6 +98,7 @@ export default function AdminUsers({ onCancel }: AdminUsersProps) {
         try {
             await adminUpdateUsername(editingUser, trimmed);
             await load();
+            showTemporaryMessage(setSuccess, "Nombre de usuario actualizado correctamente");
             setEditingUser(null);
             setEditingName("");
         } catch (e: any) {
@@ -102,17 +111,15 @@ export default function AdminUsers({ onCancel }: AdminUsersProps) {
             setError("No puedes borrar tu propia cuenta desde aquí.");
             return;
         }
-        if (!window.confirm(`¿Eliminar la cuenta '${userName}'? Esta acción es irreversible.`)) return;
         try {
             await adminDeleteUser(userName);
             await load();
+            showTemporaryMessage(setSuccess, `Usuario '${userName}' eliminado correctamente`);
         } catch (e: any) {
             setError(e?.message || "Error al eliminar cuenta");
         }
     };
 
-    if (loading) return <div>Cargando usuarios...</div>;
-    if (error) return <div className="error">Error: {error}</div>;
     if (isAdminState === false) return null;
 
     return (
@@ -125,57 +132,63 @@ export default function AdminUsers({ onCancel }: AdminUsersProps) {
                     </button>
                 )}
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Usuario</th>
-                        <th>Email</th>
-                        <th>Admin</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map(u => (
-                        <tr key={u.userName}>
-                            <td style={{ minWidth: 220 }}>
-                                {editingUser === u.userName ? (
-                                    <input
-                                        value={editingName}
-                                        onChange={(e) => setEditingName(e.target.value)}
-                                    />
-                                ) : (
-                                    <strong>{u.userName}</strong>
-                                )}
-                            </td>
-                            <td>{u.email}</td>
-                            <td>
-                                <input
-                                    type="checkbox"
-                                    checked={u.roles.includes("Admin")}
-                                    disabled={u.userName === currentUsername}
-                                    onChange={(e) => toggleAdmin(u, e.target.checked)}
-                                />
-                            </td>
-                            <td>
-                                {editingUser === u.userName ? (
-                                    <>
-                                        <button onClick={saveEdit} style={{ marginRight: 8 }}>Guardar</button>
-                                        <button onClick={cancelEdit}>Cancelar</button>
-                                    </>
-                                ) : (
-                                    <>
-                                        <button onClick={() => startEdit(u)} style={{ marginRight: 8 }}>Editar</button>
-                                        <button onClick={() => handleDelete(u.userName)} disabled={u.userName === currentUsername}>Borrar</button>
-                                    </>
-                                )}
-                                <div style={{ marginTop: 6, fontSize: 12, color: "#666" }}>
-                                    {u.roles.join(", ")}
-                                </div>
-                            </td>
+            {error && <div className="error" style={{ marginBottom: 20 }}>{error}</div>}
+            {success && <div className="success" style={{ marginBottom: 20 }}>{success}</div>}
+            {loading ? (
+                <div>Cargando usuarios...</div>
+            ) : (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Email</th>
+                            <th>Admin</th>
+                            <th>Acciones</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {users.map(u => (
+                            <tr key={u.userName}>
+                                <td style={{ minWidth: 220 }}>
+                                    {editingUser === u.userName ? (
+                                        <input
+                                            value={editingName}
+                                            onChange={(e) => setEditingName(e.target.value)}
+                                        />
+                                    ) : (
+                                        <strong>{u.userName}</strong>
+                                    )}
+                                </td>
+                                <td>{u.email}</td>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        checked={u.roles.includes("Admin")}
+                                        disabled={u.userName === currentUsername}
+                                        onChange={(e) => toggleAdmin(u, e.target.checked)}
+                                    />
+                                </td>
+                                <td>
+                                    {editingUser === u.userName ? (
+                                        <>
+                                            <button onClick={saveEdit} style={{ marginRight: 8 }}>Guardar</button>
+                                            <button onClick={cancelEdit}>Cancelar</button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <button onClick={() => startEdit(u)} style={{ marginRight: 8 }}>Editar</button>
+                                            <button onClick={() => handleDelete(u.userName)} disabled={u.userName === currentUsername}>Borrar</button>
+                                        </>
+                                    )}
+                                    <div style={{ marginTop: 6, fontSize: 12, color: "#666" }}>
+                                        {u.roles.join(", ")}
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 }

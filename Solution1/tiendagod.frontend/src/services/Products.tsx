@@ -9,6 +9,7 @@ export const getAllProducts = async () => {
 
 export const createProduct = async (product: any) => {
     const token = getToken();
+    console.log("Token actual:", token);
     const res = await fetch("/api/v1/products", {
         method: "POST",
         headers: {
@@ -18,8 +19,15 @@ export const createProduct = async (product: any) => {
         body: JSON.stringify(product),
     });
     if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`Error al crear producto: ${text}`);
+        let errorMsg = "";
+        const contentType = res.headers.get("content-type") || "";
+        if (contentType.includes("application/json")) {
+            const data = await res.json();
+            errorMsg = data?.message || JSON.stringify(data);
+        } else {
+            errorMsg = await res.text();
+        }
+        throw new Error(`Error al crear producto: ${errorMsg || res.statusText}`);
     }
 };
 

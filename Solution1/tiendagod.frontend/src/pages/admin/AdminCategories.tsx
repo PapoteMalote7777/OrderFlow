@@ -8,12 +8,13 @@ interface AdminCategoriesProps {
 
 export default function AdminCategories({ onCancel }: AdminCategoriesProps) {
     const [categories, setCategories] = useState<Category[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
     const [newCategory, setNewCategory] = useState("");
 
     const loadCategories = async () => {
-        setIsLoading(true);
+        setLoading(true);
         setError(null);
         try {
             const data = await getAllCategories();
@@ -22,7 +23,7 @@ export default function AdminCategories({ onCancel }: AdminCategoriesProps) {
             console.error(e);
             setError(e?.message || "Error al cargar categorías");
         } finally {
-            setIsLoading(false);
+            setLoading(false);
         }
     };
 
@@ -30,65 +31,75 @@ export default function AdminCategories({ onCancel }: AdminCategoriesProps) {
         loadCategories();
     }, []);
 
+    const showTemporaryMessage = (setMessage: React.Dispatch<React.SetStateAction<string | null>>, msg: string) => {
+        setMessage(msg);
+        setTimeout(() => setMessage(null), 10000);
+    };
+
     const handleCreate = async () => {
-        if (!newCategory.trim()) return;
+        if (!newCategory.trim()) {
+            showTemporaryMessage(setError, "Faltan campos por rellenar.");
+            return;
+        }
         try {
             await createCategory({ name: newCategory });
             setNewCategory("");
             await loadCategories();
+            showTemporaryMessage(setSuccess, "Categoria creada correctamente.");
         } catch (e: any) {
-            alert(e?.message);
+            showTemporaryMessage(setError, e?.message || "Error al crear la categoria.");
         }
     };
 
     const handleDelete = async (id: number) => {
-        if (!window.confirm("¿Seguro que quieres eliminar esta categoría?")) return;
         try {
             await deleteCategory(id);
             await loadCategories();
+            showTemporaryMessage(setSuccess, "Categoria eliminada correctamente.");
         } catch (e: any) {
-            alert(e?.message);
+            showTemporaryMessage(setError, e?.message || "Error al borrar la categoria.");
         }
     };
-
-    if (isLoading) return <div>Cargando categorías...</div>;
-    if (error) return <div className="error">{error}</div>;
 
     return (
         <div className="admin-panel">
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-                <h2>Administración de categorías</h2>
+                <h2>Administracion de categorias</h2>
                 {onCancel && <button className="sidebar-toggle" onClick={onCancel}>Volver</button>}
             </div>
-
+            {error && <div className="error" style={{ marginBottom: 20 }}>{error}</div>}
+            {success && <div className="success" style={{ marginBottom: 20 }}>{success}</div>}
             <div style={{ marginBottom: 20 }}>
                 <input
                     type="text"
-                    placeholder="Nombre nueva categoría"
+                    placeholder="Nombre nueva categoria"
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
                 />
                 <button onClick={handleCreate}>Crear</button>
             </div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {categories.map((c) => (
-                        <tr key={c.id}>
-                            <td>{c.name}</td>
-                            <td>
-                                <button onClick={() => handleDelete(c.id!)}>Borrar</button>
-                            </td>
+            {loading ? (
+                <div>Cargando categorias...</div>
+            ) : (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Acciones</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {categories.map((c) => (
+                            <tr key={c.id}>
+                                <td>{c.name}</td>
+                                <td>
+                                    <button onClick={() => handleDelete(c.id!)}>Borrar</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 }

@@ -408,3 +408,17 @@ p {
     border-radius: 6px;
     margin: 10px 0;
 }
+.success {
+    color: #166534;
+    background: #d1fae5;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+.admin-panel select {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
