@@ -5,8 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using TiendaGod.Pedidos.Data;
+using TiendaGod.Pedidos.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddUserSecrets<Program>();
 
 builder.AddServiceDefaults();
 
@@ -40,7 +43,6 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "TiendaGod.Identity", Version = "v1" });
@@ -67,6 +69,13 @@ builder.Services.AddSwaggerGen(c =>
     });
 
 });
+
+builder.Services.AddHttpClient("TiendaGod-Productos", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7114");
+});
+
+builder.Services.AddScoped<ProductsHttpService>();
 
 var app = builder.Build();
 

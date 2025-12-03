@@ -43,13 +43,18 @@ export default function AdminProducts({ onCancel }: AdminProductsProps) {
     };
 
     const handleSave = async (product: Product) => {
-        if (!product.name?.trim() || !product.price || !product.description?.trim() || !product.brand?.trim() || !product.categoryId) {
+        if (!product.name?.trim() ||
+            !product.price ||
+            !product.description?.trim() ||
+            !product.brand?.trim() ||
+            product.stock === undefined ||
+            !product.categoryId) {
             showTemporaryMessage(setError, "No puede haber campos en blanco durante la edicion.");
             return;
         }
 
         try {
-            await updateProduct(product);
+            await updateProduct(editingProduct as Product);
             setEditingProduct(null);
             await loadProducts();
             showTemporaryMessage(setSuccess, "Producto actualizado correctamente.");
@@ -69,7 +74,12 @@ export default function AdminProducts({ onCancel }: AdminProductsProps) {
     };
 
     const handleCreate = async () => {
-        if (!newProduct.name?.trim() || !newProduct.price || !newProduct.description?.trim() || !newProduct.brand?.trim() || !newProduct.categoryId) {
+        if (!newProduct.name?.trim() ||
+            !newProduct.price ||
+            !newProduct.description?.trim() ||
+            !newProduct.brand?.trim() ||
+            newProduct.stock === undefined ||
+            !newProduct.categoryId) {
             showTemporaryMessage(setError, "Faltan campos por rellenar.");
             return;
         }
@@ -122,6 +132,17 @@ export default function AdminProducts({ onCancel }: AdminProductsProps) {
                     value={newProduct.brand || ""}
                     onChange={(e) => { setNewProduct({ ...newProduct, brand: e.target.value }); setError(null); setSuccess(null); }}
                 />
+                <input
+                    type="number"
+                    placeholder="Stock"
+                    value={newProduct.stock ?? ""}
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        setNewProduct({ ...newProduct, stock: val === "" ? undefined : parseInt(val, 10) });
+                        setError(null);
+                        setSuccess(null);
+                    }}
+                />
                 <select
                     value={newProduct.categoryId || ""}
                     onChange={(e) => { setNewProduct({ ...newProduct, categoryId: parseInt(e.target.value) }); setError(null); setSuccess(null); }}
@@ -141,6 +162,7 @@ export default function AdminProducts({ onCancel }: AdminProductsProps) {
                             <th>Precio</th>
                             <th>Descripción</th>
                             <th>Marca</th>
+                            <th>Stock</th>
                             <th>Acciones</th>
                             <th>Categoría</th>
                         </tr>
@@ -187,6 +209,20 @@ export default function AdminProducts({ onCancel }: AdminProductsProps) {
                                         />
                                     ) : (
                                         p.brand || ""
+                                    )}
+                                </td>
+                                <td>
+                                    {editingProduct?.id === p.id ? (
+                                        <input
+                                            type="number"
+                                            value={editingProduct.stock ?? 0}
+                                            onChange={(e) => {
+                                                const val = e.target.value;
+                                                setEditingProduct({ ...editingProduct, stock: val === "" ? undefined : parseInt(val, 10) });
+                                            }}
+                                        />
+                                    ) : (
+                                        p.stock ?? ""
                                     )}
                                 </td>
                                 <td>

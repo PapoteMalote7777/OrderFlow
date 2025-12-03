@@ -1,17 +1,8 @@
 ﻿import { useState, useEffect } from "react";
-
-export interface Product {
-    id: number;
-    name: string;
-    price: number;
-    description?: string;
-    brand?: string;
-    imageUrl?: string;
-    categoryName?: string;
-}
+import type { Product2 } from "../services/Types";
 
 export function useProducts() {
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<Product2[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -21,7 +12,7 @@ export function useProducts() {
         try {
             const res = await fetch("/api/v1/products");
             if (!res.ok) throw new Error("Error al cargar productos");
-            const data: Product[] = await res.json();
+            const data: Product2[] = await res.json();
             setProducts(data);
         } catch (err) {
             setError("No se pudieron cargar los productos");

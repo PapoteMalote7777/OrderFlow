@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using TiendaGod.Productos.Data;
+using TiendaGod.Pedidos.Data;
 
 #nullable disable
 
-namespace TiendaGod.Productos.Migrations
+namespace TiendaGod.Pedidos.Migrations
 {
-    [DbContext(typeof(ProductDbContext))]
-    partial class ProductDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PedidoDbContext))]
+    partial class PedidoDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace TiendaGod.Productos.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("TiendaGod.Productos.Models.Category", b =>
+            modelBuilder.Entity("TiendaGod.Pedidos.Models.Pedido", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -29,62 +29,56 @@ namespace TiendaGod.Productos.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("TiendaGod.Productos.Models.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Brand")
-                        .HasColumnType("text");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Price")
+                    b.HasKey("Id");
+
+                    b.ToTable("Pedidos");
+                });
+
+            modelBuilder.Entity("TiendaGod.Pedidos.Models.PedidoProducto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PedidoId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("PrecioUnitario")
                         .HasColumnType("numeric");
 
-                    b.Property<int>("stock")
+                    b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("PedidoId");
 
-                    b.ToTable("Products");
+                    b.ToTable("PedidoProducto");
                 });
 
-            modelBuilder.Entity("TiendaGod.Productos.Models.Product", b =>
+            modelBuilder.Entity("TiendaGod.Pedidos.Models.PedidoProducto", b =>
                 {
-                    b.HasOne("TiendaGod.Productos.Models.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("TiendaGod.Pedidos.Models.Pedido", "Pedido")
+                        .WithMany("PedidoProductos")
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
+                    b.Navigation("Pedido");
                 });
 
-            modelBuilder.Entity("TiendaGod.Productos.Models.Category", b =>
+            modelBuilder.Entity("TiendaGod.Pedidos.Models.Pedido", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("PedidoProductos");
                 });
 #pragma warning restore 612, 618
         }

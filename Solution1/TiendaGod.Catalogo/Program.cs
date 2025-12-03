@@ -17,6 +17,8 @@ using TiendaGod.Productos.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddUserSecrets<Program>();
+
 builder.AddServiceDefaults();
 
 builder.AddNpgsqlDbContext<ProductDbContext>("productos");

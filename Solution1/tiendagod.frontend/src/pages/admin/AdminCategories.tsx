@@ -1,3 +1,4 @@
+ï»¿/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
 import { getAllCategories, createCategory, deleteCategory } from "../../services/Category";
 import type { Category } from "../../services/Types";
@@ -21,7 +22,7 @@ export default function AdminCategories({ onCancel }: AdminCategoriesProps) {
             setCategories(data);
         } catch (e: any) {
             console.error(e);
-            setError(e?.message || "Error al cargar categorías");
+            setError(e?.message || "Error al cargar categorias");
         } finally {
             setLoading(false);
         }

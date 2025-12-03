@@ -1,6 +1,7 @@
 ﻿using TiendaGod.Gateway.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddUserSecrets<Program>();
 builder.AddServiceDefaults();
 builder.AddRedisClient("cache");
 builder.Services.AddGatewayCors();

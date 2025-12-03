@@ -9,7 +9,7 @@ export default function ProductsList() {
 
     return (
         <div className="amazon-grid">
-            {products.map((p) => (
+            {products.filter(p => p.stock > 0).map((p) => (
                 <div key={p.id} className="product-card-amz">
                     <img
                         src={p.imageUrl ?? `https://picsum.photos/300?random=${p.id}`}

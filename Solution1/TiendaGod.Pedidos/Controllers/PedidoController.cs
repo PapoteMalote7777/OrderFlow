@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using TiendaGod.Pedidos.Data;
 using TiendaGod.Pedidos.DTO;
 using TiendaGod.Pedidos.Models;
+using TiendaGod.Pedidos.Services;
 
 namespace TiendaGod.Pedidos.Controllers
 {
@@ -40,11 +41,29 @@ namespace TiendaGod.Pedidos.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreatePedidoRequest request)
+        public async Task<IActionResult> Create(
+            [FromBody] CreatePedidoRequest request,
+            [FromServices] ProductsHttpService productosService)
         {
             var userResp = await _httpClient.GetAsync($"https://api.tiendagod.identity/users/{request.UserId}");
             if (!userResp.IsSuccessStatusCode)
                 return NotFound($"Usuario {request.UserId} no encontrado.");
+
+            var productosValidados = new List<(int ProductId, decimal Precio, int Cantidad)>();
+
+            foreach (var item in request.Productos)
+            {
+                var producto = await productosService.GetProducto(item.ProductId);
+
+                if (producto == null)
+                    return NotFound($"Producto {item.ProductId} no encontrado.");
+
+                productosValidados.Add((
+                    item.ProductId,
+                    producto.Price,
+                    item.Cantidad
+                ));
+            }
 
             var pedido = new Pedido { UserId = request.UserId };
             _context.Pedidos.Add(pedido);
@@ -53,29 +72,26 @@ namespace TiendaGod.Pedidos.Controllers
             decimal totalPedido = 0;
             var pedidoProductos = new List<PedidoProducto>();
 
-            foreach (var item in request.Productos)
+            foreach (var item in productosValidados)
             {
-                var productResp = await _httpClient.GetAsync($"https://api.tiendagod.products/products/{item.ProductId}");
-                if (!productResp.IsSuccessStatusCode)
-                    return NotFound($"Producto {item.ProductId} no encontrado.");
-
-                var productData = await productResp.Content.ReadFromJsonAsync<ProductDto>();
-
-                decimal total = productData.Price * item.Cantidad;
+                decimal total = item.Precio * item.Cantidad;
                 totalPedido += total;
 
                 pedidoProductos.Add(new PedidoProducto
                 {
+                    PedidoId = pedido.Id,
                     ProductId = item.ProductId,
-                    PrecioUnitario = productData.Price,
-                    Cantidad = item.Cantidad,
-                    Pedido = pedido
+                    PrecioUnitario = item.Precio,
+                    Cantidad = item.Cantidad
                 });
             }
 
+            _context.PedidoProducto.AddRange(pedidoProductos);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new { id = pedido.Id }, new { pedido, productos = pedidoProductos });
+            return CreatedAtAction(nameof(GetById),
+                new { id = pedido.Id },
+                new { pedido, productos = pedidoProductos, total = totalPedido });
         }
     }
 }
