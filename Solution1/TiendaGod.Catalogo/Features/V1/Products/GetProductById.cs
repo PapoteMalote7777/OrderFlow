@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TiendaGod.Productos.Data;
+using TiendaGod.Productos.DTO;
 
 namespace TiendaGod.Productos.Features.V1.Products
 {
@@ -9,7 +10,22 @@ namespace TiendaGod.Productos.Features.V1.Products
         {
             group.MapGet("/{id:int}", async (int id, ProductDbContext db) =>
             {
-                var product = await db.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+                var product = await db.Products
+                    .Include(p => p.Category)
+                    .Where(p => p.Id == id)
+                    .Select(p => new ProductDTO
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Price = p.Price,
+                        Description = p.Description,
+                        Brand = p.Brand,
+                        Stock = p.Stock,
+                        CategoryId = p.CategoryId,
+                        CategoryName = p.Category!.Name
+                    })
+                    .FirstOrDefaultAsync();
+
                 return product is null ? Results.NotFound() : Results.Ok(product);
             })
             .WithName("GetProductById")

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 using TiendaGod.Pedidos.DTO;
 
 namespace TiendaGod.Pedidos.Services
@@ -12,9 +13,16 @@ namespace TiendaGod.Pedidos.Services
             _http = factory.CreateClient("TiendaGod-Productos");
         }
 
-        public async Task<ProductDto?> GetProducto(int productId)
+        public async Task<ProductDto?> GetProducto(int productId, string token)
         {
-            var response = await _http.GetAsync($"/api/v1/products/{productId}");
+            var request = new HttpRequestMessage(
+                HttpMethod.Get,
+                $"/api/v1/products/{productId}");
+
+            request.Headers.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _http.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
                 return null;
@@ -22,10 +30,16 @@ namespace TiendaGod.Pedidos.Services
             return await response.Content.ReadFromJsonAsync<ProductDto>();
         }
 
-        public async Task<bool> DescontarStock(int productId, int cantidad)
+        public async Task<bool> DescontarStock(int productId, int cantidad, string token)
         {
-            var response = await _http.PutAsync(
-                $"/api/v1/products/{productId}/stock/{cantidad}", null);
+            var request = new HttpRequestMessage(
+                HttpMethod.Put,
+                $"/api/v1/products/{productId}/stock/{cantidad}");
+
+            request.Headers.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _http.SendAsync(request);
 
             return response.IsSuccessStatusCode;
         }

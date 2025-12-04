@@ -18,7 +18,7 @@ namespace TiendaGod.Productos.Features.V1.Products
             group.MapCreateProduct().RequireAuthorization();
             group.MapUpdateProduct().RequireAuthorization();
             group.MapDeleteProduct().RequireAuthorization();
-
+            group.MapPutStock().RequireAuthorization();
             return group;
         }
     }

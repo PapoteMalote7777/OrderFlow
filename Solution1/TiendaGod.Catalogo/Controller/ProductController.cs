@@ -86,7 +86,6 @@ namespace TiendaGod.Productos.Controller
             return NoContent();
         }
 
-        // DELETE /api/v1/products/{id}
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {

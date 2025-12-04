@@ -26,7 +26,23 @@ namespace TiendaGod.Pedidos.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var pedidos = _context.Pedidos.ToList();
+            var pedidos = _context.Pedidos
+                .Include(p => p.PedidoProductos)
+                .ToList()
+                .Select(p => new PedidoDto
+                {
+                    Id = p.Id,
+                    UserId = p.UserId,
+                    Total = p.Total,
+                    Productos = p.PedidoProductos.Select(pp => new PedidoProductoDto
+                    {
+                        ProductId = pp.ProductId,
+                        NombreProducto = pp.NombreProducto,
+                        PrecioUnitario = pp.PrecioUnitario,
+                        Cantidad = pp.Cantidad
+                    }).ToList()
+                });
+
             return Ok(pedidos);
         }
 
@@ -34,9 +50,27 @@ namespace TiendaGod.Pedidos.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var pedido = _context.Pedidos.FirstOrDefault(p => p.Id == id);
+            var pedido = _context.Pedidos
+                .Include(p => p.PedidoProductos)
+                .FirstOrDefault(p => p.Id == id);
+
             if (pedido == null) return NotFound();
-            return Ok(pedido);
+
+            var pedidoDto = new PedidoDto
+            {
+                Id = pedido.Id,
+                UserId = pedido.UserId,
+                Total = pedido.Total,
+                Productos = pedido.PedidoProductos.Select(pp => new PedidoProductoDto
+                {
+                    ProductId = pp.ProductId,
+                    NombreProducto = pp.NombreProducto,
+                    PrecioUnitario = pp.PrecioUnitario,
+                    Cantidad = pp.Cantidad
+                }).ToList()
+            };
+
+            return Ok(pedidoDto);
         }
 
         [Authorize]
@@ -46,30 +80,29 @@ namespace TiendaGod.Pedidos.Controllers
         [FromServices] ProductsHttpService productosService,
         [FromServices] IdentityHttpService identityService)
         {
-            // ✅ 1. Validar Usuario
             var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            Console.WriteLine("TOKEN RECIBIDO:");
+            Console.WriteLine(token);
 
             var userExiste = await identityService.UserExiste(request.UserId, token);
             if (!userExiste)
                 return NotFound($"Usuario {request.UserId} no encontrado.");
 
-            // ✅ 2. Crear pedido vacío
             var pedido = new Pedido
             {
                 UserId = request.UserId,
-                Total = 0
+                Total = 0,
+                PedidoProductos = new List<PedidoProducto>()
             };
 
             _context.Pedidos.Add(pedido);
             await _context.SaveChangesAsync();
 
             decimal totalPedido = 0;
-            var pedidoProductos = new List<PedidoProducto>();
 
-            // ✅ 3. Validar productos uno por uno
             foreach (var item in request.Productos)
             {
-                var producto = await productosService.GetProducto(item.ProductId);
+                var producto = await productosService.GetProducto(item.ProductId, token);
 
                 if (producto == null)
                     return NotFound($"Producto {item.ProductId} no existe.");
@@ -80,40 +113,38 @@ namespace TiendaGod.Pedidos.Controllers
                 var totalProducto = producto.Price * item.Cantidad;
                 totalPedido += totalProducto;
 
-                pedidoProductos.Add(new PedidoProducto
+                var pedidoProducto = new PedidoProducto
                 {
                     PedidoId = pedido.Id,
                     ProductId = producto.Id,
                     NombreProducto = producto.Name,
                     PrecioUnitario = producto.Price,
                     Cantidad = item.Cantidad
-                });
-
-                // ✅ 4. Descontar stock en API Productos
-                var stockDescontado = await productosService
-                    .DescontarStock(producto.Id, item.Cantidad);
+                };
+                pedido.PedidoProductos.Add(pedidoProducto);
+                var stockDescontado = await productosService.DescontarStock(producto.Id, item.Cantidad, token);
 
                 if (!stockDescontado)
                     return StatusCode(500, "Error al descontar stock");
             }
 
-            // ✅ 5. Guardar productos del pedido
-            _context.PedidoProducto.AddRange(pedidoProductos);
-
-            // ✅ 6. Guardar total
             pedido.Total = totalPedido;
-
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById),
-                new { id = pedido.Id },
-                new
+            var pedidoDto = new PedidoDto
+            {
+                Id = pedido.Id,
+                UserId = pedido.UserId,
+                Total = pedido.Total,
+                Productos = pedido.PedidoProductos.Select(pp => new PedidoProductoDto
                 {
-                    pedido.Id,
-                    pedido.UserId,
-                    Total = pedido.Total,
-                    Productos = pedidoProductos
-                });
+                    ProductId = pp.ProductId,
+                    NombreProducto = pp.NombreProducto,
+                    PrecioUnitario = pp.PrecioUnitario,
+                    Cantidad = pp.Cantidad
+                }).ToList()
+            };
+            return CreatedAtAction(nameof(GetById), new { id = pedido.Id }, pedidoDto);
         }
     }
 }
