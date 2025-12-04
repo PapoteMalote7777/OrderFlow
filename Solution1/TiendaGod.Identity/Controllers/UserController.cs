@@ -73,6 +73,17 @@ namespace TiendaGod.Identity.Controllers
 
             return null;
         }
+        [Authorize]
+        [HttpGet("exists/{userId}")]
+        public async Task<IActionResult> UserExists(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+                return NotFound(new { message = "Usuario no encontrado" });
+
+            return Ok(new { exists = true });
+        }
     }
     public record UpdateUsernameModel(string NewName);
 }

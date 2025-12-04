@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TiendaGod.Productos.Data;
+using TiendaGod.Productos.DTO;
 using TiendaGod.Productos.Models;
 
 namespace TiendaGod.Productos.Controller
@@ -21,14 +22,43 @@ namespace TiendaGod.Productos.Controller
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
-            var products = await _db.Products.Include(p => p.Category).ToListAsync();
+            var products = await _db.Products
+                .Include(p => p.Category)
+                .Select(p => new ProductDTO
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Description = p.Description,
+                    Brand = p.Brand,
+                    Stock = p.Stock,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category!.Name
+                })
+                .ToListAsync();
+
             return Ok(products);
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetProductById(int id)
         {
-            var product = await _db.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+            var product = await _db.Products
+                .Include(p => p.Category)
+                .Where(p => p.Id == id)
+                .Select(p => new ProductDTO
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Description = p.Description,
+                    Brand = p.Brand,
+                    Stock = p.Stock,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category!.Name
+                })
+                .FirstOrDefaultAsync();
+
             if (product == null) return NotFound();
             return Ok(product);
         }

@@ -42,56 +42,78 @@ namespace TiendaGod.Pedidos.Controllers
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(
-            [FromBody] CreatePedidoRequest request,
-            [FromServices] ProductsHttpService productosService)
+        [FromBody] CreatePedidoRequest request,
+        [FromServices] ProductsHttpService productosService,
+        [FromServices] IdentityHttpService identityService)
         {
-            var userResp = await _httpClient.GetAsync($"https://api.tiendagod.identity/users/{request.UserId}");
-            if (!userResp.IsSuccessStatusCode)
+            // ✅ 1. Validar Usuario
+            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            var userExiste = await identityService.UserExiste(request.UserId, token);
+            if (!userExiste)
                 return NotFound($"Usuario {request.UserId} no encontrado.");
 
-            var productosValidados = new List<(int ProductId, decimal Precio, int Cantidad)>();
-
-            foreach (var item in request.Productos)
+            // ✅ 2. Crear pedido vacío
+            var pedido = new Pedido
             {
-                var producto = await productosService.GetProducto(item.ProductId);
+                UserId = request.UserId,
+                Total = 0
+            };
 
-                if (producto == null)
-                    return NotFound($"Producto {item.ProductId} no encontrado.");
-
-                productosValidados.Add((
-                    item.ProductId,
-                    producto.Price,
-                    item.Cantidad
-                ));
-            }
-
-            var pedido = new Pedido { UserId = request.UserId };
             _context.Pedidos.Add(pedido);
             await _context.SaveChangesAsync();
 
             decimal totalPedido = 0;
             var pedidoProductos = new List<PedidoProducto>();
 
-            foreach (var item in productosValidados)
+            // ✅ 3. Validar productos uno por uno
+            foreach (var item in request.Productos)
             {
-                decimal total = item.Precio * item.Cantidad;
-                totalPedido += total;
+                var producto = await productosService.GetProducto(item.ProductId);
+
+                if (producto == null)
+                    return NotFound($"Producto {item.ProductId} no existe.");
+
+                if (producto.Stock < item.Cantidad)
+                    return BadRequest($"Stock insuficiente para {producto.Name}");
+
+                var totalProducto = producto.Price * item.Cantidad;
+                totalPedido += totalProducto;
 
                 pedidoProductos.Add(new PedidoProducto
                 {
                     PedidoId = pedido.Id,
-                    ProductId = item.ProductId,
-                    PrecioUnitario = item.Precio,
+                    ProductId = producto.Id,
+                    NombreProducto = producto.Name,
+                    PrecioUnitario = producto.Price,
                     Cantidad = item.Cantidad
                 });
+
+                // ✅ 4. Descontar stock en API Productos
+                var stockDescontado = await productosService
+                    .DescontarStock(producto.Id, item.Cantidad);
+
+                if (!stockDescontado)
+                    return StatusCode(500, "Error al descontar stock");
             }
 
+            // ✅ 5. Guardar productos del pedido
             _context.PedidoProducto.AddRange(pedidoProductos);
+
+            // ✅ 6. Guardar total
+            pedido.Total = totalPedido;
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetById),
                 new { id = pedido.Id },
-                new { pedido, productos = pedidoProductos, total = totalPedido });
+                new
+                {
+                    pedido.Id,
+                    pedido.UserId,
+                    Total = pedido.Total,
+                    Productos = pedidoProductos
+                });
         }
     }
 }

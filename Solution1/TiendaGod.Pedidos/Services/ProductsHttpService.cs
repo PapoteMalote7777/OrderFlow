@@ -21,5 +21,13 @@ namespace TiendaGod.Pedidos.Services
 
             return await response.Content.ReadFromJsonAsync<ProductDto>();
         }
+
+        public async Task<bool> DescontarStock(int productId, int cantidad)
+        {
+            var response = await _http.PutAsync(
+                $"/api/v1/products/{productId}/stock/{cantidad}", null);
+
+            return response.IsSuccessStatusCode;
+        }
     }
 }

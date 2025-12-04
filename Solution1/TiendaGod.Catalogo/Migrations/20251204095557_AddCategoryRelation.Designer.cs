@@ -11,8 +11,8 @@ using TiendaGod.Productos.Data;
 namespace TiendaGod.Productos.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20251124150216_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251204095557_AddCategoryRelation")]
+    partial class AddCategoryRelation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,22 @@ namespace TiendaGod.Productos.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("TiendaGod.Productos.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
 
             modelBuilder.Entity("TiendaGod.Productos.Models.Product", b =>
                 {
@@ -35,6 +51,9 @@ namespace TiendaGod.Productos.Migrations
                     b.Property<string>("Brand")
                         .HasColumnType("text");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -45,9 +64,30 @@ namespace TiendaGod.Productos.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
+                    b.Property<int>("Stock")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("TiendaGod.Productos.Models.Product", b =>
+                {
+                    b.HasOne("TiendaGod.Productos.Models.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("TiendaGod.Productos.Models.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

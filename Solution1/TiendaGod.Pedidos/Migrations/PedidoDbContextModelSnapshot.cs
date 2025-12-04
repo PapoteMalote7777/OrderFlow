@@ -29,6 +29,9 @@ namespace TiendaGod.Pedidos.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("Total")
+                        .HasColumnType("numeric");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
@@ -48,6 +51,10 @@ namespace TiendaGod.Pedidos.Migrations
 
                     b.Property<int>("Cantidad")
                         .HasColumnType("integer");
+
+                    b.Property<string>("NombreProducto")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("PedidoId")
                         .HasColumnType("integer");

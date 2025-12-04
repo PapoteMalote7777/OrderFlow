@@ -3,6 +3,6 @@
     public class CreatePedidoRequest
     {
         public string UserId { get; set; }
-        public List<ProductItem> Productos { get; set; }
+        public List<CreatePedidoProductoDto> Productos { get; set; }
     }
 }

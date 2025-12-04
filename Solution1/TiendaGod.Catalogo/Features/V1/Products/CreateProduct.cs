@@ -17,6 +17,7 @@ namespace TiendaGod.Productos.Features.V1.Products
                     Description = dto.Description,
                     Price = dto.Price,
                     Brand = dto.Brand,
+                    Stock = dto.Stock,
                     CategoryId = dto.CategoryId
                 };
 

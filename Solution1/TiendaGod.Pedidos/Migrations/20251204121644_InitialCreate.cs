@@ -17,7 +17,8 @@ namespace TiendaGod.Pedidos.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<string>(type: "text", nullable: false)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    Total = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,6 +33,7 @@ namespace TiendaGod.Pedidos.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PedidoId = table.Column<int>(type: "integer", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
+                    NombreProducto = table.Column<string>(type: "text", nullable: false),
                     PrecioUnitario = table.Column<decimal>(type: "numeric", nullable: false),
                     Cantidad = table.Column<int>(type: "integer", nullable: false)
                 },

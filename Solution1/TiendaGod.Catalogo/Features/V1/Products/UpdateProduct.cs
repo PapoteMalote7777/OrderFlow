@@ -17,6 +17,7 @@ namespace TiendaGod.Productos.Features.V1.Products
                 existing.Description = dto.Description;
                 existing.Price = dto.Price;
                 existing.Brand = dto.Brand;
+                existing.Stock = dto.Stock;
                 existing.CategoryId = dto.CategoryId;
 
                 await db.SaveChangesAsync();

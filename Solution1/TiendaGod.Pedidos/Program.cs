@@ -70,11 +70,17 @@ builder.Services.AddSwaggerGen(c =>
 
 });
 
-builder.Services.AddHttpClient("TiendaGod-Productos", client =>
+builder.Services.AddHttpClient("TiendaGod-Identity", c =>
 {
-    client.BaseAddress = new Uri("https://localhost:7114");
+    c.BaseAddress = new Uri("https://localhost:7134");
 });
 
+builder.Services.AddHttpClient("TiendaGod-Productos", c =>
+{
+    c.BaseAddress = new Uri("https://localhost:7114");
+});
+
+builder.Services.AddScoped<IdentityHttpService>();
 builder.Services.AddScoped<ProductsHttpService>();
 
 var app = builder.Build();

@@ -11,8 +11,8 @@ using TiendaGod.Productos.Data;
 namespace TiendaGod.Productos.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20251129170837_AddCategoryRelation")]
-    partial class AddCategoryRelation
+    [Migration("20251204095517_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,9 @@ namespace TiendaGod.Productos.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
