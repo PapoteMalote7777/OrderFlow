@@ -1,7 +1,11 @@
 ﻿import React from "react";
 import { useProducts } from "../../hooks/useProducts";
 
-export default function ProductsList() {
+interface ProductsListProps {
+    onAddToCart: (product: { id: number; name: string, price: number }) => void;
+}
+
+export default function ProductsList({ onAddToCart }: ProductsListProps) {
     const { products, isLoading, error } = useProducts();
 
     if (isLoading) return <p>Cargando productos...</p>;
@@ -18,7 +22,12 @@ export default function ProductsList() {
                     <h4>{p.name}</h4>
                     {p.categoryName && <p className="category">{p.categoryName}</p>}
                     <p className="price">{p.price.toFixed(2)} €</p>
-                    <button className="buy-btn-amz">Comprar</button>
+                    <button
+                        className="buy-btn-amz"
+                        onClick={() => onAddToCart({ id: p.id, name: p.name, price: p.price })}
+                    >
+                        Añadir al carrito
+                    </button>
                 </div>
             ))}
         </div>

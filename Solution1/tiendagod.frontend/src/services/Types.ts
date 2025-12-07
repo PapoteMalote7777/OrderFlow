@@ -24,3 +24,11 @@ export interface Product2 {
     imageUrl?: string;
     categoryName?: string;
 }
+
+export type CartItem = {
+    productId: number;
+    nombre: string;
+    precioUnitario: number;
+    cantidad: number;
+};
+
