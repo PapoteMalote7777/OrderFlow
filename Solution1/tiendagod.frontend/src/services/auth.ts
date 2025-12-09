@@ -222,3 +222,16 @@ export async function adminDeleteUser(userName: string) {
         return text;
     }
 }
+export function getUserIdFromToken(): string | null {
+    const token = getToken();
+    const payload = parseJwtPayload(token);
+
+    if (!payload) return null;
+
+    return (
+        payload.sub ||
+        payload.nameid ||
+        payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"] ||
+        null
+    );
+}

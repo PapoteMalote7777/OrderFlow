@@ -1,32 +1,48 @@
 ﻿import { useState } from "react";
-import { isAdmin } from "../../services/auth";
+import { getUserIdFromToken, isAdmin } from "../../services/auth";
 import ProductsList from "../products/ProductsList";
 import AdminUsers from "../admin/AdminUsers";
 import AdminProducts from "../admin/AdminProducts";
 import AdminCategories from "../admin/AdminCategories";
+import AdminOrders from "../admin/AdminOrders";
+import { createOrder } from "../../services/Pedidos";
+import Orders from "../orders/orders";
 
 interface HomeProps {
     onLogout: () => void;
     username: string;
+    userId: number;
     goToLogin: () => void;
     goToProfile: () => void;
     goToAdmin: () => void;
     goToAdminProducts: () => void;
     goToAdminCategories: () => void;
+    goToOrders: () => void;
 }
 
 export default function Home({ onLogout, username, goToLogin, goToProfile}: HomeProps) {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [currentView, setCurrentView] = useState<"products" | "adminUsers" | "adminProducts" | "adminCategories">("products");
+    const [currentView, setCurrentView] = useState<"products" | "adminUsers" | "adminProducts" | "adminCategories" | "orders" | "adminOrders">("products");
     const goToAdminUsers = () => setCurrentView("adminUsers");
     const goToAdminProducts = () => setCurrentView("adminProducts");
     const goToAdminCategories = () => setCurrentView("adminCategories");
+    const goToAdminOrders = () => setCurrentView("adminOrders");
     const [cart, setCart] = useState<{ id: number; name: string; price: number; quantity: number }[]>([]);
     const [cartOpen, setCartOpen] = useState(false);
+    const goToOrders = () => setCurrentView("orders");
+    const [cartError, setCartError] = useState<string | null>(null);
+    const [cartSuccess, setCartSuccess] = useState<string | null>(null);
+
     const handleLogout = () => {
         setMenuOpen(false);
         onLogout();
     };
+
+    const showTemporaryMessage = (setMessage: React.Dispatch<React.SetStateAction<string | null>>, msg: string) => {
+        setMessage(msg);
+        setTimeout(() => setMessage(null), 5000);
+    };
+
     const addToCart = (product: { id: number; name: string; price: number }) => {
         setCart(prev => {
             const existing = prev.find(item => item.id === product.id);
@@ -37,6 +53,7 @@ export default function Home({ onLogout, username, goToLogin, goToProfile}: Home
             }
             return [...prev, { ...product, quantity: 1 }];
         });
+        setCartOpen(true);
     };
 
     const removeFromCart = (productId: number) => {
@@ -96,19 +113,29 @@ export default function Home({ onLogout, username, goToLogin, goToProfile}: Home
                                                             {cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)} €
                                                         </span>
                                                     </div>
-
                                                     <div style={{ display: "flex", gap: "8px", marginTop: "10px" }}>
-                                                        <button
-                                                            className="cart-btn-comprar"
-                                                            onClick={() => {
-                                                                alert("Pedido realizado");
-                                                                clearCart();
-                                                                setCartOpen(false);
-                                                            }}
-                                                        >
-                                                            Hacer pedido
-                                                        </button>
+                                                            <button
+                                                                className="cart-btn-comprar"
+                                                                onClick={async () => {
+                                                                    try {
+                                                                        const productos = cart.map(item => ({
+                                                                            productId: item.id,
+                                                                            cantidad: item.quantity
+                                                                        }));
 
+                                                                        await createOrder(productos);
+
+                                                                        showTemporaryMessage(setCartSuccess, "Pedido realizado correctamente. Revise sus pedidos");
+                                                                        clearCart();
+                                                                        setCartOpen(false);
+
+                                                                    } catch (err: any) {
+                                                                        showTemporaryMessage(setCartError, err.message || "Error al realizar el pedido. Pruebe mas tarde.");
+                                                                    }
+                                                                }}
+                                                            >
+                                                                Hacer pedido
+                                                            </button>
                                                         <button className="cart-btn-vaciar" onClick={clearCart}>
                                                             Vaciar carrito
                                                         </button>
@@ -132,16 +159,22 @@ export default function Home({ onLogout, username, goToLogin, goToProfile}: Home
                     </div>
                 </header>
             )}
-
+            {(cartError || cartSuccess) && (
+                <div style={{ padding: "10px 20px" }}>
+                    {cartError && <div className="error">{cartError}</div>}
+                    {cartSuccess && <div className="success">{cartSuccess}</div>}
+                </div>
+            )}
             {menuOpen && username && (
                 <ul className="sidebar-menu">
                     <li onClick={() => { setMenuOpen(false); goToProfile(); }}>Mi cuenta</li>
-                    <li>Pedidos</li>
+                    <li onClick={() => { setMenuOpen(false); goToOrders(); }}> Mis pedidos</li>
                     {isAdmin() && (
                         <>
                             <li onClick={() => { setMenuOpen(false); goToAdminUsers(); }}>Administrar usuarios</li>
                             <li onClick={() => { setMenuOpen(false); goToAdminProducts(); }}>Administrar productos</li>
                             <li onClick={() => { setMenuOpen(false); goToAdminCategories(); }}>Administrar categorías</li>
+                            <li onClick={() => { setMenuOpen(false); goToAdminOrders(); }}>Administrar pedidos</li>
                         </>
                     )}
                     <li onClick={handleLogout}>Cerrar sesión</li>
@@ -150,9 +183,11 @@ export default function Home({ onLogout, username, goToLogin, goToProfile}: Home
             <div className="amazon-body">
                 <main className="amazon-main">
                     {currentView === "products" && <ProductsList onAddToCart={addToCart} />}
+                    {currentView === "orders" && <Orders onBack={() => setCurrentView("products")} />}
                     {currentView === "adminUsers" && <AdminUsers onCancel={() => setCurrentView("products")} />}
                     {currentView === "adminProducts" && <AdminProducts onCancel={() => setCurrentView("products")} />}
                     {currentView === "adminCategories" && <AdminCategories onCancel={() => setCurrentView("products")} />}
+                    {currentView === "adminOrders" && <AdminOrders onCancel={() => setCurrentView("products")} />}
                 </main>
             </div>
         </div>

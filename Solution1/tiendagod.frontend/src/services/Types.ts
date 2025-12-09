@@ -32,3 +32,16 @@ export type CartItem = {
     cantidad: number;
 };
 
+export interface PedidoProductoDto {
+    productId: number;
+    nombreProducto: string;
+    precioUnitario: number;
+    cantidad: number;
+}
+
+export interface PedidoDto {
+    id: number;
+    userId: string;
+    total: number;
+    productos: PedidoProductoDto[];
+}

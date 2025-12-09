@@ -454,6 +454,8 @@ p {
     top: 100%;
     right: 0;
     z-index: 50;
+    max-height: 350px;
+    overflow-y: auto;
 }
 
 .cart-item {
@@ -469,7 +471,9 @@ p {
 
 .cart-item-controls {
     display: flex;
-    gap: 6px;
+    gap: 12px;
+    margin: 0 10px;
+    align-items: center;
 }
 
 .cart-total {
@@ -535,4 +539,9 @@ p {
 .orders-delete-btn {
     background: #b91c1c;
     color: white;
+}
+.no-bullets {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }

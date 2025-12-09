@@ -22,6 +22,9 @@ export default function Login({ onSwitchToRegister, onLoginSuccess }: LoginProps
         try {
             const token = await login(name, password);
             localStorage.setItem("token", token);
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            const userId = payload.sub;
+            localStorage.setItem("userId", userId);
             setMessage("Inicio de sesión exitoso ✅");
             if (onLoginSuccess) onLoginSuccess(name);
 
