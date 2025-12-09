@@ -1,26 +1,30 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using MassTransit;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Linq;
+using TiendaGod.Shared.Events;
 
 namespace TiendaGod.Identity.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public UserController(UserManager<IdentityUser> userManager)
+        public UserController(UserManager<IdentityUser> userManager, IPublishEndpoint publishEndpoint)
         {
             _userManager = userManager;
+            _publishEndpoint = publishEndpoint;
         }
 
-        [Authorize]
         [HttpPut("update")]
         public async Task<IActionResult> UpdateUsername([FromBody] UpdateUsernameModel model)
         {
@@ -47,13 +51,17 @@ namespace TiendaGod.Identity.Controllers
             return Ok(new { message = "Nombre actualizado con éxito ✅" });
         }
 
-        [Authorize]
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteAccount()
         {
             var user = await GetUserFromClaims();
             if (user == null)
                 return NotFound(new { message = "Usuario no encontrado" });
+
+            await _publishEndpoint.Publish(new UserDeletedEvent(
+                user.Id,
+                user.Email!
+            ));
 
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
@@ -73,7 +81,7 @@ namespace TiendaGod.Identity.Controllers
 
             return null;
         }
-        [Authorize]
+
         [HttpGet("exists/{userId}")]
         public async Task<IActionResult> UserExists(string userId)
         {
@@ -83,6 +91,17 @@ namespace TiendaGod.Identity.Controllers
                 return NotFound(new { message = "Usuario no encontrado" });
 
             return Ok(new { exists = true });
+        }
+
+        [AllowAnonymous]
+        [HttpGet("email/{userId}")]
+        public async Task<IActionResult> GetUserEmail(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            return Ok(new { Email = user.Email });
         }
     }
     public record UpdateUsernameModel(string NewName);

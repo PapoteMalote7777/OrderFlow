@@ -7,6 +7,7 @@ namespace TiendaGod.Identity.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     public class RolesController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -18,7 +19,6 @@ namespace TiendaGod.Identity.Controllers
             _roleManager = roleManager;
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost("assign")]
         public async Task<IActionResult> AssignRole([FromBody] AssignRoleModel model)
         {
@@ -42,7 +42,6 @@ namespace TiendaGod.Identity.Controllers
             return Ok(new { message = "Rol asignado" });
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost("remove")]
         public async Task<IActionResult> RemoveRole([FromBody] AssignRoleModel model)
         {
@@ -66,7 +65,6 @@ namespace TiendaGod.Identity.Controllers
             return Ok(new { message = "Rol removido" });
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet("list")]
         public async Task<IActionResult> ListUsers()
         {

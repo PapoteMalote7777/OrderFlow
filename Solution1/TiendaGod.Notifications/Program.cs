@@ -1,16 +1,17 @@
 ﻿using MassTransit;
 using TiendaGod.Notifications;
+using TiendaGod.Notifications.Services;
 
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.Services.AddMassTransit(x =>
 {
-    // Register consumers
     x.AddConsumer<UserRegisteredConsumer>();
+    x.AddConsumer<UserDeletedConsumer>();
+    x.AddConsumer<OrderCreatedConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        // Use Aspire service discovery for RabbitMQ connection
         var configuration = context.GetRequiredService<IConfiguration>();
         var connectionString = configuration.GetConnectionString("rabbitmq");
 
@@ -18,19 +19,20 @@ builder.Services.AddMassTransit(x =>
         {
             cfg.Host(new Uri(connectionString));
         }
-
-        // Configure retry policy
         cfg.UseMessageRetry(r => r.Intervals(
             TimeSpan.FromSeconds(1),
             TimeSpan.FromSeconds(5),
             TimeSpan.FromSeconds(15),
             TimeSpan.FromSeconds(30)));
-
-        // Configure endpoints for all consumers
         cfg.ConfigureEndpoints(context);
     });
 
 });
 
+builder.Services.AddHttpClient("Identity", client =>
+{
+    client.BaseAddress = new Uri("http://tiendagod-identity");
+});
+builder.Services.AddScoped<EmailService>();
 var host = builder.Build();
 host.Run();

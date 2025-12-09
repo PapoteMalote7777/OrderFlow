@@ -14,7 +14,9 @@
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.0" />
     <PackageVersion Include="MailKit" Version="4.14.1" />
+    <PackageVersion Include="MassTransit" Version="8.5.6" />
     <PackageVersion Include="MassTransit.RabbitMQ" Version="8.5.6" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="2.3.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
@@ -22,7 +24,9 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="10.0.0" />
+    <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="RedisRateLimiting" Version="1.2.0" />
     <PackageVersion Include="RedisRateLimiting.AspNetCore" Version="1.2.0" />
     <PackageVersion Include="Yarp.ReverseProxy" Version="2.3.0" />
@@ -68,5 +72,12 @@
   </ItemGroup>
   <ItemGroup Label="TiendaGod.Pedidos">
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+  <ItemGroup Label="TiendaGod.Test">
+    <PackageVersion Include="coverlet.collector" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageVersion Include="NUnit" Version="3.14.0" />
+    <PackageVersion Include="NUnit.Analyzers" Version="3.9.0" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
   </ItemGroup>
 </Project>

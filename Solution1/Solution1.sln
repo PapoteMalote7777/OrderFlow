@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaGod.Notifications", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaGod.Pedidos", "TiendaGod.Pedidos\TiendaGod.Pedidos.csproj", "{D7BEDB85-EA10-44FF-BC64-7D1F4482137E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaGod.Test", "TiendaGod.Test\TiendaGod.Test.csproj", "{F09A78AC-6542-4AA7-9338-99CB347776A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{D7BEDB85-EA10-44FF-BC64-7D1F4482137E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7BEDB85-EA10-44FF-BC64-7D1F4482137E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7BEDB85-EA10-44FF-BC64-7D1F4482137E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F09A78AC-6542-4AA7-9338-99CB347776A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F09A78AC-6542-4AA7-9338-99CB347776A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F09A78AC-6542-4AA7-9338-99CB347776A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F09A78AC-6542-4AA7-9338-99CB347776A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -6,6 +7,7 @@ using TiendaGod.Pedidos.Data;
 using TiendaGod.Pedidos.DTO;
 using TiendaGod.Pedidos.Models;
 using TiendaGod.Pedidos.Services;
+using TiendaGod.Shared.Events;
 
 namespace TiendaGod.Pedidos.Controllers
 {
@@ -16,11 +18,13 @@ namespace TiendaGod.Pedidos.Controllers
     {
         private readonly PedidoDbContext _context;
         private readonly HttpClient _httpClient;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public PedidosController(PedidoDbContext context, IHttpClientFactory httpClientFactory)
+        public PedidosController(PedidoDbContext context, IHttpClientFactory httpClientFactory, IPublishEndpoint publishEndpoint)
         {
             _context = context;
             _httpClient = httpClientFactory.CreateClient();
+            _publishEndpoint = publishEndpoint;
         }
 
         [HttpGet("list")]
@@ -56,9 +60,12 @@ namespace TiendaGod.Pedidos.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            var tokenHeader = HttpContext.Request.Headers["Authorization"].ToString();
+            var token = tokenHeader.StartsWith("Bearer ") ? tokenHeader.Substring(7) : tokenHeader;
+
             foreach (var item in request.Productos)
             {
-                var producto = await productosService.GetProducto(item.ProductId, HttpContext.Request.Headers["Authorization"]);
+                var producto = await productosService.GetProducto(item.ProductId, token);
                 if (producto == null) return NotFound($"Producto {item.ProductId} no existe.");
                 if (producto.Stock < item.Cantidad) return BadRequest($"Stock insuficiente para {producto.Name}");
             }
@@ -88,7 +95,7 @@ namespace TiendaGod.Pedidos.Controllers
                 };
                 pedido.PedidoProductos.Add(pedidoProducto);
 
-                var stockDescontado = await productosService.DescontarStock(producto.Id, item.Cantidad, HttpContext.Request.Headers["Authorization"]);
+                var stockDescontado = await productosService.DescontarStock(producto.Id, item.Cantidad, token);
                 if (!stockDescontado)
                     return StatusCode(500, "Error al descontar stock");
             }
@@ -96,6 +103,12 @@ namespace TiendaGod.Pedidos.Controllers
             pedido.Total = totalPedido;
             _context.Pedidos.Add(pedido);
             await _context.SaveChangesAsync();
+
+            await _publishEndpoint.Publish(new OrderCreatedEvent(
+                PedidoId: pedido.Id,
+                UserId: pedido.UserId,
+                Total: pedido.Total
+            ));
 
             var pedidoDto = new PedidoDto
             {

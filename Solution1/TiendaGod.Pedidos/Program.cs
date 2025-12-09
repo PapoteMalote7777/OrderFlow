@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Text;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -70,9 +71,13 @@ builder.Services.AddSwaggerGen(c =>
 
 });
 
-builder.Services.AddHttpClient("TiendaGod-Identity", c =>
+/*builder.Services.AddHttpClient("TiendaGod-Identity", c =>
 {
     c.BaseAddress = new Uri("https://localhost:7134");
+});*/
+builder.Services.AddHttpClient("TiendaGod-Identity", c =>
+{
+    c.BaseAddress = new Uri("http://tiendagod-identity");
 });
 
 builder.Services.AddHttpClient("TiendaGod-Productos", c =>
@@ -82,6 +87,20 @@ builder.Services.AddHttpClient("TiendaGod-Productos", c =>
 
 builder.Services.AddScoped<IdentityHttpService>();
 builder.Services.AddScoped<ProductsHttpService>();
+
+builder.Services.AddMassTransit(config =>
+{
+    config.UsingRabbitMq((context, cfg) =>
+    {
+        var configuration = context.GetRequiredService<IConfiguration>();
+        var connectionString = configuration.GetConnectionString("rabbitmq");
+        if (!string.IsNullOrEmpty(connectionString))
+        {
+            cfg.Host(new Uri(connectionString));
+        }
+        cfg.ConfigureEndpoints(context);
+    });
+});
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 
 namespace TiendaGod.Pedidos.Services
 {
@@ -10,11 +11,8 @@ namespace TiendaGod.Pedidos.Services
         {
             _http = factory.CreateClient("TiendaGod-Identity");
         }
-
-        // Método que usa el JWT del usuario
         public async Task<bool> UserExiste(string userId, string jwtToken)
         {
-            // Añadir el header Authorization
             _http.DefaultRequestHeaders.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", jwtToken);
 

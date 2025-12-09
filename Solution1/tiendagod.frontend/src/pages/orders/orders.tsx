@@ -1,3 +1,4 @@
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { getOrders } from "../../services/Pedidos";
 import type { PedidoDto, PedidoProductoDto } from "../../services/Types";

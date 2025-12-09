@@ -6,6 +6,7 @@ namespace TiendaGod.Identity.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     public class UserAdminController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -15,7 +16,6 @@ namespace TiendaGod.Identity.Controllers
             _userManager = userManager;
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPut("update-user/{userName}")]
         public async Task<IActionResult> UpdateUserNameByAdmin(string userName, [FromBody] AdminUpdateUsernameModel model)
         {
@@ -39,7 +39,6 @@ namespace TiendaGod.Identity.Controllers
             return Ok(new { message = "Nombre actualizado con éxito ✅" });
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpDelete("delete-user/{userName}")]
         public async Task<IActionResult> DeleteUserByAdmin(string userName)
         {

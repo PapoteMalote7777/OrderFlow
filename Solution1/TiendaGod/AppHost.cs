@@ -70,6 +70,8 @@ var webApp = builder.AddNpmApp("TiendaGodFrontend", "../TiendaGod.Frontend", "de
 
 builder.AddProject<Projects.TiendaGod_Notifications>("tiendagod-notifications")
     .WithReference(rabbitmq)
-    .WaitFor(rabbitmq);
+    .WithReference(identityApi)
+    .WaitFor(rabbitmq)
+    .WaitFor(identityApi);
 
 builder.Build().Run();

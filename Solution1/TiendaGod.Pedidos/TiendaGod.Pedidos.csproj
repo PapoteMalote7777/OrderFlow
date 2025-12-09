@@ -11,6 +11,8 @@
   <ItemGroup>
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="FluentValidation" />
+    <PackageReference Include="MassTransit" />
+    <PackageReference Include="MassTransit.RabbitMQ" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
@@ -33,6 +35,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TiendaGod.ServiceDefault\TiendaGod.ServiceDefault.csproj" />
+    <ProjectReference Include="..\TiendaGod.Shared\TiendaGod.Shared.csproj" />
   </ItemGroup>
 
 </Project>
