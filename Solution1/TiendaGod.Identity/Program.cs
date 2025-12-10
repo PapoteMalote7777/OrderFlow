@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using TiendaGod.Identity.Data;
+using TiendaGod.Identity.Services;
 using TiendaGod.Identity.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -107,6 +108,11 @@ builder.Services.AddSwaggerGen(c =>
     });
 
 });
+
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<RolesService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<UserAdminService>();
 
 var app = builder.Build();
 

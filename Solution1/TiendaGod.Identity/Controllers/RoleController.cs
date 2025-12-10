@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using TiendaGod.Identity.Services;
 
 namespace TiendaGod.Identity.Controllers
 {
@@ -10,13 +11,11 @@ namespace TiendaGod.Identity.Controllers
     [Authorize(Roles = "Admin")]
     public class RolesController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RolesService _rolesService;
 
-        public RolesController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public RolesController(RolesService rolesService)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
+            _rolesService = rolesService;
         }
 
         [HttpPost("assign")]
@@ -25,21 +24,15 @@ namespace TiendaGod.Identity.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var user = await _userManager.FindByNameAsync(model.UserName);
-            if (user == null)
-                return NotFound(new { message = "Usuario no encontrado" });
-
-            if (!await _roleManager.RoleExistsAsync(model.Role))
-                return BadRequest(new { message = "Rol inválido" });
-
-            if (!await _userManager.IsInRoleAsync(user, model.Role))
+            try
             {
-                var res = await _userManager.AddToRoleAsync(user, model.Role);
-                if (!res.Succeeded)
-                    return BadRequest(res.Errors);
+                await _rolesService.AssignRoleAsync(model.UserName, model.Role);
+                return Ok(new { message = "Rol asignado" });
             }
-
-            return Ok(new { message = "Rol asignado" });
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPost("remove")]
@@ -48,50 +41,24 @@ namespace TiendaGod.Identity.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var user = await _userManager.FindByNameAsync(model.UserName);
-            if (user == null)
-                return NotFound(new { message = "Usuario no encontrado" });
-
-            if (!await _roleManager.RoleExistsAsync(model.Role))
-                return BadRequest(new { message = "Rol inválido" });
-
-            if (await _userManager.IsInRoleAsync(user, model.Role))
+            try
             {
-                var res = await _userManager.RemoveFromRoleAsync(user, model.Role);
-                if (!res.Succeeded)
-                    return BadRequest(res.Errors);
+                await _rolesService.RemoveRoleAsync(model.UserName, model.Role);
+                return Ok(new { message = "Rol removido" });
             }
-
-            return Ok(new { message = "Rol removido" });
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpGet("list")]
         public async Task<IActionResult> ListUsers()
         {
-            var users = _userManager.Users.ToList();
-            var result = new List<UserWithRolesDto>();
-
-            foreach (var u in users)
-            {
-                var roles = await _userManager.GetRolesAsync(u);
-                result.Add(new UserWithRolesDto
-                {
-                    UserName = u.UserName ?? "",
-                    Email = u.Email ?? "",
-                    Roles = roles.ToList()
-                });
-            }
-
-            return Ok(result);
+            var users = await _rolesService.ListUsersAsync();
+            return Ok(users);
         }
     }
 
     public record AssignRoleModel(string UserName, string Role);
-
-    public class UserWithRolesDto
-    {
-        public string UserName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public List<string> Roles { get; set; } = new List<string>();
-    }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TiendaGod.Identity.Services;
 
 namespace TiendaGod.Identity.Controllers
 {
@@ -9,11 +10,11 @@ namespace TiendaGod.Identity.Controllers
     [Authorize(Roles = "Admin")]
     public class UserAdminController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserAdminService _userAdminService;
 
-        public UserAdminController(UserManager<IdentityUser> userManager)
+        public UserAdminController(UserAdminService userAdminService)
         {
-            _userManager = userManager;
+            _userAdminService = userAdminService;
         }
 
         [HttpPut("update-user/{userName}")]
@@ -22,35 +23,29 @@ namespace TiendaGod.Identity.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var user = await _userManager.FindByNameAsync(userName);
-            if (user == null)
-                return NotFound(new { message = "Usuario no encontrado" });
-
-            var existing = await _userManager.FindByNameAsync(model.NewName);
-            if (existing != null && existing.Id != user.Id)
-                return BadRequest(new { message = "El nombre ya está en uso" });
-
-            user.UserName = model.NewName;
-
-            var result = await _userManager.UpdateAsync(user);
-            if (!result.Succeeded)
-                return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
-
-            return Ok(new { message = "Nombre actualizado con éxito ✅" });
+            try
+            {
+                await _userAdminService.UpdateUserNameAsync(userName, model.NewName);
+                return Ok(new { message = "Nombre actualizado con éxito ✅" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpDelete("delete-user/{userName}")]
         public async Task<IActionResult> DeleteUserByAdmin(string userName)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-            if (user == null)
-                return NotFound(new { message = "Usuario no encontrado" });
-
-            var result = await _userManager.DeleteAsync(user);
-            if (!result.Succeeded)
-                return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
-
-            return Ok(new { message = "Cuenta eliminada correctamente ✅" });
+            try
+            {
+                await _userAdminService.DeleteUserAsync(userName);
+                return Ok(new { message = "Cuenta eliminada correctamente ✅" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
     public record AdminUpdateUsernameModel(string NewName);
