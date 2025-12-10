@@ -31,7 +31,7 @@ builder.Services.AddMassTransit(x =>
 
 builder.Services.AddHttpClient("Identity", client =>
 {
-    client.BaseAddress = new Uri("http://tiendagod-identity");
+    client.BaseAddress = new Uri("https://localhost:7134");
 });
 builder.Services.AddScoped<EmailService>();
 var host = builder.Build();

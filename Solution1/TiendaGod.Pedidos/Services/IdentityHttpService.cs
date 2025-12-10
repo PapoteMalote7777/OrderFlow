@@ -9,7 +9,7 @@ namespace TiendaGod.Pedidos.Services
 
         public IdentityHttpService(IHttpClientFactory factory)
         {
-            _http = factory.CreateClient("TiendaGod-Identity");
+            _http = factory.CreateClient("tiendagod-identity");
         }
         public async Task<bool> UserExiste(string userId, string jwtToken)
         {

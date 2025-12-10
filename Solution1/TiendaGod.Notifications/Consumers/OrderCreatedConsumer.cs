@@ -40,9 +40,9 @@ internal class OrderCreatedConsumer : IConsumer<OrderCreatedEvent>
             "Pedido confirmado",
             $"""
             <h2>Pedido #{pedido.PedidoId}</h2>
-            <p>Total: <b>${pedido.Total}</b></p>
+            <p>Total: <b>{pedido.Total}€</b></p>
             <p>Gracias por tu compra.</p>
-            <p>Revise Mis pedidos en la web para más información.</p>
+            <p>Revise mis pedidos en la web para más información.</p>
             """
         );
     }

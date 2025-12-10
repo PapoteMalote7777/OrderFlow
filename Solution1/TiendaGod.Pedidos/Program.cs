@@ -14,6 +14,8 @@ builder.Configuration.AddUserSecrets<Program>();
 
 builder.AddServiceDefaults();
 
+builder.Services.AddServiceDiscovery();
+
 builder.AddNpgsqlDbContext<PedidoDbContext>("pedidos");
 
 builder.Services.AddAuthorization();
@@ -71,16 +73,12 @@ builder.Services.AddSwaggerGen(c =>
 
 });
 
-/*builder.Services.AddHttpClient("TiendaGod-Identity", c =>
+builder.Services.AddHttpClient("tiendagod-identity", c =>
 {
     c.BaseAddress = new Uri("https://localhost:7134");
-});*/
-builder.Services.AddHttpClient("TiendaGod-Identity", c =>
-{
-    c.BaseAddress = new Uri("http://tiendagod-identity");
 });
 
-builder.Services.AddHttpClient("TiendaGod-Productos", c =>
+builder.Services.AddHttpClient("tiendagod-productos", c =>
 {
     c.BaseAddress = new Uri("https://localhost:7114");
 });

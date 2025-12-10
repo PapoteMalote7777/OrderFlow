@@ -68,6 +68,9 @@ var webApp = builder.AddNpmApp("TiendaGodFrontend", "../TiendaGod.Frontend", "de
                     .WithExternalHttpEndpoints()
                     .PublishAsDockerFile();
 
+// ============================================
+// MAILS
+// ============================================
 builder.AddProject<Projects.TiendaGod_Notifications>("tiendagod-notifications")
     .WithReference(rabbitmq)
     .WithReference(identityApi)

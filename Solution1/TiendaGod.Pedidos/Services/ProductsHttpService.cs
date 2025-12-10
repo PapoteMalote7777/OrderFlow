@@ -10,7 +10,7 @@ namespace TiendaGod.Pedidos.Services
 
         public ProductsHttpService(IHttpClientFactory factory)
         {
-            _http = factory.CreateClient("TiendaGod-Productos");
+            _http = factory.CreateClient("tiendagod-productos");
         }
 
         public async Task<ProductDto?> GetProducto(int productId, string token)
