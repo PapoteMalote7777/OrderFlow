@@ -1,8 +1,9 @@
+ï»¿/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getToken } from "./auth";
 
 export const getAllCategories = async () => {
     const res = await fetch("/api/v1/categories");
-    if (!res.ok) throw new Error("Error al cargar categorías");
+    if (!res.ok) throw new Error("Error al cargar categorÃ­as");
     return res.json();
 };
 
@@ -18,7 +19,7 @@ export const createCategory = async (category: any) => {
     });
     if (!res.ok) {
         const text = await res.text();
-        throw new Error(`Error al crear categoría: ${text}`);
+        throw new Error(`Error al crear categorÃ­a: ${text}`);
     }
 };
 
@@ -30,6 +31,6 @@ export const deleteCategory = async (id: number) => {
     });
     if (!res.ok) {
         const text = await res.text();
-        throw new Error(`Error al borrar categoría: ${text}`);
+        throw new Error(`Error al borrar categorÃ­a: ${text}`);
     }
 };

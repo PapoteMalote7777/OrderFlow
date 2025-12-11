@@ -47,6 +47,18 @@ namespace TiendaGod.Identity.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpGet("admin-email/{index}")]
+        public async Task<IActionResult> GetAdminEmail(int index)
+        {
+            var emails = await _userAdminService.GetAdminEmailsAsync();
+            if (emails == null || !emails.Any()) return NotFound();
+
+            if (index < 0 || index >= emails.Count) return NotFound();
+
+            return Ok(new { Email = emails[index] });
+        }
+
     }
     public record AdminUpdateUsernameModel(string NewName);
 }

@@ -47,6 +47,7 @@ export default function Orders({ onBack }: OrdersProps) {
                             <th>ID</th>
                             <th>Productos</th>
                             <th>Cantidad</th>
+                            <th>Estado</th>
                             <th>Precio Unitario</th>
                             <th>Precio Total</th>
                         </tr>
@@ -69,6 +70,7 @@ export default function Orders({ onBack }: OrdersProps) {
                                         ))}
                                     </ul>
                                 </td>
+                                <td>{pedido.estado}</td>
                                 <td>
                                     <ul className="no-bullets">
                                         {pedido.productos.map(prod => (

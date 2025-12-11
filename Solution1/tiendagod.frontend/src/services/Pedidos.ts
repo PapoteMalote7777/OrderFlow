@@ -1,4 +1,4 @@
-import { getToken, parseJwtPayload } from "./auth";
+ï»¿import { getToken, parseJwtPayload } from "./auth";
 
 export const createOrder = async (productos: {
     productId: number;
@@ -6,7 +6,7 @@ export const createOrder = async (productos: {
 }[]) => {
     const token = getToken();
 
-    if (!token) throw new Error("No hay token. Inicia sesión.");
+    if (!token) throw new Error("No hay token. Inicia sesiÃ³n.");
 
     const payload = parseJwtPayload(token);
     const userId =
@@ -15,7 +15,7 @@ export const createOrder = async (productos: {
         payload?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
 
     if (!userId) {
-        throw new Error("No se pudo obtener el usuario. Vuelve a iniciar sesión.");
+        throw new Error("No se pudo obtener el usuario. Vuelve a iniciar sesiÃ³n.");
     }
 
     const pedido = {
@@ -92,3 +92,20 @@ export const getAllOrders = async () => {
 
     return res.json();
 };
+
+export const acceptOrderByAdmin = async (id: number) => {
+    const token = getToken();
+    await fetch(`/api/admin/pedidos/${id}/accept`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` }
+    });
+};
+
+export const rejectOrderByAdmin = async (id: number) => {
+    const token = getToken();
+    await fetch(`/api/admin/pedidos/${id}/cancel`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` }
+    });
+};
+

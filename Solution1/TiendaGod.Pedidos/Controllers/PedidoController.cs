@@ -1,12 +1,13 @@
-﻿using MassTransit;
+﻿using System.Security.Claims;
+using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using TiendaGod.Pedidos.Data;
 using TiendaGod.Pedidos.DTO;
 using TiendaGod.Pedidos.Models;
 using TiendaGod.Pedidos.Services;
+using TiendaGod.Productos.Models;
 using TiendaGod.Shared.Events;
 
 namespace TiendaGod.Pedidos.Controllers
@@ -40,6 +41,8 @@ namespace TiendaGod.Pedidos.Controllers
                     Id = p.Id,
                     UserId = p.UserId,
                     Total = p.Total,
+                    Estado = p.Estado.ToString(),
+                    EstadoActualizado = p.EstadoActualizado,
                     Productos = p.PedidoProductos.Select(pp => new PedidoProductoDto
                     {
                         ProductId = pp.ProductId,
@@ -74,6 +77,8 @@ namespace TiendaGod.Pedidos.Controllers
             {
                 UserId = userId,
                 Total = 0,
+                Estado = OrderTypes.Pending,
+                EstadoActualizado = DateTime.UtcNow,
                 PedidoProductos = new List<PedidoProducto>()
             };
 
@@ -104,7 +109,7 @@ namespace TiendaGod.Pedidos.Controllers
             _context.Pedidos.Add(pedido);
             await _context.SaveChangesAsync();
 
-            await _publishEndpoint.Publish(new OrderCreatedEvent(
+            await _publishEndpoint.Publish(new AdminNewOrderEvent(
                 PedidoId: pedido.Id,
                 UserId: pedido.UserId,
                 Total: pedido.Total

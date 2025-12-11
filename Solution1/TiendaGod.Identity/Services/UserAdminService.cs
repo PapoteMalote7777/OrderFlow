@@ -38,5 +38,22 @@ namespace TiendaGod.Identity.Services
             if (!result.Succeeded)
                 throw new InvalidOperationException(string.Join(", ", result.Errors.Select(e => e.Description)));
         }
+
+        public async Task<List<string>> GetAdminEmailsAsync()
+        {
+            var users = _userManager.Users.ToList();
+            var adminEmails = new List<string>();
+
+            foreach (var user in users)
+            {
+                if (await _userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    if (!string.IsNullOrEmpty(user.Email))
+                        adminEmails.Add(user.Email);
+                }
+            }
+
+            return adminEmails;
+        }
     }
 }

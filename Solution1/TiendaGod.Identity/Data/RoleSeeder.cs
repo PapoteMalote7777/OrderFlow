@@ -9,7 +9,7 @@ namespace TiendaGod.Identity.Data
     public static class RoleSeeder
     {
         private const string DefaultAdminUserName = "Admin";
-        private const string DefaultAdminEmail = "admin@gmail.com";
+        private const string DefaultAdminEmail = "persimola777@gmail.com";
         private const string DefaultAdminPassword = "Adm1n!strad0rFach3r0";
 
         public static async Task SeedRolesAndAdminAsync(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, IConfiguration config)

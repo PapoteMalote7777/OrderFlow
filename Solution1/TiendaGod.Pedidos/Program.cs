@@ -85,7 +85,7 @@ builder.Services.AddHttpClient("tiendagod-productos", c =>
 
 builder.Services.AddScoped<IdentityHttpService>();
 builder.Services.AddScoped<ProductsHttpService>();
-
+builder.Services.AddHostedService<OrderStatusService>();
 builder.Services.AddMassTransit(config =>
 {
     config.UsingRabbitMq((context, cfg) =>

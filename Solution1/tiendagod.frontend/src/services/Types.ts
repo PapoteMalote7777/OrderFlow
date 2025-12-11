@@ -42,6 +42,7 @@ export interface PedidoProductoDto {
 export interface PedidoDto {
     id: number;
     userId: string;
+    estado: string;
     total: number;
     productos: PedidoProductoDto[];
 }

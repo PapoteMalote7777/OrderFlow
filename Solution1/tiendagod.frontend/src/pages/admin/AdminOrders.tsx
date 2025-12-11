@@ -1,5 +1,6 @@
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
-import { getAllOrders, deleteOrder } from "../../services/Pedidos";
+import { getAllOrders, deleteOrder, acceptOrderByAdmin, rejectOrderByAdmin } from "../../services/Pedidos";
 import type { PedidoDto, PedidoProductoDto } from "../../services/Types";
 import "../../App.css";
 
@@ -45,6 +46,26 @@ export default function AdminOrders({ onCancel }: AdminOrdersProps) {
         }
     }
 
+    const handleAccept = async (id: number) => {
+        try {
+            await acceptOrderByAdmin(id);
+            await loadOrders();
+            showTemporaryMessage(setSuccess, "Pedido aceptado correctamente.");
+        } catch (e: any) {
+            showTemporaryMessage(setError, e?.message || "Error al aceptar pedido");
+        }
+    };
+
+    const handleReject = async (id: number) => {
+        try {
+            await rejectOrderByAdmin(id);
+            await loadOrders();
+            showTemporaryMessage(setSuccess, "Pedido rechazado correctamente.");
+        } catch (e: any) {
+            showTemporaryMessage(setError, e?.message || "Error al rechazar pedido");
+        }
+    };
+
     return (
         <div className="admin-panel">
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
@@ -65,6 +86,7 @@ export default function AdminOrders({ onCancel }: AdminOrdersProps) {
                             <th>Usuario</th>
                             <th>Productos</th>
                             <th>Cantidad</th>
+                            <th>Estado</th>
                             <th>Precio Unitario</th>
                             <th>Total</th>
                             <th>Acciones</th>
@@ -89,6 +111,7 @@ export default function AdminOrders({ onCancel }: AdminOrdersProps) {
                                         ))}
                                     </ul>
                                 </td>
+                                <td>{pedido.estado}</td>
                                 <td>
                                     <ul className="no-bullets">
                                         {pedido.productos.map(prod => (
@@ -98,6 +121,12 @@ export default function AdminOrders({ onCancel }: AdminOrdersProps) {
                                 </td>
                                 <td><b>{pedido.total.toFixed(2)}</b></td>
                                 <td>
+                                    {pedido.estado === "Pending" && (
+                                        <>
+                                            <button onClick={() => handleAccept(pedido.id)}>Aceptar</button>
+                                            <button onClick={() => handleReject(pedido.id)}>Rechazar</button>
+                                        </>
+                                    )}
                                     <button onClick={() => handleDelete(pedido.id)}>Eliminar</button>
                                 </td>
                             </tr>
