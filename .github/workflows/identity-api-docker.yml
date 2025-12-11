@@ -48,7 +48,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/orderflow-${{ matrix.api | toLowerCase }}-api
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/orderflow-${{ toLower(matrix.api) }}-api
           tags: |
             type=ref,event=branch
             type=sha,prefix= 
