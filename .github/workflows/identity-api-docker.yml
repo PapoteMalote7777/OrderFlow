@@ -1,0 +1,66 @@
+name: Build and Push APIs Docker Image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'TiendaGod.*/**'
+      - '.github/workflows/identity-api-docker.yml'
+      - 'docker-compose.integration.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'TiendaGod.*/**'
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ${{ github.repository_owner }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        api: [Identity, Productos, Pedidos]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/orderflow-${{ matrix.api | toLowerCase }}-api
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix= 
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./TiendaGod.${{ matrix.api }}
+          file: ./TiendaGod.${{ matrix.api }}/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
