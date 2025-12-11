@@ -48,7 +48,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/orderflow-${{ toLower(matrix.api) }}-api
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/orderflow-${{ matrix.api }}-api
           tags: |
             type=ref,event=branch
             type=sha,prefix= 
@@ -57,8 +57,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./TiendaGod.${{ matrix.api }}
-          file: ./TiendaGod.${{ matrix.api }}/Dockerfile
+          context: ./TiendaGod.${{ matrix.api | titlecase }}
+          file: ./TiendaGod.${{ matrix.api | titlecase }}/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
