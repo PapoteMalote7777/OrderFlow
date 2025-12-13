@@ -31,7 +31,7 @@ internal class AdminNewOrderConsumer : IConsumer<AdminNewOrderEvent>
         _logger.LogInformation("Nuevo pedido: {PedidoId}", pedido.PedidoId);
 
         var adminEmails = await _httpClient
-            .GetFromJsonAsync<List<UserEmailDto>>("/api/User/admin-emails");
+            .GetFromJsonAsync<List<UserEmailDto>>("/api/UserAdmin/admin-emails");
 
         if (adminEmails == null || !adminEmails.Any())
         {

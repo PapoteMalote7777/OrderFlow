@@ -48,15 +48,16 @@ namespace TiendaGod.Identity.Controllers
             }
         }
 
-        [HttpGet("admin-email/{index}")]
-        public async Task<IActionResult> GetAdminEmail(int index)
+        [AllowAnonymous]
+        [HttpGet("admin-emails")]
+        public async Task<IActionResult> GetAdminEmails()
         {
             var emails = await _userAdminService.GetAdminEmailsAsync();
-            if (emails == null || !emails.Any()) return NotFound();
 
-            if (index < 0 || index >= emails.Count) return NotFound();
+            if (emails == null || !emails.Any())
+                return NotFound();
 
-            return Ok(new { Email = emails[index] });
+            return Ok(emails.Select(e => new { Email = e }));
         }
 
     }
